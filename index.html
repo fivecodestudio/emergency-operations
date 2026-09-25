@@ -1,0 +1,2279 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Emergency Operations – Leitstellensimulator</title>
+  
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-dark: #0b0f19;
+      --bg-panel: rgba(18, 24, 38, 0.85);
+      --bg-card: rgba(30, 41, 59, 0.6);
+      --bg-input: #0f172a;
+      --accent-pink: #ec4899;
+      --accent-red: #ef4444;
+      --accent-amber: #f59e0b;
+      --accent-blue: #3b82f6;
+      --accent-green: #10b981;
+      --accent-purple: #8b5cf6;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border: rgba(51, 65, 85, 0.5);
+      --header-bg: rgba(15, 23, 42, 0.9);
+      --footer-bg: #07090e;
+      --shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.4);
+      --backdrop-blur: blur(16px);
+    }
+
+    [data-theme="light"] {
+      --bg-dark: #f1f5f9;
+      --bg-panel: rgba(255, 255, 255, 0.9);
+      --bg-card: rgba(226, 232, 240, 0.7);
+      --bg-input: #f8fafc;
+      --accent-pink: #db2777;
+      --accent-red: #dc2626;
+      --accent-amber: #d97706;
+      --accent-blue: #2563eb;
+      --accent-green: #059669;
+      --accent-purple: #7c3aed;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border: rgba(203, 213, 225, 0.8);
+      --header-bg: rgba(255, 255, 255, 0.9);
+      --footer-bg: #e2e8f0;
+      --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      --backdrop-blur: blur(12px);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+    body { background-color: var(--bg-dark); color: var(--text-main); height: 100vh; display: flex; flex-direction: column; overflow: hidden; font-size: 0.85rem; transition: background 0.3s, color 0.3s; }
+
+    .top-banner {
+      background: linear-gradient(90deg, #ec4899, #8b5cf6);
+      color: white;
+      text-align: center;
+      padding: 4px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+    }
+
+    header {
+      background: var(--header-bg);
+      backdrop-filter: var(--backdrop-blur);
+      border-bottom: 1px solid var(--border);
+      padding: 8px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 1.1rem; color: var(--text-main); }
+    .brand-logo-img { height: 36px; width: auto; object-fit: contain; border-radius: 6px; }
+    
+    .header-stats { display: flex; align-items: center; gap: 16px; font-size: 0.8rem; font-weight: 600; }
+    .stat-item { display: flex; align-items: center; gap: 6px; }
+    .stat-item i { color: var(--accent-amber); }
+    .stat-item i.fa-coins { color: var(--accent-pink); }
+    .stat-item.clickable { cursor: pointer; padding: 4px 8px; border-radius: 6px; transition: background 0.2s; background: var(--bg-card); border: 1px solid var(--border); }
+    .stat-item.clickable:hover { background: var(--border); color: var(--accent-amber); }
+    .badge-xp { background: var(--accent-purple); color: white; padding: 1px 6px; border-radius: 10px; font-size: 0.7rem; font-weight: 800; }
+
+    .rank-container { display: flex; flex-direction: column; gap: 3px; }
+    .xp-progress-bar-container { width: 120px; height: 6px; background: var(--bg-input); border-radius: 3px; border: 1px solid var(--border); overflow: hidden; position: relative; }
+    .xp-progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent-purple), var(--accent-blue)); width: 0%; transition: width 0.4s ease; }
+    .xp-progress-text { font-size: 0.65rem; color: var(--text-muted); display: flex; justify-content: space-between; font-weight: 500; }
+
+    .header-user-nav { display: flex; align-items: center; gap: 10px; }
+    .user-btn-profile { background: transparent; border: none; color: var(--text-main); font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+    .user-btn-profile:hover { text-decoration: underline; color: var(--accent-pink); }
+    
+    .badge-status { background: rgba(16, 185, 129, 0.15); color: var(--accent-green); padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; display: flex; align-items: center; gap: 6px; font-weight: 700; border: 1px solid rgba(16, 185, 129, 0.3); }
+    .status-dot { width: 6px; height: 6px; background: var(--accent-green); border-radius: 50%; box-shadow: 0 0 8px var(--accent-green); }
+
+    .btn { background: var(--accent-blue); color: white; border: none; padding: 7px 14px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 0.8rem; display: inline-flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.2s; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+    .btn:hover { opacity: 0.92; transform: translateY(-1px); }
+    .btn-danger { background: var(--accent-red); }
+    .btn-success { background: var(--accent-green); }
+    .btn-warning { background: var(--accent-amber); color: #000; }
+    .btn-secondary { background: var(--bg-card); border: 1px solid var(--border); color: var(--text-main); }
+    .btn-secondary:hover { background: var(--border); }
+    .btn-shop-header { background: linear-gradient(135deg, #ec4899, #8b5cf6); color: white; font-weight: 700; padding: 6px 12px; border-radius: 6px; font-size: 0.75rem; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; border: none; box-shadow: 0 4px 12px rgba(236, 72, 153, 0.3); }
+
+    .app-container { display: flex; flex: 1; position: relative; overflow: hidden; }
+
+    .sidebar-left { width: 330px; background: var(--bg-panel); backdrop-filter: var(--backdrop-blur); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 12px; gap: 10px; z-index: 500; overflow-y: auto; }
+    
+    .search-box { display: flex; gap: 6px; }
+    .search-input { flex: 1; background: var(--bg-input); border: 1px solid var(--border); border-radius: 6px; color: var(--text-main); padding: 7px 12px; font-size: 0.8rem; }
+
+    .side-menu-btn { width: 100%; text-align: left; padding: 10px 14px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-card); color: var(--text-main); font-weight: 700; font-size: 0.8rem; display: flex; align-items: center; gap: 12px; cursor: pointer; transition: all 0.2s; }
+    .side-menu-btn:hover { background: var(--border); border-color: var(--accent-blue); transform: translateX(2px); }
+    .side-menu-btn i { width: 18px; text-align: center; color: var(--accent-red); }
+
+    .chat-tabs { display: flex; gap: 4px; background: var(--bg-input); border-radius: 6px; padding: 3px; border: 1px solid var(--border); }
+    .chat-tab { flex: 1; text-align: center; padding: 5px; font-size: 0.75rem; font-weight: 700; color: var(--text-muted); cursor: pointer; border-radius: 4px; transition: 0.2s; }
+    .chat-tab.active { background: var(--bg-card); color: var(--text-main); box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+
+    .radio-log { font-family: monospace; font-size: 0.75rem; background: var(--bg-input); padding: 10px; border-radius: 8px; flex: 1; min-height: 120px; overflow-y: auto; border: 1px solid var(--border); color: var(--accent-blue); line-height: 1.4; }
+
+    .map-center { flex: 1; height: 100%; position: relative; background: #0f172a; }
+    #map { height: 100%; width: 100%; }
+
+    .sidebar-right { width: 350px; background: var(--bg-panel); backdrop-filter: var(--backdrop-blur); border-left: 1px solid var(--border); display: flex; flex-direction: column; z-index: 500; }
+    .right-header { padding: 12px 16px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: var(--header-bg); }
+
+    .mission-list { flex: 1; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 10px; }
+    .mission-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 12px; border-left: 4px solid var(--accent-red); transition: all 0.2s; cursor: pointer; backdrop-filter: blur(8px); }
+    .mission-card:hover { border-color: var(--accent-blue); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+    .mission-card-title { font-weight: 700; color: var(--text-main); display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+
+    footer { background: var(--footer-bg); border-top: 1px solid var(--border); padding: 6px 16px; display: flex; justify-content: space-between; align-items: center; font-size: 0.7rem; color: var(--text-muted); z-index: 1000; }
+
+    /* --- MODALE --- */
+    .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(5, 8, 15, 0.75); backdrop-filter: blur(8px); z-index: 2000; display: flex; justify-content: center; align-items: center; padding: 20px; animation: fadeIn 0.2s ease-out; }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.96); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .nui-modal {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: var(--bg-panel);
+      backdrop-filter: var(--backdrop-blur);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      z-index: 4000;
+      width: 90%;
+      max-width: 820px;
+      max-height: 85vh;
+      overflow-y: auto;
+      color: var(--text-main);
+      box-shadow: var(--shadow);
+      animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .admin-panel { border-color: rgba(239, 68, 68, 0.4); }
+    
+    .nui-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 14px; margin-bottom: 20px; }
+    .nui-title { font-size: 1.15rem; font-weight: 800; display: flex; align-items: center; gap: 10px; color: var(--text-main); }
+    .nui-close-btn { background: var(--bg-card); border: 1px solid var(--border); color: var(--text-muted); width: 32px; height: 32px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+    .nui-close-btn:hover { background: var(--accent-red); color: white; border-color: var(--accent-red); }
+
+    .nui-table { width: 100%; border-collapse: separate; border-spacing: 0; margin-top: 10px; font-size: 0.85rem; border-radius: 10px; overflow: hidden; border: 1px solid var(--border); }
+    .nui-table th, .nui-table td { padding: 12px 14px; text-align: left; border-bottom: 1px solid var(--border); background: var(--bg-card); }
+    .nui-table th { background: var(--bg-input); color: var(--text-muted); font-weight: 700; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.5px; }
+    .nui-table tr:last-child td { border-bottom: none; }
+    .nui-table tr:hover td { background: rgba(59, 130, 246, 0.05); }
+
+    .admin-tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; border-bottom: 1px solid var(--border); padding-bottom: 12px; }
+    .admin-tab-btn { background: var(--bg-input); border: 1px solid var(--border); color: var(--text-muted); padding: 8px 14px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.8rem; transition: 0.2s; }
+    .admin-tab-btn.active { background: var(--accent-red); color: white; border-color: var(--accent-red); box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3); }
+
+    .admin-action-btn { background: var(--bg-input); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; color: var(--text-muted); padding: 6px 10px; transition: 0.2s; margin-right: 4px; }
+    .admin-action-btn:hover { background: var(--border); color: var(--text-main); }
+    .btn-edit { color: var(--accent-blue); }
+    .btn-del { color: var(--accent-red); }
+
+    .form-group { margin-bottom: 14px; }
+    .form-group label { display: block; margin-bottom: 6px; font-size: 0.8rem; color: var(--text-muted); font-weight: 600; }
+    .form-control { width: 100%; padding: 10px 14px; background: var(--bg-input); border: 1px solid var(--border); border-radius: 8px; color: var(--text-main); font-size: 0.85rem; transition: 0.2s; }
+    .form-control:focus { outline: none; border-color: var(--accent-blue); box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15); }
+
+    .icon-preset-container { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 6px; }
+    .icon-preset-btn { background: var(--bg-input); border: 1px solid var(--border); border-radius: 6px; padding: 6px; color: var(--text-main); font-size: 0.75rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: 0.2s; }
+    .icon-preset-btn:hover { background: var(--border); border-color: var(--accent-blue); }
+
+    .profile-header-card { text-align: center; margin-bottom: 20px; }
+    .profile-avatar-wrap { position: relative; width: 74px; height: 74px; margin: 0 auto 10px; }
+    .profile-avatar { width: 100%; height: 100%; background: linear-gradient(135deg, #3b82f6, #8b5cf6); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; font-weight: 800; color: white; box-shadow: 0 8px 16px rgba(59, 130, 246, 0.3); }
+    .profile-avatar-badge { position: absolute; bottom: 0; right: 0; background: var(--bg-input); border: 2px solid var(--border); border-radius: 50%; width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; color: var(--text-muted); }
+    .profile-name { font-size: 1.25rem; font-weight: 800; margin-bottom: 4px; }
+    .profile-status-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 0.75rem; color: var(--text-muted); font-weight: 600; }
+    
+    .profile-section-title { font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+    .profile-bio-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 10px 14px; margin-bottom: 16px; font-size: 0.85rem; color: var(--text-muted); cursor: pointer; transition: 0.2s; }
+    .profile-bio-box:hover { border-color: var(--accent-blue); color: var(--text-main); }
+    
+    .profile-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 16px; }
+    .profile-stat-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; display: flex; justify-content: space-between; align-items: center; }
+    .profile-stat-label { font-size: 0.8rem; color: var(--text-muted); font-weight: 600; display: flex; align-items: center; gap: 8px; }
+    .profile-stat-value { font-size: 0.95rem; font-weight: 800; }
+
+    .profile-info-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 12px 16px; margin-bottom: 16px; display: flex; flex-direction: column; gap: 8px; }
+    .profile-info-row { display: flex; justify-content: space-between; font-size: 0.85rem; }
+    .profile-info-row span:first-child { color: var(--text-muted); font-weight: 600; display: flex; align-items: center; gap: 8px; }
+    .profile-info-row span:last-child { font-weight: 700; }
+
+    .profile-discord-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 14px; margin-bottom: 10px; }
+    .profile-discord-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-weight: 700; font-size: 0.85rem; }
+    .profile-discord-desc { font-size: 0.75rem; color: var(--text-muted); line-height: 1.4; margin-top: 6px; }
+
+    .auth-box { background: var(--bg-panel); backdrop-filter: var(--backdrop-blur); border: 1px solid var(--border); padding: 30px; border-radius: 20px; width: 100%; max-width: 480px; box-shadow: var(--shadow); color: var(--text-main); }
+    .auth-nav { display: flex; margin-bottom: 20px; background: var(--bg-input); border-radius: 8px; padding: 4px; border: 1px solid var(--border); }
+    .auth-nav-btn { flex: 1; padding: 10px; text-align: center; background: transparent; border: none; color: var(--text-muted); font-weight: 700; cursor: pointer; border-radius: 6px; transition: 0.2s; }
+    .auth-nav-btn.active { color: white; background: var(--accent-blue); box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
+
+    .login-stats-container { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 18px; margin-bottom: 20px; text-align: center; }
+    .login-stats-title { font-size: 1.15rem; font-weight: 800; color: var(--text-main); margin-bottom: 4px; }
+    .login-stats-subtitle { font-size: 0.75rem; color: var(--text-muted); display: flex; align-items: center; justify-content: center; gap: 6px; margin-bottom: 15px; }
+    .login-stats-dot { width: 6px; height: 6px; background: var(--accent-green); border-radius: 50%; box-shadow: 0 0 8px var(--accent-green); }
+    .login-stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .login-stat-card { text-align: center; background: var(--bg-input); padding: 10px; border-radius: 8px; border: 1px solid var(--border); }
+    .login-stat-value { font-size: 1.1rem; font-weight: 800; color: var(--accent-pink); margin-bottom: 2px; }
+    .login-stat-label { font-size: 0.65rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; }
+
+    /* Menü-Popup Stil */
+    .menu-container { display: flex; flex-direction: column; gap: 6px; }
+    .menu-dropdown { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; transition: 0.2s; }
+    .menu-header { width: 100%; background: transparent; border: none; color: var(--text-main); padding: 10px 14px; font-weight: 700; font-size: 0.85rem; display: flex; align-items: center; justify-content: space-between; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; }
+    .menu-header:hover { background: var(--border); }
+    .menu-header-left { display: flex; align-items: center; gap: 10px; }
+    .menu-header-left i { width: 18px; text-align: center; color: var(--accent-pink); }
+    .menu-arrow { font-size: 0.7rem; transition: transform 0.2s; color: var(--text-muted); }
+    .menu-dropdown.open .menu-arrow { transform: rotate(90deg); }
+    .menu-content { display: none; padding: 6px 10px 10px 36px; display: flex; flex-direction: column; gap: 6px; background: rgba(15, 23, 42, 0.4); border-top: 1px solid var(--border); }
+    .menu-dropdown.open .menu-content { display: flex; }
+    .menu-sub-item { background: transparent; border: none; color: var(--text-muted); text-align: left; padding: 6px 8px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; font-weight: 600; transition: 0.2s; display: flex; align-items: center; gap: 8px; }
+    .menu-sub-item:hover { color: var(--text-main); background: var(--border); }
+  </style>
+</head>
+<body>
+
+  <!-- Top Banner -->
+  <div class="top-banner">
+    <span>🚨 Emergency Operations – Leitstellensimulator v2.12</span>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <div class="brand">
+      <img id="headerLogoImg" src="https://cdn-icons-png.flaticon.com/512/2966/2966327.png" alt="Logo" class="brand-logo-img">
+      <span id="headerBrandTitle">EinsatzLeiter 112</span>
+    </div>
+
+    <div class="header-stats">
+      <div class="stat-item"><i class="fa-solid fa-coins"></i> <span id="creditsDisplay">0</span> Credits</div>
+      <div class="stat-item"><i class="fa-solid fa-gem" style="color:var(--accent-pink);"></i> <span id="coinsDisplay">0</span> Coins</div>
+      
+      <div class="stat-item clickable rank-container" id="btnOpenRanksModal" title="Alle Ränge anzeigen">
+        <div style="display:flex; align-items:center; gap:6px;">
+          <i class="fa-solid fa-trophy" style="color:var(--accent-purple);"></i> <span id="rankDisplay">Anwärter</span> <i class="fa-solid fa-chevron-down" style="font-size:0.65rem; margin-left:2px;"></i>
+        </div>
+        <div class="xp-progress-bar-container">
+          <div class="xp-progress-fill" id="xpProgressFill"></div>
+        </div>
+        <div class="xp-progress-text">
+          <span id="xpProgressCurrent">0 XP</span>
+          <span id="xpProgressPercent">0%</span>
+        </div>
+      </div>
+
+      <div class="stat-item"><i class="fa-solid fa-star"></i> <span id="xpDisplay">0</span> XP <span class="badge-xp" id="levelBadge">Lv. 0</span></div>
+      <div class="stat-item"><i class="fa-regular fa-clock"></i> <span id="liveClock">00:00:00</span></div>
+    </div>
+
+    <div class="header-user-nav">
+      <button type="button" class="btn btn-secondary" id="btnToggleTheme" title="Design wechseln" style="padding: 6px 10px;">
+        <i class="fa-solid fa-moon" id="themeIcon"></i>
+      </button>
+
+      <button type="button" class="user-btn-profile" id="btnOpenProfile">
+        <i class="fa-solid fa-user-circle" style="font-size: 1.1rem; color:var(--accent-blue);"></i>
+        <span id="userDisplay">Spieler</span>
+      </button>
+      <button type="button" class="btn-shop-header" id="btnOpenShopHeader" title="Shop öffnen">
+        <i class="fa-solid fa-store"></i> Shop 💎
+      </button>
+      <div class="badge-status"><div class="status-dot"></div> Aktiv</div>
+      
+      <button type="button" class="btn btn-warning" id="btnOpenAdmin" title="Admin-Panel"><i class="fa-solid fa-gear"></i></button>
+      
+      <button type="button" class="btn btn-secondary" id="btnOpenMainMenuModal" style="padding: 6px 12px; font-weight: 700;">
+        <i class="fa-solid fa-bars"></i> Menu
+      </button>
+
+      <button type="button" class="btn btn-danger" id="btnLogout" title="Abmelden" style="padding: 7px 10px;"><i class="fa-solid fa-right-from-bracket"></i></button>
+    </div>
+  </header>
+
+  <!-- App Body -->
+  <div class="app-container">
+    
+    <!-- Left Sidebar -->
+    <div class="sidebar-left">
+      <!-- 1. Ortssuche -->
+      <div style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display:flex; align-items:center; gap:6px;">
+        <i class="fa-solid fa-magnifying-glass" style="color:var(--accent-red);"></i> ORTSSUCHE
+      </div>
+      <div class="search-box">
+        <input type="text" id="addressSearchInput" class="search-input" placeholder="Ort oder Straße">
+        <button type="button" class="btn btn-danger" id="btnSearchAddress"><i class="fa-solid fa-magnifying-glass"></i></button>
+      </div>
+
+      <!-- 2. Menü-Buttons untereinander -->
+      <button type="button" class="side-menu-btn" id="sideBtnBuildStation">
+        <i class="fa-solid fa-building-shield"></i> Wache bauen
+      </button>
+
+      <button type="button" class="side-menu-btn" id="sideBtnMyStations">
+        <i class="fa-solid fa-warehouse"></i> Meine Wachen (<span id="stationCount">0</span>)
+      </button>
+
+      <button type="button" class="side-menu-btn" id="sideBtnPersonal" style="border-color: rgba(16, 185, 129, 0.4);">
+        <i class="fa-solid fa-user-tie" style="color: var(--accent-green);"></i> Personal
+      </button>
+
+      <button type="button" class="side-menu-btn" id="sideBtnMyAssociation">
+        <i class="fa-solid fa-building-columns"></i> Mein Verband
+      </button>
+
+      <button type="button" class="side-menu-btn" id="sideBtnAssociationStations">
+        <i class="fa-solid fa-network-wired"></i> Verband-Wachen
+      </button>
+
+      <!-- 3. Chat Tabs (Global / Verband) & Chat-Box -->
+      <div style="display: flex; gap: 6px; margin-top: 4px;">
+        <div class="chat-tabs" style="flex: 1;">
+          <div class="chat-tab active">Global</div>
+          <div class="chat-tab">Verband</div>
+        </div>
+        <button class="btn btn-secondary" style="padding: 4px 8px; font-size: 0.7rem;"><i class="fa-solid fa-user-group"></i> Gruppen</button>
+        <button class="btn btn-primary" style="padding: 4px 8px; font-size: 0.7rem;"><i class="fa-solid fa-plus"></i></button>
+      </div>
+
+      <div style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); margin-top: 4px; display:flex; justify-content:space-between; align-items:center;">
+        <span><i class="fa-solid fa-walkie-talkie"></i> FUNKKANAL</span>
+        <span style="font-size:0.65rem;"><input type="checkbox" checked id="toggleSound"> Ton</span>
+      </div>
+      <div class="radio-log" id="radioLog">[SYS] Leitstelle gestartet...</div>
+    </div>
+
+    <!-- Center Map -->
+    <div class="map-center">
+      <div id="map"></div>
+    </div>
+
+    <!-- Right Sidebar -->
+    <div class="sidebar-right">
+      <div class="right-header">
+        <span style="font-weight:800; color:var(--text-main); display:flex; align-items:center; gap:6px;">
+          <i class="fa-solid fa-bullhorn" style="color:var(--accent-red);"></i> EINSÄTZE
+        </span>
+        <button class="btn btn-danger" style="padding: 4px 8px; font-size: 0.7rem;"><i class="fa-solid fa-plus"></i> Neu</button>
+      </div>
+
+      <div style="padding: 8px 12px; background: var(--bg-card); border-bottom: 1px solid var(--border); font-size: 0.75rem; display: flex; flex-direction: column; gap: 6px;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <span style="color: var(--accent-amber);">🕒 Einsatz-Generierung</span>
+          <select id="autoGenToggle" style="background:var(--bg-input); color:var(--text-main); border:1px solid var(--border); border-radius:4px; padding:2px 4px; font-size:0.75rem;">
+            <option value="off">AUS</option>
+            <option value="on" selected>AN</option>
+          </select>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <span style="color: var(--text-muted); font-size: 0.7rem;">Intervall:</span>
+          <select id="autoGenIntervalSelect" style="background:var(--bg-input); color:var(--text-main); border:1px solid var(--border); border-radius:4px; padding:2px 4px; font-size:0.75rem;">
+            <option value="30000">30 Sekunden</option>
+            <option value="60000" selected>1 Minute</option>
+            <option value="120000">2 Minuten</option>
+            <option value="180000">3 Minuten</option>
+            <option value="240000">4 Minuten</option>
+            <option value="300000">5 Minuten</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="mission-list" id="missionList">
+        <p style="text-align:center; color:var(--text-muted); margin-top:20px;">Warte auf Einsätze...</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div>© 2026 Emergency Operations | Leitstellensimulator</div>
+    <div id="autoGenIntervalContainer" style="display:none;">
+      <select id="autoGenInterval"><option value="60000" selected>1 Min</option></select>
+    </div>
+  </footer>
+
+  <!-- HAUPTMENÜ MODAL -->
+  <div id="mainMenuModal" class="nui-modal" style="display:none; max-width: 600px;">
+    <div class="nui-header">
+      <div class="nui-title" style="color: var(--accent-pink);"><i class="fa-solid fa-bars"></i> Hauptmenü</div>
+      <button class="nui-close-btn" onclick="document.getElementById('mainMenuModal').style.display='none'"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    
+    <div class="menu-container">
+      <div class="menu-dropdown">
+        <button class="menu-header" onclick="toggleMenu(this)">
+          <div class="menu-header-left"><i class="fa-solid fa-user"></i> Profil</div>
+          <i class="fa-solid fa-chevron-right menu-arrow"></i>
+        </button>
+        <div class="menu-content">
+          <button class="menu-sub-item" onclick="document.getElementById('mainMenuModal').style.display='none'; document.getElementById('profileModal').style.display='block'; renderPlayerProfileModal();"><i class="fa-solid fa-id-card"></i> Mein Profil</button>
+          <button class="menu-sub-item" onclick="window.editUserBio()"><i class="fa-solid fa-pen"></i> Biografie bearbeiten</button>
+        </div>
+      </div>
+
+      <div class="menu-dropdown">
+        <button class="menu-header" onclick="toggleMenu(this)">
+          <div class="menu-header-left"><i class="fa-solid fa-sack-dollar"></i> Finanzen</div>
+          <i class="fa-solid fa-chevron-right menu-arrow"></i>
+        </button>
+        <div class="menu-content">
+          <button class="menu-sub-item" onclick="alert('Finanzübersicht öffnet sich...')"><i class="fa-solid fa-chart-pie"></i> Übersicht & Kontostand</button>
+          <button class="menu-sub-item" onclick="document.getElementById('mainMenuModal').style.display='none'; document.getElementById('btnOpenShopHeader').click()"><i class="fa-solid fa-store"></i> Shop / Premium</button>
+        </div>
+      </div>
+
+      <div class="menu-dropdown">
+        <button class="menu-header" onclick="toggleMenu(this)">
+          <div class="menu-header-left"><i class="fa-solid fa-triangle-exclamation"></i> Einsätze</div>
+          <i class="fa-solid fa-chevron-right menu-arrow"></i>
+        </button>
+        <div class="menu-content">
+          <button class="menu-sub-item" onclick="document.getElementById('mainMenuModal').style.display='none'; document.querySelector('.sidebar-right').scrollTop = 0;"><i class="fa-solid fa-list"></i> Aktive Einsätze anzeigen</button>
+        </div>
+      </div>
+
+      <div class="menu-dropdown">
+        <button class="menu-header" onclick="toggleMenu(this)">
+          <div class="menu-header-left"><i class="fa-solid fa-book"></i> Übersichten</div>
+          <i class="fa-solid fa-chevron-right menu-arrow"></i>
+        </button>
+        <div class="menu-content">
+          <button class="menu-sub-item" onclick="document.getElementById('mainMenuModal').style.display='none'; document.getElementById('btnOpenRanksModal').click()"><i class="fa-solid fa-trophy"></i> Ränge & XP</button>
+          <button class="menu-sub-item" onclick="alert('Fahrzeugübersicht')"><i class="fa-solid fa-truck"></i> Fahrzeug-Liste</button>
+        </div>
+      </div>
+
+      <div class="menu-dropdown">
+        <button class="menu-header" onclick="toggleMenu(this)">
+          <div class="menu-header-left"><i class="fa-solid fa-building-user"></i> Betrieb & Verwaltung</div>
+          <i class="fa-solid fa-chevron-right menu-arrow"></i>
+        </button>
+        <div class="menu-content">
+          <button class="menu-sub-item" onclick="document.getElementById('mainMenuModal').style.display='none'; document.getElementById('stationsOverviewModal').style.display='block'; renderStationsOverviewModal();"><i class="fa-solid fa-warehouse"></i> Meine Wachen verwalten</button>
+          <button class="menu-sub-item" onclick="document.getElementById('mainMenuModal').style.display='none'; window.openBuildMenu();"><i class="fa-solid fa-city"></i> Neue Wache bauen</button>
+        </div>
+      </div>
+
+      <div class="menu-dropdown">
+        <button class="menu-header" onclick="toggleMenu(this)">
+          <div class="menu-header-left"><i class="fa-solid fa-comments"></i> Chat</div>
+          <i class="fa-solid fa-chevron-right menu-arrow"></i>
+        </button>
+        <div class="menu-content">
+          <button class="menu-sub-item" onclick="alert('Globaler Chat aktiv')"><i class="fa-solid fa-globe"></i> Globaler Chat</button>
+          <button class="menu-sub-item" onclick="alert('Verbands-Chat aktiv')"><i class="fa-solid fa-users"></i> Verbands-Chat</button>
+        </div>
+      </div>
+
+      <div class="menu-dropdown">
+        <button class="menu-header" onclick="toggleMenu(this)">
+          <div class="menu-header-left"><i class="fa-solid fa-landmark"></i> Verband</div>
+          <i class="fa-solid fa-chevron-right menu-arrow"></i>
+        </button>
+        <div class="menu-content">
+          <button class="menu-sub-item" onclick="alert('Kein Verband beigetreten')"><i class="fa-solid fa-handshake"></i> Verbandsübersicht</button>
+          <button class="menu-sub-item" onclick="alert('Verbandssuche öffnet sich')"><i class="fa-solid fa-magnifying-glass"></i> Verband suchen</button>
+        </div>
+      </div>
+
+      <div class="menu-dropdown">
+        <button class="menu-header" onclick="toggleMenu(this)">
+          <div class="menu-header-left"><i class="fa-solid fa-user-group"></i> Soziales</div>
+          <i class="fa-solid fa-chevron-right menu-arrow"></i>
+        </button>
+        <div class="menu-content">
+          <button class="menu-sub-item" onclick="alert('Freundesliste ist leer')"><i class="fa-solid fa-user-plus"></i> Freunde</button>
+          <button class="menu-sub-item" onclick="alert('Nachrichten')"><i class="fa-solid fa-envelope"></i> Postfach</button>
+        </div>
+      </div>
+
+      <div class="menu-dropdown">
+        <button class="menu-header" onclick="toggleMenu(this)">
+          <div class="menu-header-left"><i class="fa-solid fa-award"></i> Rangliste</div>
+          <i class="fa-solid fa-chevron-right menu-arrow"></i>
+        </button>
+        <div class="menu-content">
+          <button class="menu-sub-item" onclick="alert('Spieler-Bestenliste')"><i class="fa-solid fa-medal"></i> Top Spieler</button>
+          <button class="menu-sub-item" onclick="alert('Verbands-Bestenliste')"><i class="fa-solid fa-shield-cat"></i> Top Verbände</button>
+        </div>
+      </div>
+
+      <div class="menu-dropdown">
+        <button class="menu-header" onclick="toggleMenu(this)">
+          <div class="menu-header-left"><i class="fa-solid fa-gears"></i> Sonstiges</div>
+          <i class="fa-solid fa-chevron-right menu-arrow"></i>
+        </button>
+        <div class="menu-content">
+          <button class="menu-sub-item" onclick="document.getElementById('mainMenuModal').style.display='none'; document.getElementById('btnToggleTheme').click()"><i class="fa-solid fa-circle-half-stroke"></i> Design wechseln</button>
+          <button class="menu-sub-item" onclick="document.getElementById('mainMenuModal').style.display='none'; document.getElementById('btnOpenAdmin').click()"><i class="fa-solid fa-screwdriver-wrench"></i> Admin Panel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SPIELERPROFIL MODAL -->
+  <div id="profileModal" class="nui-modal" style="display:none;">
+    <div class="nui-header">
+      <div class="nui-title" style="color:var(--accent-pink);"><i class="fa-solid fa-user-circle"></i> Mein Profil</div>
+      <button class="nui-close-btn" onclick="document.getElementById('profileModal').style.display='none'"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    
+    <div class="profile-header-card">
+      <div class="profile-avatar-wrap">
+        <div class="profile-avatar" id="profileAvatarLetter">S</div>
+        <div class="profile-avatar-badge"><i class="fa-solid fa-wallet" style="font-size:0.65rem;"></i></div>
+      </div>
+      <div class="profile-name" id="profileModalUsername">Spieler</div>
+      <div class="profile-status-badge">
+        <span class="status-dot"></span> Online &bull; <span style="color:var(--accent-green);">Aktiv</span>
+      </div>
+    </div>
+
+    <div class="profile-section-title"><i class="fa-solid fa-pen-to-square"></i> Über mich</div>
+    <div class="profile-bio-box" id="profileBioText" onclick="window.editUserBio()">
+      Klicke hier um dich vorzustellen...
+    </div>
+
+    <div class="profile-grid">
+      <div class="profile-stat-box">
+        <div class="profile-stat-label"><i class="fa-solid fa-star" style="color:var(--accent-amber);"></i> XP:</div>
+        <div class="profile-stat-value" id="profileXp" style="color:var(--accent-green);">0</div>
+      </div>
+      <div class="profile-stat-box">
+        <div class="profile-stat-label"><i class="fa-solid fa-coins" style="color:var(--accent-amber);"></i> Credits:</div>
+        <div class="profile-stat-value" id="profileCredits" style="color:var(--accent-green);">0</div>
+      </div>
+      <div class="profile-stat-box">
+        <div class="profile-stat-label"><i class="fa-solid fa-chart-line" style="color:var(--accent-blue);"></i> Verd. Cr.:</div>
+        <div class="profile-stat-value" id="profileTotalEarned" style="color:var(--accent-green);">0</div>
+      </div>
+      <div class="profile-stat-box">
+        <div class="profile-stat-label"><i class="fa-solid fa-bullhorn" style="color:var(--accent-red);"></i> Einsätze:</div>
+        <div class="profile-stat-value" id="profileMissions" style="color:var(--accent-green);">0</div>
+      </div>
+      <div class="profile-stat-box">
+        <div class="profile-stat-label"><i class="fa-solid fa-warehouse" style="color:var(--accent-amber);"></i> Wachen:</div>
+        <div class="profile-stat-value" id="profileStations" style="color:var(--accent-green);">0</div>
+      </div>
+      <div class="profile-stat-box">
+        <div class="profile-stat-label"><i class="fa-solid fa-gamepad" style="color:var(--accent-purple);"></i> Spielzeit:</div>
+        <div class="profile-stat-value" id="profilePlaytime" style="color:var(--accent-green);">0T 0Std</div>
+      </div>
+      <div class="profile-stat-box">
+        <div class="profile-stat-label"><i class="fa-solid fa-fire" style="color:var(--accent-orange);"></i> FL-Guthaben:</div>
+        <div class="profile-stat-value" id="profileCoins" style="color:var(--accent-amber);">0 FL</div>
+      </div>
+      <div class="profile-stat-box">
+        <div class="profile-stat-label"><i class="fa-solid fa-crown" style="color:var(--accent-amber);"></i> VIP-Status:</div>
+        <div class="profile-stat-value" id="profileVip" style="color:var(--accent-amber);">Inaktiv</div>
+      </div>
+    </div>
+
+    <div class="profile-info-card">
+      <div class="profile-info-row">
+        <span><i class="fa-solid fa-mask"></i> Rolle:</span>
+        <span id="profileRole" style="color:var(--text-main);">Spieler</span>
+      </div>
+      <div class="profile-info-row">
+        <span><i class="fa-solid fa-medal"></i> Dienstgrad:</span>
+        <span id="profileRank" style="color:var(--text-main);">Anwärter</span>
+      </div>
+      <div class="profile-info-row">
+        <span><i class="fa-solid fa-building-columns"></i> Verband:</span>
+        <span id="profileAssociation" style="color:var(--text-main);">Kein Verband</span>
+      </div>
+    </div>
+
+    <div class="profile-info-card">
+      <div class="profile-info-row">
+        <span><i class="fa-solid fa-calendar-days"></i> Registriert:</span>
+        <span id="profileCreatedAt">-</span>
+      </div>
+      <div class="profile-info-row">
+        <span><i class="fa-solid fa-clock-rotate-left"></i> Dabei seit:</span>
+        <span id="profileDaysActive">0 Tage</span>
+      </div>
+      <div class="profile-info-row">
+        <span><i class="fa-solid fa-circle-check"></i> Zuletzt online:</span>
+        <span id="profileLastOnline">Gerade eben</span>
+      </div>
+    </div>
+
+    <div class="profile-discord-card">
+      <div class="profile-discord-header">
+        <span><i class="fa-brands fa-discord" style="color:#5865F2;"></i> Discord-Verknüpfung</span>
+        <button class="btn btn-danger" style="padding: 3px 8px; font-size: 0.7rem;" onclick="alert('Discord entknüpft')">Trennen</button>
+      </div>
+      <div style="font-size: 0.8rem; color:var(--text-main);">Nicht verknüpft</div>
+    </div>
+  </div>
+
+  <div id="stationsOverviewModal" class="nui-modal" style="display:none;">
+    <div class="nui-header">
+      <div class="nui-title" style="color:var(--accent-amber);"><i class="fa-solid fa-warehouse"></i> Meine Wachen verwalten</div>
+      <button class="nui-close-btn" onclick="document.getElementById('stationsOverviewModal').style.display='none'"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div id="stationsOverviewListContainer"></div>
+  </div>
+
+  <div id="stationDetailModal" class="nui-modal" style="display:none;"></div>
+  
+  <div id="ranksDetailModal" class="nui-modal" style="display:none;">
+    <div class="nui-header">
+      <div class="nui-title" style="color:var(--accent-purple);"><i class="fa-solid fa-trophy"></i> Ränge & benötigte XP</div>
+      <button class="nui-close-btn" onclick="document.getElementById('ranksDetailModal').style.display='none'"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div id="ranksDetailListContainer"></div>
+  </div>
+
+  <div id="missionDetailModal" class="nui-modal" style="display:none;"></div>
+  
+  <!-- Admin-Panel NUI Modal -->
+  <div id="adminModal" class="nui-modal admin-panel">
+    <div class="nui-header">
+      <div class="nui-title" style="color:var(--accent-red);"><i class="fa-solid fa-gear"></i> Admin-Verwaltungspanel (Echtzeit aktiv)</div>
+      <button class="nui-close-btn" onclick="document.getElementById('adminModal').style.display='none'"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    
+    <div class="admin-tabs">
+      <button class="admin-tab-btn active" data-tab="admTabBuildings">Gebäude-Templates</button>
+      <button class="admin-tab-btn" data-tab="admTabMissions">Einsatz-Templates</button>
+      <button class="admin-tab-btn" data-tab="admTabVehicles">Fahrzeug-Templates</button>
+      <button class="admin-tab-btn" data-tab="admTabCategories">Fahrzeug-Kategorien</button>
+      <button class="admin-tab-btn" data-tab="admTabRanks">Ränge & XP</button>
+      <button class="admin-tab-btn" data-tab="admTabUsers">Spieler-Verwaltung</button>
+    </div>
+
+    <div id="adminTabContent">
+      <div id="admTabBuildings" class="admin-tab-pane">
+        <h4 style="margin-bottom:10px; font-size:0.9rem;">Gebäude verwalten (Stellplätze & Startfahrzeuge)</h4>
+        <div style="display:flex; gap:10px; margin-bottom:10px;">
+          <input type="text" id="adminBuildName" class="form-control" placeholder="Name (z.B. Feuerwache)">
+          <input type="number" id="adminBuildPrice" class="form-control" placeholder="Preis in Credits" value="100000">
+        </div>
+        <div style="display:flex; gap:10px; margin-bottom:10px;">
+          <input type="number" id="adminBuildSlotPrice" class="form-control" placeholder="Preis 1. Stellplatz" value="50000">
+          <input type="number" id="adminBuildMaxSlots" class="form-control" placeholder="Max. Stellplätze" value="10">
+        </div>
+        
+        <div class="form-group">
+          <label>Icon URL (Moderne BOS-Icons):</label>
+          <input type="text" id="adminBuildIcon" class="form-control" placeholder="https://...">
+          <div class="icon-preset-container">
+            <button type="button" class="icon-preset-btn" onclick="window.setIconUrl('https://cdn-icons-png.flaticon.com/512/3448/3448609.png')"><i class="fa-solid fa-fire" style="color:#ef4444;"></i> Feuerwehr</button>
+            <button type="button" class="icon-preset-btn" onclick="window.setIconUrl('https://cdn-icons-png.flaticon.com/512/2991/2991148.png')"><i class="fa-solid fa-shield-halved" style="color:#3b82f6;"></i> Polizei</button>
+            <button type="button" class="icon-preset-btn" onclick="window.setIconUrl('https://cdn-icons-png.flaticon.com/512/2966/2966327.png')"><i class="fa-solid fa-truck-medical" style="color:#10b981;"></i> Rettung</button>
+            <button type="button" class="icon-preset-btn" onclick="window.setIconUrl('https://cdn-icons-png.flaticon.com/512/1048/1048953.png')"><i class="fa-solid fa-helmet-safety" style="color:#f59e0b;"></i> THW</button>
+          </div>
+        </div>
+
+        <div style="background:var(--bg-card); border:1px solid var(--border); padding:12px; border-radius:10px; margin-bottom:14px;">
+          <div style="font-weight:700; margin-bottom:8px; font-size:0.8rem; color:var(--text-muted);">Start-Fahrzeuge beim Kauf:</div>
+          <div id="adminBuildingStartVehiclesChecklist" style="display:grid; grid-template-columns: repeat(2, 1fr); gap:8px; max-height:130px; overflow-y:auto;"></div>
+        </div>
+        <button class="btn btn-success" id="btnAdminAddBuilding" style="width:100%;">Gebäude-Template speichern</button>
+        <div id="adminBuildingListContainer" style="margin-top:12px;"></div>
+      </div>
+
+      <div id="admTabMissions" class="admin-tab-pane" style="display:none;">
+        <h4 style="margin-bottom:10px; font-size:0.9rem;">Einsätze verwalten (Mehrere Wachen & Fahrzeuge)</h4>
+        <div style="display:flex; gap:10px; margin-bottom:10px;">
+          <input type="text" id="adminMisTitle" class="form-control" placeholder="Titel (z.B. Großbrand)">
+          <input type="number" id="adminMisReward" class="form-control" placeholder="Credits" value="500">
+          <input type="number" id="adminMisXp" class="form-control" placeholder="XP" value="100">
+          <input type="number" id="adminMisDuration" class="form-control" placeholder="Dauer in Sek." value="60">
+        </div>
+        <div style="display:flex; gap:10px; margin-bottom:10px;">
+          <input type="text" id="adminMisIcon" class="form-control" placeholder="Icon URL">
+        </div>
+
+        <div style="background:var(--bg-card); border:1px solid var(--border); padding:12px; border-radius:10px; margin-bottom:10px;">
+          <div style="font-weight:700; margin-bottom:8px; font-size:0.8rem; color:var(--text-muted);">Benötigte Wachen-Typen & Anzahl:</div>
+          <div id="adminMissionStationsChecklist" style="display:grid; grid-template-columns: repeat(2, 1fr); gap:8px; max-height:120px; overflow-y:auto; margin-bottom:10px;"></div>
+          <input type="text" id="adminMisReqExtension" class="form-control" placeholder="Spezielle Erweiterung (optional)">
+        </div>
+
+        <div style="background:var(--bg-card); border:1px solid var(--border); padding:12px; border-radius:10px; margin-bottom:14px;">
+          <div style="font-weight:700; margin-bottom:8px; font-size:0.8rem; color:var(--text-muted);">Fahrzeug-Anforderungen:</div>
+          <div id="adminMissionVehiclesChecklist" style="display:grid; grid-template-columns: repeat(2, 1fr); gap:8px; max-height:140px; overflow-y:auto;"></div>
+        </div>
+
+        <button class="btn btn-success" id="btnAdminAddMission" style="width:100%;">Einsatz-Template speichern</button>
+        <div id="adminMissionListContainer" style="margin-top:12px;"></div>
+      </div>
+
+      <div id="admTabVehicles" class="admin-tab-pane" style="display:none;">
+        <h4 style="margin-bottom:10px; font-size:0.9rem;">Fahrzeuge verwalten</h4>
+        <div style="display:flex; gap:10px; margin-bottom:10px;">
+          <input type="text" id="adminVehName" class="form-control" placeholder="Fahrzeugname (z.B. HLF 20)">
+          <input type="text" id="adminVehCategory" class="form-control" placeholder="Kategorie">
+        </div>
+        <div style="display:flex; gap:10px; margin-bottom:14px;">
+          <input type="number" id="adminVehPrice" class="form-control" placeholder="Preis (Credits)" value="5000">
+          <input type="number" id="adminVehLevel" class="form-control" placeholder="Erforderliches Level" value="0">
+          <button class="btn btn-success" id="btnAdminAddVehicle">Hinzufügen</button>
+        </div>
+        <div id="adminVehicleListContainer"></div>
+      </div>
+
+      <div id="admTabCategories" class="admin-tab-pane" style="display:none;">
+        <h4 style="margin-bottom:10px; font-size:0.9rem;">Fahrzeug-Kategorien (Geschwindigkeit)</h4>
+        <div style="display:flex; gap:10px; margin-bottom:14px;">
+          <input type="text" id="adminCatName" class="form-control" placeholder="Kategoriename">
+          <input type="number" id="adminCatSpeed" class="form-control" placeholder="Geschwindigkeit km/h" value="60">
+          <button class="btn btn-success" id="btnAdminAddCategory">Hinzufügen</button>
+        </div>
+        <div id="adminCategoryListContainer"></div>
+      </div>
+
+      <div id="admTabRanks" class="admin-tab-pane" style="display:none;">
+        <h4 style="margin-bottom:10px; font-size:0.9rem;">Ränge verwalten</h4>
+        <div style="display:flex; gap:10px; margin-bottom:14px;">
+          <input type="text" id="adminRankName" class="form-control" placeholder="Rang-Name (z.B. Löschmeister)">
+          <input type="number" id="adminRankXp" class="form-control" placeholder="Benötigte XP" value="1000">
+          <button class="btn btn-success" id="btnAdminAddRank">Hinzufügen</button>
+        </div>
+        <div id="adminRankListContainer"></div>
+      </div>
+
+      <div id="admTabUsers" class="admin-tab-pane" style="display:none;">
+        <h4 style="margin-bottom:10px; font-size:0.9rem;">Spieler-Verwaltung</h4>
+        <div id="adminUserListContainer"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Auth Modal -->
+  <div id="authModal" class="modal-overlay">
+    <div class="auth-box">
+      <div class="login-stats-container">
+        <div class="login-stats-title">Gerade jetzt im Einsatzgebiet.</div>
+        <div class="login-stats-subtitle"><div class="login-stats-dot"></div> Live-Daten</div>
+        <div class="login-stats-grid">
+          <div class="login-stat-card"><div class="login-stat-value" id="statVehiclesCount">0</div><div class="login-stat-label">Fahrzeuge</div></div>
+          <div class="login-stat-card"><div class="login-stat-value" id="statMissionsCount">0</div><div class="login-stat-label">Einsätze</div></div>
+          <div class="login-stat-card"><div class="login-stat-value" id="statStationsCount">0</div><div class="login-stat-label">Wachen</div></div>
+        </div>
+      </div>
+      <h2 style="text-align: center; color: var(--text-main); margin-bottom: 16px; font-size: 1.15rem; font-weight: 800;">EinsatzLeiter 112</h2>
+      <div class="auth-nav">
+        <button type="button" class="auth-nav-btn active" id="tabLoginBtn">Anmelden</button>
+        <button type="button" class="auth-nav-btn" id="tabRegisterBtn">Registrieren</button>
+      </div>
+      <div id="authError" style="color: var(--accent-red); font-size: 0.85rem; margin-bottom: 12px; display: none; text-align: center;"></div>
+      <div id="formLogin">
+        <div class="form-group"><label>E-Mail Adresse</label><input type="email" id="loginEmail" class="form-control" placeholder="leitstelle@einsatz.de"></div>
+        <div class="form-group"><label>Passwort</label><input type="password" id="loginPassword" class="form-control" placeholder="••••••••"></div>
+        <button type="button" class="btn btn-danger" style="width: 100%; margin-top: 8px;" id="btnDoLogin">Anmelden</button>
+      </div>
+      <div id="formRegister" style="display: none;">
+        <div class="form-group"><label>Benutzername</label><input type="text" id="regUsername" class="form-control" placeholder="DeinBenutzername"></div>
+        <div class="form-group"><label>E-Mail Adresse</label><input type="email" id="regEmail" class="form-control" placeholder="leitstelle@einsatz.de"></div>
+        <div class="form-group"><label>Passwort</label><input type="password" id="regPassword" class="form-control" placeholder="••••••••"></div>
+        <button type="button" class="btn btn-success" style="width: 100%; margin-top: 8px;" id="btnDoRegister">Account erstellen</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, updateProfile, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, addDoc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBSKawhE0nUzfh3OsromkiwA5YMRgIz6c4",
+      authDomain: "emergencyoperations-a396b.firebaseapp.com",
+      projectId: "emergencyoperations-a396b",
+      storageBucket: "emergencyoperations-a396b.firebasestorage.app",
+      messagingSenderId: "18330346744",
+      appId: "1:18330346744:web:41d2b2d0e31a70491f470d"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    window.currentUser = null;
+    window.gameState = {
+      username: "Spieler", email: "", credits: 200176, coins: 290, completedMissions: 59,
+      xp: 248582, totalEarnedCredits: 0, level: 248, rank: "Hauptbrandmeister", role: "Spieler", association: "Kein Verband",
+      bio: "", vipActive: true, playtimeSeconds: 0,
+      theme: "dark", headerLogoUrl: "https://cdn-icons-png.flaticon.com/512/2966/2966327.png",
+      createdAt: Date.now(), autoGenActive: true, autoGenInterval: 60000, stations: [], missions: []
+    };
+
+    let map, tempBuildMarker = null;
+    let selectedLat = 52.52, selectedLng = 13.405;
+    let globalMissionTemplates = [];
+    let globalVehicleTemplates = [];
+    let globalVehicleCategories = [];
+    let globalBuildingTemplates = [];
+    let globalRanksTemplates = [];
+    let globalUsersList = [];
+    
+    let stationMarkersMap = {};
+    let vehicleMarkersMap = {};
+    let routePolylinesMap = {};
+    let missionLoopInterval = null;
+    let autoGenLoopTimer = null;
+    let currentOpenMissionId = null;
+
+    document.getElementById("btnOpenMainMenuModal").addEventListener("click", () => {
+      document.getElementById("mainMenuModal").style.display = "block";
+    });
+
+    window.toggleMenu = function(btn) {
+      const dropdown = btn.parentElement;
+      const isOpen = dropdown.classList.contains('open');
+      if (!isOpen) {
+        dropdown.classList.add('open');
+      } else {
+        dropdown.classList.remove('open');
+      }
+    };
+
+    window.setIconUrl = function(url) {
+      document.getElementById("adminBuildIcon").value = url;
+    };
+
+    document.getElementById("btnOpenProfile").addEventListener("click", () => {
+      renderPlayerProfileModal();
+      document.getElementById("profileModal").style.display = "block";
+    });
+
+    window.editUserBio = async function() {
+      const currentBio = window.gameState.bio || "";
+      const newBio = prompt("Trage deine Beschreibung / Vorstellung ein:", currentBio);
+      if (newBio !== null) {
+        window.gameState.bio = newBio.trim();
+        await saveUserData();
+        renderPlayerProfileModal();
+        logRadio("Profil-Info aktualisiert.");
+      }
+    };
+
+    function renderPlayerProfileModal() {
+      const state = window.gameState;
+      document.getElementById("profileModalUsername").innerText = state.username || "Spieler";
+      document.getElementById("profileAvatarLetter").innerText = (state.username || "S").charAt(0).toUpperCase();
+      
+      const bioEl = document.getElementById("profileBioText");
+      bioEl.innerText = state.bio && state.bio !== "" ? state.bio : "Klicke hier um dich vorzustellen...";
+
+      document.getElementById("profileXp").innerText = (Number(state.xp) || 0).toLocaleString('de-DE');
+      document.getElementById("profileCredits").innerText = (Number(state.credits) || 0).toLocaleString('de-DE');
+      document.getElementById("profileTotalEarned").innerText = (Number(state.totalEarnedCredits) || 0).toLocaleString('de-DE');
+      document.getElementById("profileMissions").innerText = (Number(state.completedMissions) || 0).toLocaleString('de-DE');
+      document.getElementById("profileStations").innerText = (state.stations || []).length;
+      
+      const ptSec = state.playtimeSeconds || 0;
+      const days = Math.floor(ptSec / 86400);
+      const hours = Math.floor((ptSec % 86400) / 3600);
+      const mins = Math.floor((ptSec % 3600) / 60);
+      document.getElementById("profilePlaytime").innerText = `${days}T ${hours}Std ${mins}Min`;
+
+      document.getElementById("profileCoins").innerText = `${state.coins || 0} FL`;
+      document.getElementById("profileVip").innerText = state.vipActive ? "Aktiv 👑" : "Inaktiv";
+
+      document.getElementById("profileRole").innerText = state.role || "Spieler";
+      document.getElementById("profileRank").innerText = state.rank || "Anwärter";
+      document.getElementById("profileAssociation").innerText = state.association || "Kein Verband";
+
+      const createdDate = state.createdAt ? new Date(state.createdAt) : new Date();
+      document.getElementById("profileCreatedAt").innerText = createdDate.toLocaleDateString('de-DE') + ", " + createdDate.toLocaleTimeString('de-DE', {hour: '2-digit', minute:'2-digit'});
+      
+      const diffDays = Math.floor((Date.now() - createdDate.getTime()) / (1000 * 60 * 60 * 24));
+      document.getElementById("profileDaysActive").innerText = `${Math.max(0, diffDays)} Tage`;
+      document.getElementById("profileLastOnline").innerText = "Gerade eben";
+    }
+
+    window.openStationDetailModal = function(stationId) {
+      const st = window.gameState.stations.find(s => s.id === stationId);
+      if (!st) return;
+
+      const bTemp = globalBuildingTemplates.find(b => b.name === st.type) || { slotPrice: 50000, maxSlots: 10 };
+      const currentSlots = st.slots || 1;
+      const maxSlots = bTemp.maxSlots || 10;
+      const slotPrice = bTemp.slotPrice || 50000;
+      const vehiclesList = st.vehicles || [];
+
+      let vehBuyOptions = globalVehicleTemplates.map(v => `<option value="${v.name}">${v.name} (${(v.price||5000).toLocaleString('de-DE')} C)</option>`).join('');
+
+      const modal = document.getElementById("stationDetailModal");
+      modal.innerHTML = `
+        <div class="nui-header">
+          <div class="nui-title" style="color:var(--accent-amber);"><i class="fa-solid fa-warehouse"></i> ${st.name} <span style="font-size:0.75rem; color:var(--text-muted); font-weight:400;">(${st.type})</span></div>
+          <button class="nui-close-btn" onclick="document.getElementById('stationDetailModal').style.display='none'"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        
+        <div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:12px; margin-bottom:16px;">
+          <div style="background:var(--bg-card); padding:12px; border-radius:10px; border:1px solid var(--border);">
+            <div style="font-size:0.75rem; color:var(--text-muted); font-weight:700; text-transform:uppercase; margin-bottom:4px;">Stellplätze</div>
+            <div style="font-size:1.1rem; font-weight:800; color:var(--text-main);">${currentSlots} / ${maxSlots}</div>
+          </div>
+          <div style="background:var(--bg-card); padding:12px; border-radius:10px; border:1px solid var(--border);">
+            <div style="font-size:0.75rem; color:var(--text-muted); font-weight:700; text-transform:uppercase; margin-bottom:4px;">Nächster Stellplatz</div>
+            <div style="font-size:1.1rem; font-weight:800; color:var(--accent-amber);">${slotPrice.toLocaleString('de-DE')} C</div>
+          </div>
+        </div>
+
+        <div style="margin-bottom:16px;">
+          <button class="btn btn-success" style="width:100%;" ${currentSlots >= maxSlots ? 'disabled' : ''} onclick="window.buyStationSlot(${st.id}, ${slotPrice}, ${maxSlots})"><i class="fa-solid fa-circle-plus"></i> Stellplatz kaufen (+1)</button>
+        </div>
+
+        <h4 style="margin-bottom:8px; font-size:0.85rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Vorhandene Fahrzeuge (${vehiclesList.length}/${currentSlots}):</h4>
+        <div style="margin-bottom:16px; max-height:140px; overflow-y:auto; border-radius:10px; border:1px solid var(--border);">
+          <table class="nui-table" style="margin-top:0;">
+            <tr><th>Fahrzeugname</th><th style="width:100px; text-align:right;">Aktion</th></tr>
+            ${vehiclesList.length === 0 ? `<tr><td colspan="2" style="text-align:center; color:var(--text-muted);">Keine Fahrzeuge vorhanden</td></tr>` : 
+              vehiclesList.map((v, idx) => `<tr><td><strong>${typeof v === 'object' ? v.name : v}</strong></td><td style="text-align:right;"><button class="admin-action-btn btn-edit" onclick="window.renameStationVehicle(${st.id}, ${idx})" title="Umbenennen"><i class="fa-solid fa-pen"></i></button> <button class="admin-action-btn btn-del" onclick="window.deleteStationVehicle(${st.id}, ${idx})" title="Verkaufen"><i class="fa-solid fa-trash"></i></button></td></tr>`).join('')}
+          </table>
+        </div>
+
+        <h4 style="margin-bottom:8px; font-size:0.85rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Neues Fahrzeug erwerben:</h4>
+        <div style="display:flex; gap:10px;">
+          <select id="stationNewVehSelect" class="form-control">${vehBuyOptions}</select>
+          <button class="btn btn-primary" onclick="window.buyStationVehicle(${st.id})" style="white-space:nowrap;"><i class="fa-solid fa-cart-shopping"></i> Kaufen</button>
+        </div>
+      `;
+      modal.style.display = "block";
+    };
+
+    window.renameStationVehicle = async function(stationId, vehIdx) {
+      const st = window.gameState.stations.find(s => s.id === stationId);
+      if (!st || !st.vehicles) return;
+      
+      let currentVehName = typeof st.vehicles[vehIdx] === 'object' ? st.vehicles[vehIdx].name : st.vehicles[vehIdx];
+      let newName = prompt("Neuen Namen für das Fahrzeug eingeben:", currentVehName);
+      if (newName !== null && newName.trim() !== "") {
+        if (typeof st.vehicles[vehIdx] === 'object') {
+          st.vehicles[vehIdx].name = newName.trim();
+        } else {
+          st.vehicles[vehIdx] = { name: newName.trim(), type: st.vehicles[vehIdx] };
+        }
+        await saveUserData();
+        openStationDetailModal(stationId);
+        logRadio(`Fahrzeug umbenannt in "${newName.trim()}".`);
+      }
+    };
+
+    window.buyStationSlot = async function(stationId, price, maxSlots) {
+      if (window.gameState.credits < price) return alert("Nicht genügend Credits!");
+      const st = window.gameState.stations.find(s => s.id === stationId);
+      if (!st) return;
+      if ((st.slots || 1) >= maxSlots) return alert("Maximale Stellplatzanzahl erreicht!");
+
+      window.gameState.credits -= price;
+      st.slots = (st.slots || 1) + 1;
+      updateUI();
+      await saveUserData();
+      logRadio(`Stellplatz für Wache "${st.name}" gekauft.`);
+      openStationDetailModal(stationId);
+    };
+
+    window.buyStationVehicle = async function(stationId) {
+      const st = window.gameState.stations.find(s => s.id === stationId);
+      if (!st) return;
+      const currentSlots = st.slots || 1;
+      const currentVehCount = (st.vehicles || []).length;
+      if (currentVehCount >= currentSlots) return alert("Keine freien Stellplätze verfügbar! Bitte erst einen Stellplatz kaufen.");
+
+      const vehName = document.getElementById("stationNewVehSelect").value;
+      const vTemp = globalVehicleTemplates.find(v => v.name === vehName);
+      const price = vTemp ? (vTemp.price || 5000) : 5000;
+
+      if (window.gameState.credits < price) return alert("Nicht genügend Credits!");
+
+      window.gameState.credits -= price;
+      if (!st.vehicles) st.vehicles = [];
+      st.vehicles.push({ name: vehName, type: vehName });
+      updateUI();
+      await saveUserData();
+      logRadio(`Fahrzeug "${vehName}" für Wache "${st.name}" gekauft.`);
+      openStationDetailModal(stationId);
+    };
+
+    window.deleteStationVehicle = async function(stationId, vehIdx) {
+      if (!confirm("Fahrzeug wirklich verkaufen/löschen?")) return;
+      const st = window.gameState.stations.find(s => s.id === stationId);
+      if (!st || !st.vehicles) return;
+      st.vehicles.splice(vehIdx, 1);
+      await saveUserData();
+      logRadio(`Fahrzeug von Wache "${st.name}" entfernt.`);
+      openStationDetailModal(stationId);
+    };
+
+    window.deletePlayerStation = async (stationId) => {
+      if (confirm("Möchtest du diese Wache wirklich abreißen?")) {
+        window.gameState.stations = window.gameState.stations.filter(s => s.id !== stationId);
+        
+        const maxAllowedMissions = window.gameState.stations.length + 1;
+        while (window.gameState.missions.length > maxAllowedMissions) {
+          window.gameState.missions.pop();
+        }
+
+        renderMapStations();
+        renderMissions();
+        renderMapMissions();
+        await saveUserData();
+        logRadio("Wache erfolgreich abgerissen.");
+      }
+    };
+
+    window.editPlayerStation = async (stationId) => {
+      const st = window.gameState.stations.find(s => s.id === stationId);
+      if (!st) return;
+      const newName = prompt("Neuen Namen für die Wache eingeben:", st.name);
+      if (newName && newName.trim() !== "") {
+        st.name = newName.trim();
+        renderMapStations();
+        await saveUserData();
+        logRadio(`Wache umbenannt in "${st.name}".`);
+      }
+    };
+
+    function renderStationsOverviewModal() {
+      const container = document.getElementById("stationsOverviewListContainer");
+      if (!container) return;
+      
+      if (!window.gameState.stations || window.gameState.stations.length === 0) {
+        container.innerHTML = `<p style="text-align:center; color:var(--text-muted); padding:20px;">Du hast noch keine Wachen gebaut.</p>`;
+        return;
+      }
+
+      container.innerHTML = `<table class="nui-table">
+        <tr><th>Wachen-Name</th><th>Typ</th><th>Stellplätze</th><th>Aktionen</th></tr>` +
+        window.gameState.stations.map(s => `
+          <tr>
+            <td><strong>${s.name}</strong></td>
+            <td><span style="color:var(--accent-blue);">${s.type}</span></td>
+            <td><span style="background:var(--bg-input); padding:2px 8px; border-radius:6px; border:1px solid var(--border);">${(s.vehicles||[]).length} / ${s.slots||1}</span></td>
+            <td>
+              <div style="display:flex; gap:6px;">
+                <button class="btn btn-secondary" style="padding:4px 10px; font-size:0.75rem;" onclick="openStationDetailModal(${s.id})"><i class="fa-solid fa-sliders"></i> Verwalten</button>
+                <button class="admin-action-btn btn-edit" onclick="window.editPlayerStation(${s.id})" title="Wache umbenennen"><i class="fa-solid fa-pen"></i></button>
+                <button class="admin-action-btn btn-del" onclick="window.deletePlayerStation(${s.id})" title="Wache abreißen"><i class="fa-solid fa-trash"></i></button>
+              </div>
+            </td>
+          </tr>
+        `).join("") + `</table>`;
+    }
+
+    function renderRanksDetailModal() {
+      const container = document.getElementById("ranksDetailListContainer");
+      if (!container) return;
+
+      if (!globalRanksTemplates || globalRanksTemplates.length === 0) {
+        container.innerHTML = `<p style="text-align:center; color:var(--text-muted); padding:20px;">Keine Ränge konfiguriert.</p>`;
+        return;
+      }
+
+      const sorted = [...globalRanksTemplates].sort((a, b) => a.xp - b.xp);
+      container.innerHTML = `<table class="nui-table">
+        <tr><th>Rang-Name</th><th>Benötigte XP</th></tr>` +
+        sorted.map(r => `
+          <tr>
+            <td><strong>${r.name}</strong></td>
+            <td><span style="color:var(--accent-purple); font-weight:700;">${r.xp.toLocaleString('de-DE')} XP</span></td>
+          </tr>
+        `).join("") + `</table>`;
+    }
+
+    window.adminEditUser = async (uid, currentCredits, currentCoins, currentLevel) => {
+      const newCred = prompt("Geld (Credits) bearbeiten:", currentCredits);
+      if (newCred === null) return;
+      const newCoins = prompt("Coins bearbeiten:", currentCoins);
+      if (newCoins === null) return;
+      const newLevel = prompt("Spieler-Level bearbeiten:", currentLevel);
+      if (newLevel === null) return;
+
+      try {
+        await updateDoc(doc(db, "users", uid), {
+          credits: Number(newCred) || 0,
+          coins: Number(newCoins) || 0,
+          level: Number(newLevel) || 0
+        });
+        logRadio("Admin: Spieler-Daten aktualisiert.");
+      } catch(e) { alert("Fehler: " + e.message); }
+    };
+
+    window.adminResetUser = async (uid) => {
+      if(!confirm("Spieler wirklich auf Startwerte zurücksetzen?")) return;
+      try {
+        await updateDoc(doc(db, "users", uid), {
+          credits: 0,
+          coins: 0,
+          xp: 0,
+          level: 0,
+          stations: [],
+          missions: []
+        });
+        logRadio("Admin: Spieler zurückgesetzt.");
+      } catch(e) { alert("Fehler: " + e.message); }
+    };
+
+    window.adminBanUser = async (uid, currentBanned) => {
+      const reason = prompt("Grund für den Bann (wird dem Spieler angezeigt):", currentBanned ? "" : "Verstoß gegen die Regeln");
+      if (reason === null) return;
+      try {
+        await updateDoc(doc(db, "users", uid), {
+          isBanned: true,
+          banReason: reason
+        });
+        logRadio("Admin: Spieler gebannt.");
+      } catch(e) { alert("Fehler: " + e.message); }
+    };
+
+    window.adminUnbanUser = async (uid) => {
+      try {
+        await updateDoc(doc(db, "users", uid), {
+          isBanned: false,
+          banReason: ""
+        });
+        logRadio("Admin: Bann aufgehoben.");
+      } catch(e) { alert("Fehler: " + e.message); }
+    };
+
+    window.deletePlayerMission = async (missionId, event) => {
+      if(event) event.stopPropagation();
+      if (confirm("Möchtest du diesen Einsatz wirklich verwerfen/löschen?")) {
+        const idx = window.gameState.missions.findIndex(m => m.id === missionId);
+        if (idx > -1) {
+          const removed = window.gameState.missions.splice(idx, 1)[0];
+          renderMissions();
+          renderMapMissions();
+          renderMapRoutes();
+          await saveUserData();
+          logRadio(`Einsatz "${removed.title}" wurde verworfen.`);
+          
+          const autoGenToggle = document.getElementById("autoGenToggle").value;
+          if (autoGenToggle === "on") {
+            generateSingleMission();
+          }
+        }
+      }
+    };
+
+    window.deleteAdminDoc = async (colName, id) => {
+      if(confirm("Diesen Eintrag wirklich endgültig löschen?")) {
+        try {
+          await deleteDoc(doc(db, colName, id));
+          logRadio("Admin: Eintrag gelöscht.");
+        } catch(e) { alert("Fehler beim Löschen: " + e.message); }
+      }
+    };
+
+    window.editAdminBuilding = (id, name, price, slotPrice, maxSlots, iconUrl, startVehObj) => {
+      document.getElementById("adminBuildName").value = name;
+      document.getElementById("adminBuildPrice").value = price;
+      document.getElementById("adminBuildSlotPrice").value = slotPrice || 50000;
+      document.getElementById("adminBuildMaxSlots").value = maxSlots || 10;
+      document.getElementById("adminBuildIcon").value = iconUrl;
+
+      document.querySelectorAll(".admin-build-veh-input").forEach(input => {
+        const vName = input.dataset.vehName;
+        input.value = (startVehObj && startVehObj[vName]) ? startVehObj[vName] : 0;
+      });
+
+      const btn = document.getElementById("btnAdminAddBuilding");
+      btn.innerText = "Speichern";
+      btn.dataset.editId = id;
+    };
+
+    window.editAdminMission = (id, title, reward, xp, duration, reqExtension, iconUrl, reqStationsObj, reqVehObj) => {
+      document.getElementById("adminMisTitle").value = title;
+      document.getElementById("adminMisReward").value = reward;
+      document.getElementById("adminMisXp").value = xp;
+      document.getElementById("adminMisDuration").value = duration || 60;
+      document.getElementById("adminMisReqExtension").value = reqExtension || "";
+      document.getElementById("adminMisIcon").value = iconUrl;
+
+      document.querySelectorAll(".admin-mis-station-input").forEach(input => {
+        const sName = input.dataset.stationName;
+        input.value = (reqStationsObj && reqStationsObj[sName]) ? reqStationsObj[sName] : 0;
+      });
+
+      document.querySelectorAll(".admin-mis-veh-input").forEach(input => {
+        const vName = input.dataset.vehName;
+        input.value = (reqVehObj && reqVehObj[vName]) ? reqVehObj[vName] : 0;
+      });
+
+      const btn = document.getElementById("btnAdminAddMission");
+      btn.innerText = "Speichern";
+      btn.dataset.editId = id;
+    };
+
+    window.editAdminVehicle = (id, name, cat, price, level) => {
+      document.getElementById("adminVehName").value = name;
+      document.getElementById("adminVehCategory").value = cat;
+      document.getElementById("adminVehPrice").value = price || 5000;
+      document.getElementById("adminVehLevel").value = level || 0;
+      const btn = document.getElementById("btnAdminAddVehicle");
+      btn.innerText = "Speichern";
+      btn.dataset.editId = id;
+    };
+
+    window.editAdminCategory = (id, name, speed) => {
+      document.getElementById("adminCatName").value = name;
+      document.getElementById("adminCatSpeed").value = speed;
+      const btn = document.getElementById("btnAdminAddCategory");
+      btn.innerText = "Speichern";
+      btn.dataset.editId = id;
+    };
+
+    window.editAdminRank = (id, name, xp) => {
+      document.getElementById("adminRankName").value = name;
+      document.getElementById("adminRankXp").value = xp;
+      const btn = document.getElementById("btnAdminAddRank");
+      btn.innerText = "Speichern";
+      btn.dataset.editId = id;
+    };
+
+    function logRadio(msg) {
+      const rLog = document.getElementById("radioLog");
+      if (!rLog) return;
+      const timeStr = new Date().toLocaleTimeString('de-DE');
+      rLog.innerHTML += `<div>[${timeStr}] ${msg}</div>`;
+      rLog.scrollTop = rLog.scrollHeight;
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      map = L.map('map').setView([52.52, 13.405], 6);
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(map);
+
+      setInterval(() => {
+        const now = new Date();
+        document.getElementById("liveClock").innerText = now.toTimeString().split(' ')[0];
+        
+        if (window.currentUser) {
+          window.gameState.playtimeSeconds = (window.gameState.playtimeSeconds || 0) + 1;
+        }
+      }, 1000);
+
+      setupEventListeners();
+      listenToGlobalData();
+      startActiveMissionLoop();
+      setupAutoGenLoop();
+    });
+
+    function setupAutoGenLoop() {
+      if (autoGenLoopTimer) clearInterval(autoGenLoopTimer);
+      const toggle = document.getElementById("autoGenToggle").value;
+      const intervalMs = Number(document.getElementById("autoGenIntervalSelect").value) || 60000;
+
+      if (toggle === "on") {
+        autoGenLoopTimer = setInterval(() => {
+          if (window.currentUser && window.gameState.stations && window.gameState.stations.length > 0) {
+            generateSingleMission();
+          }
+        }, intervalMs);
+      }
+    }
+
+    async function fetchStreetRoute(lat1, lon1, lat2, lon2, vehicleTypeName) {
+      let speedKmH = 50;
+      const vTemplate = globalVehicleTemplates.find(vt => vt.name === vehicleTypeName);
+      if (vTemplate && vTemplate.category) {
+        const catObj = globalVehicleCategories.find(c => c.name === vTemplate.category);
+        if (catObj && catObj.speed) speedKmH = Number(catObj.speed) || 50;
+      }
+
+      try {
+        const url = `https://router.project-osrm.org/route/v1/driving/${lon1},${lat1};${lon2},${lat2}?overview=full&geometries=geojson`;
+        const res = await fetch(url);
+        const data = await res.json();
+        if (data.code === "Ok" && data.routes && data.routes.length > 0) {
+          const route = data.routes[0];
+          const coords = route.geometry.coordinates.map(c => [c[1], c[0]]);
+          const distKm = route.distance / 1000;
+          const calculatedDurationSec = Math.max(10, Math.round((distKm / speedKmH) * 3600));
+          return { coordinates: JSON.stringify(coords), duration: calculatedDurationSec };
+        }
+      } catch (e) {}
+
+      const dist = calculateDistance(lat1, lon1, lat2, lon2);
+      const calculatedDurationSec = Math.max(10, Math.round((dist / speedKmH) * 3600));
+      return { coordinates: JSON.stringify([[lat1, lon1], [lat2, lon2]]), duration: calculatedDurationSec };
+    }
+
+    function calculateDistance(lat1, lon1, lat2, lon2) {
+      const R = 6371;
+      const dLat = (lat2 - lat1) * Math.PI / 180;
+      const dLon = (lon2 - lon1) * Math.PI / 180;
+      const a = Math.sin(dLat/2)*Math.sin(dLat/2) + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)*Math.sin(dLon/2);
+      return R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)));
+    }
+
+    function startActiveMissionLoop() {
+      if (missionLoopInterval) clearInterval(missionLoopInterval);
+      missionLoopInterval = setInterval(() => {
+        if (!window.currentUser || !window.gameState.missions) return;
+        const now = Date.now();
+        let updated = false;
+        let needsTimerRender = false;
+
+        window.gameState.missions.forEach(m => {
+          if (m.status === "enroute" || m.status === "processing") needsTimerRender = true;
+          
+          if (m.assignedVehicles && m.assignedVehicles.length > 0) {
+            m.assignedVehicles.forEach(av => {
+              if (typeof av.routeCoordinates === 'string') {
+                try { av.routeCoordinates = JSON.parse(av.routeCoordinates); } catch(e){}
+              }
+
+              if (av.status === "enroute" && av.arrivalEndTime && av.routeCoordinates) {
+                const totalDuration = av.arrivalEndTime - av.startTime;
+                const elapsed = now - av.startTime;
+                const progress = totalDuration > 0 ? Math.min(1, elapsed / totalDuration) : 1;
+
+                const coords = av.routeCoordinates;
+                const totalPoints = coords.length;
+                const exactIndex = progress * (totalPoints - 1);
+                const lowerIndex = Math.floor(exactIndex);
+                const upperIndex = Math.min(totalPoints - 1, Math.ceil(exactIndex));
+                const fraction = exactIndex - lowerIndex;
+
+                if (lowerIndex === upperIndex) {
+                  av.currentLat = coords[lowerIndex][0];
+                  av.currentLng = coords[lowerIndex][1];
+                } else {
+                  av.currentLat = coords[lowerIndex][0] + (coords[upperIndex][0] - coords[lowerIndex][0]) * fraction;
+                  av.currentLng = coords[lowerIndex][1] + (coords[upperIndex][1] - coords[lowerIndex][1]) * fraction;
+                }
+
+                if (now >= av.arrivalEndTime) {
+                  av.status = "processing";
+                  av.currentLat = m.lat;
+                  av.currentLng = m.lng;
+                }
+                updated = true;
+              }
+            });
+
+            const reqVehicles = m.reqVehicles || {};
+            let allRequirementsMet = true;
+            for (const [vType, count] of Object.entries(reqVehicles)) {
+              if (count > 0) {
+                const arrivedCount = m.assignedVehicles.filter(av => av.vehicleType === vType && av.status === "processing").length;
+                if (arrivedCount < count) { allRequirementsMet = false; break; }
+              }
+            }
+            if (Object.keys(reqVehicles).length === 0) allRequirementsMet = m.assignedVehicles.some(av => av.status === "processing");
+
+            if (m.status !== "processing" && allRequirementsMet) {
+              m.status = "processing";
+              if (!m.processingEndTime) {
+                m.processingEndTime = now + ((m.duration || 60) * 1000);
+              }
+              logRadio(`Alle Fahrzeuge vor Ort. Einsatz "${m.title}" in Bearbeitung...`);
+              updated = true;
+            } else if (m.status === "processing" && m.processingEndTime && now >= m.processingEndTime) {
+              completeMission(m.id);
+              updated = true;
+            }
+          }
+        });
+
+        if (updated || needsTimerRender) {
+          renderMissions();
+          if (currentOpenMissionId !== null) openMissionDetailModal(currentOpenMissionId);
+        }
+        if(updated) {
+          renderMapVehicles();
+          renderMapRoutes();
+        }
+      }, 1000);
+    }
+
+    async function restoreActiveMissionsRoutes() {
+      if (!window.gameState.missions || window.gameState.missions.length === 0) return;
+      const now = Date.now();
+
+      for (let m of window.gameState.missions) {
+        if (m.assignedVehicles && m.assignedVehicles.length > 0) {
+          for (let av of m.assignedVehicles) {
+            if (typeof av.routeCoordinates === 'string') {
+              try { av.routeCoordinates = JSON.parse(av.routeCoordinates); } catch (e) { av.routeCoordinates = []; }
+            }
+
+            if (av.status === "enroute") {
+              if (av.arrivalEndTime && now >= av.arrivalEndTime) {
+                av.status = "processing";
+                av.currentLat = m.lat;
+                av.currentLng = m.lng;
+              } else if (!av.arrivalEndTime || !av.routeCoordinates || av.routeCoordinates.length === 0) {
+                const st = window.gameState.stations.find(s => s.id === av.stationId);
+                const stLat = av.stationLat || (st ? st.lat : null) || m.lat;
+                const stLng = av.stationLng || (st ? st.lng : null) || m.lng;
+
+                const routeData = await fetchStreetRoute(stLat, stLng, m.lat, m.lng, av.vehicleType);
+                av.routeCoordinates = JSON.parse(routeData.coordinates);
+                av.startTime = now;
+                av.arrivalEndTime = now + (routeData.duration * 1000);
+              }
+            } else if (av.status === "processing") {
+              av.currentLat = m.lat;
+              av.currentLng = m.lng;
+            }
+          }
+        }
+      }
+    }
+
+    function setupEventListeners() {
+      document.getElementById("tabLoginBtn").addEventListener("click", () => switchAuthMode('login'));
+      document.getElementById("tabRegisterBtn").addEventListener("click", () => switchAuthMode('register'));
+      document.getElementById("btnDoLogin").addEventListener("click", handleLogin);
+      document.getElementById("btnDoRegister").addEventListener("click", handleRegister);
+      document.getElementById("btnLogout").addEventListener("click", () => {
+        signOut(auth).then(() => {
+          window.currentUser = null;
+          document.getElementById("authModal").style.display = "flex";
+        });
+      });
+      
+      document.getElementById("btnToggleTheme").addEventListener("click", async () => {
+        window.gameState.theme = window.gameState.theme === "dark" ? "light" : "dark";
+        document.documentElement.setAttribute("data-theme", window.gameState.theme);
+        const icon = document.getElementById("themeIcon");
+        icon.className = window.gameState.theme === "dark" ? "fa-solid fa-moon" : "fa-solid fa-sun";
+        await saveUserData();
+      });
+
+      document.getElementById("autoGenToggle").addEventListener("change", setupAutoGenLoop);
+      document.getElementById("autoGenIntervalSelect").addEventListener("change", setupAutoGenLoop);
+
+      document.getElementById("sideBtnBuildStation").addEventListener("click", () => {
+        window.openBuildMenu();
+      });
+      document.getElementById("sideBtnMyStations").addEventListener("click", () => {
+        renderStationsOverviewModal();
+        document.getElementById("stationsOverviewModal").style.display = "block";
+      });
+      document.getElementById("sideBtnPersonal").addEventListener("click", () => {
+        alert("Personal-Übersicht wird geöffnet...");
+      });
+      document.getElementById("sideBtnMyAssociation").addEventListener("click", () => {
+        alert("Verbands-Übersicht wird geöffnet...");
+      });
+      document.getElementById("sideBtnAssociationStations").addEventListener("click", () => {
+        alert("Verbands-Wachen werden angezeigt...");
+      });
+
+      window.openBuildMenu = function() {
+        const modal = document.createElement('div');
+        modal.id = 'buildModalPrompt';
+        modal.className = 'nui-modal';
+        modal.style.display = 'block';
+        modal.innerHTML = `
+          <div class="nui-header">
+            <div class="nui-title" style="color:var(--accent-blue);"><i class="fa-solid fa-building"></i> Wache bauen</div>
+            <button class="nui-close-btn" onclick="document.getElementById('buildModalPrompt').remove()"><i class="fa-solid fa-xmark"></i></button>
+          </div>
+          <div class="form-group">
+            <label>Wache-Typ:</label>
+            <select id="modalBuildTypeSelect" class="form-control"></select>
+          </div>
+          <div class="form-group">
+            <label>Wachen-Name:</label>
+            <input type="text" id="modalBuildNameInput" class="form-control" placeholder="z. B. Hauptfeuerwache 1">
+          </div>
+          <p style="font-size:0.75rem; color:var(--text-muted); margin-bottom:12px;">Klicke auf die Karte, um den Standort für die Wache auszuwählen.</p>
+          <button type="button" class="btn btn-success" style="width:100%;" id="btnModalConfirmBuild">Kostenpflichtig bauen</button>
+        `;
+        document.body.appendChild(modal);
+
+        const select = document.getElementById("modalBuildTypeSelect");
+        select.innerHTML = globalBuildingTemplates.map(b => `<option value="${b.name}" data-cost="${b.price}" data-iconurl="${b.iconUrl || ''}">${b.name} (${(b.price||0).toLocaleString('de-DE')} C)</option>`).join("") || '<option value="">Keine Gebäude-Templates vorhanden</option>';
+
+        setMarker(map.getCenter().lat, map.getCenter().lng);
+
+        document.getElementById("btnModalConfirmBuild").addEventListener("click", async () => {
+          const selectEl = document.getElementById("modalBuildTypeSelect");
+          if (!selectEl.value) return alert("Bitte Wache wählen!");
+          const bTemp = globalBuildingTemplates.find(b => b.name === selectEl.value);
+          const cost = bTemp ? (bTemp.price || 100000) : 100000;
+          const name = document.getElementById("modalBuildNameInput").value || selectEl.value;
+          if (window.gameState.credits < cost) return alert("Nicht genügend Credits!");
+
+          let initialVehicles = [];
+          if (bTemp && bTemp.startVehicles) {
+            for (const [vName, count] of Object.entries(bTemp.startVehicles)) {
+              for (let i = 0; i < count; i++) {
+                initialVehicles.push({ name: vName, type: vName });
+              }
+            }
+          }
+          if (initialVehicles.length === 0) initialVehicles.push({ name: "Einsatzfahrzeug 1", type: "Einsatzfahrzeug 1" });
+
+          window.gameState.credits -= cost;
+          const station = {
+            id: Date.now(), name, type: selectEl.value,
+            iconUrl: bTemp?.iconUrl || "https://cdn-icons-png.flaticon.com/512/3448/3448609.png",
+            lat: selectedLat, lng: selectedLng, slots: Math.max(initialVehicles.length, 1), vehicles: initialVehicles, extensions: []
+          };
+          if (!window.gameState.stations) window.gameState.stations = [];
+          window.gameState.stations.push(station);
+          
+          updateUI();
+          renderMapStations();
+          document.getElementById('buildModalPrompt').remove();
+          if (tempBuildMarker) { map.removeLayer(tempBuildMarker); tempBuildMarker = null; }
+          
+          const autoGenToggle = document.getElementById("autoGenToggle").value;
+          if (autoGenToggle === "on") {
+            generateSingleMission();
+          }
+          
+          await saveUserData();
+          logRadio(`Wache "${name}" in Betrieb genommen.`);
+        });
+      };
+      
+      document.getElementById("btnOpenAdmin").addEventListener("click", () => {
+        document.getElementById("adminModal").style.display = "block";
+        renderAdminLists();
+      });
+
+      document.querySelectorAll(".admin-tab-btn").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+          document.querySelectorAll(".admin-tab-btn").forEach(b => b.classList.remove("active"));
+          document.querySelectorAll(".admin-tab-pane").forEach(p => p.style.display = "none");
+          e.target.classList.add("active");
+          const tabId = e.target.getAttribute("data-tab");
+          document.getElementById(tabId).style.display = "block";
+        });
+      });
+
+      document.getElementById("btnAdminAddBuilding").addEventListener("click", async (e) => {
+        const name = document.getElementById("adminBuildName").value;
+        const price = Number(document.getElementById("adminBuildPrice").value);
+        const slotPrice = Number(document.getElementById("adminBuildSlotPrice").value) || 50000;
+        const maxSlots = Number(document.getElementById("adminBuildMaxSlots").value) || 10;
+        const iconUrl = document.getElementById("adminBuildIcon").value;
+        
+        let startVehicles = {};
+        document.querySelectorAll(".admin-build-veh-input").forEach(input => {
+          const count = Number(input.value);
+          if (count > 0) startVehicles[input.dataset.vehName] = count;
+        });
+
+        if (!name) return alert("Name erforderlich!");
+        
+        try {
+          const btn = e.target;
+          const buildData = { name, price, slotPrice, maxSlots, iconUrl, startVehicles };
+          if(btn.dataset.editId) {
+            await updateDoc(doc(db, "building_templates", btn.dataset.editId), buildData);
+            delete btn.dataset.editId;
+            btn.innerText = "Gebäude-Template speichern";
+          } else {
+            await addDoc(collection(db, "building_templates"), buildData);
+          }
+          document.getElementById("adminBuildName").value = "";
+          document.getElementById("adminBuildIcon").value = "";
+          renderAdminLists();
+        } catch(err) { alert("Fehler: " + err.message); }
+      });
+
+      document.getElementById("btnAdminAddMission").addEventListener("click", async (e) => {
+        const title = document.getElementById("adminMisTitle").value;
+        const reward = Number(document.getElementById("adminMisReward").value);
+        const xp = Number(document.getElementById("adminMisXp").value);
+        const duration = Number(document.getElementById("adminMisDuration").value) || 60;
+        const reqExtension = document.getElementById("adminMisReqExtension").value.trim();
+        const iconUrl = document.getElementById("adminMisIcon").value;
+        
+        let reqStations = {};
+        document.querySelectorAll(".admin-mis-station-input").forEach(input => {
+          const count = Number(input.value);
+          if (count > 0) reqStations[input.dataset.stationName] = count;
+        });
+
+        let reqVehicles = {};
+        document.querySelectorAll(".admin-mis-veh-input").forEach(input => {
+          const count = Number(input.value);
+          if (count > 0) reqVehicles[input.dataset.vehName] = count;
+        });
+
+        if (!title) return alert("Titel erforderlich!");
+        
+        try {
+          const btn = e.target;
+          const missionData = { title, reward, xp, duration, reqExtension, iconUrl, reqStations, reqVehicles };
+          if(btn.dataset.editId) {
+            await updateDoc(doc(db, "mission_templates", btn.dataset.editId), missionData);
+            delete btn.dataset.editId;
+            btn.innerText = "Einsatz-Template speichern";
+          } else {
+            await addDoc(collection(db, "mission_templates"), missionData);
+          }
+          document.getElementById("adminMisTitle").value = "";
+          document.getElementById("adminMisReqExtension").value = "";
+          document.getElementById("adminMisIcon").value = "";
+          document.querySelectorAll(".admin-mis-station-input").forEach(i => i.value = 0);
+          document.querySelectorAll(".admin-mis-veh-input").forEach(i => i.value = 0);
+          renderAdminLists();
+        } catch(err) { alert("Fehler: " + err.message); }
+      });
+
+      document.getElementById("btnAdminAddVehicle").addEventListener("click", async (e) => {
+        const name = document.getElementById("adminVehName").value;
+        const category = document.getElementById("adminVehCategory").value;
+        const price = Number(document.getElementById("adminVehPrice").value) || 5000;
+        const level = Number(document.getElementById("adminVehLevel").value) || 0;
+        if (!name) return alert("Fahrzeugname erforderlich!");
+        
+        try {
+          const btn = e.target;
+          if(btn.dataset.editId) {
+            await updateDoc(doc(db, "vehicle_templates", btn.dataset.editId), { name, category, price, level });
+            delete btn.dataset.editId;
+            btn.innerText = "Hinzufügen";
+          } else {
+            await addDoc(collection(db, "vehicle_templates"), { name, category, price, level });
+          }
+          document.getElementById("adminVehName").value = "";
+          document.getElementById("adminVehCategory").value = "";
+          document.getElementById("adminVehPrice").value = "5000";
+          document.getElementById("adminVehLevel").value = "0";
+          renderAdminLists();
+        } catch(err) { alert("Fehler: " + err.message); }
+      });
+
+      document.getElementById("btnAdminAddCategory").addEventListener("click", async (e) => {
+        const name = document.getElementById("adminCatName").value;
+        const speed = Number(document.getElementById("adminCatSpeed").value);
+        if (!name) return alert("Kategoriename erforderlich!");
+        try {
+          const btn = e.target;
+          if(btn.dataset.editId) {
+            await updateDoc(doc(db, "vehicle_categories", btn.dataset.editId), { name, speed });
+            delete btn.dataset.editId;
+            btn.innerText = "Hinzufügen";
+          } else {
+            await addDoc(collection(db, "vehicle_categories"), { name, speed });
+          }
+          document.getElementById("adminCatName").value = "";
+          renderAdminLists();
+        } catch(err) { alert("Fehler: " + err.message); }
+      });
+
+      document.getElementById("btnAdminAddRank").addEventListener("click", async (e) => {
+        const name = document.getElementById("adminRankName").value;
+        const xp = Number(document.getElementById("adminRankXp").value);
+        if (!name) return alert("Rang-Name erforderlich!");
+        try {
+          const btn = e.target;
+          if(btn.dataset.editId) {
+            await updateDoc(doc(db, "ranks", btn.dataset.editId), { name, xp });
+            delete btn.dataset.editId;
+            btn.innerText = "Hinzufügen";
+          } else {
+            await addDoc(collection(db, "ranks"), { name, xp });
+          }
+          document.getElementById("adminRankName").value = "";
+          document.getElementById("adminRankXp").value = "1000";
+          updatePlayerRank();
+          renderAdminLists();
+        } catch(err) { alert("Fehler: " + err.message); }
+      });
+    }
+
+    function switchAuthMode(mode) {
+      if (mode === 'login') {
+        document.getElementById("tabLoginBtn").classList.add("active");
+        document.getElementById("tabRegisterBtn").classList.remove("active");
+        document.getElementById("formLogin").style.display = "block";
+        document.getElementById("formRegister").style.display = "none";
+      } else {
+        document.getElementById("tabRegisterBtn").classList.add("active");
+        document.getElementById("tabLoginBtn").classList.remove("active");
+        document.getElementById("formRegister").style.display = "block";
+        document.getElementById("formLogin").style.display = "none";
+      }
+    }
+
+    function setMarker(lat, lng) {
+      selectedLat = lat; selectedLng = lng;
+      if (tempBuildMarker) tempBuildMarker.setLatLng([lat, lng]);
+      else {
+        tempBuildMarker = L.marker([lat, lng], { draggable: true }).addTo(map);
+        tempBuildMarker.on('dragend', (e) => { selectedLat = e.target.getLatLng().lat; selectedLng = e.target.getLatLng().lng; });
+      }
+    }
+
+    function updatePlayerRank() {
+      if(!globalRanksTemplates || globalRanksTemplates.length === 0) return;
+      const sortedRanks = [...globalRanksTemplates].sort((a, b) => b.xp - a.xp);
+      const userXp = window.gameState.xp || 0;
+      
+      window.gameState.level = Math.floor(userXp / 1000);
+
+      let currentRankObj = sortedRanks[sortedRanks.length - 1];
+      let nextRankObj = null;
+
+      for (let i = 0; i < sortedRanks.length; i++) {
+        if (userXp >= sortedRanks[i].xp) {
+          currentRankObj = sortedRanks[i];
+          nextRankObj = sortedRanks[i - 1] || null;
+          break;
+        }
+      }
+
+      window.gameState.rank = currentRankObj.name;
+      
+      let percent = 100;
+      if (nextRankObj) {
+        let span = nextRankObj.xp - currentRankObj.xp;
+        let currentProgress = userXp - currentRankObj.xp;
+        percent = Math.min(100, Math.max(0, Math.floor((currentProgress / span) * 100)));
+      }
+
+      document.getElementById("rankDisplay").innerText = window.gameState.rank;
+      document.getElementById("xpProgressCurrent").innerText = `${userXp} XP`;
+      document.getElementById("xpProgressPercent").innerText = `${percent}%`;
+      document.getElementById("xpProgressFill").style.width = `${percent}%`;
+      document.getElementById("levelBadge").innerText = `Lv. ${window.gameState.level}`;
+    }
+
+    function renderAdminLists() {
+      const bVehChecklist = document.getElementById("adminBuildingStartVehiclesChecklist");
+      if (bVehChecklist) {
+        bVehChecklist.innerHTML = globalVehicleTemplates.map(v => `
+          <div style="display:flex; justify-content:space-between; align-items:center; background:var(--bg-input); padding:6px 10px; border-radius:6px; border:1px solid var(--border);">
+            <span style="font-size:0.75rem; font-weight:600;">${v.name}</span>
+            <input type="number" min="0" value="0" data-veh-name="${v.name}" class="form-control admin-build-veh-input" style="width:60px; padding:2px 4px; text-align:center; height:28px;">
+          </div>
+        `).join("") || '<span style="font-size:0.75rem; color:var(--text-muted);">Keine Fahrzeug-Templates vorhanden</span>';
+      }
+
+      const mStationChecklist = document.getElementById("adminMissionStationsChecklist");
+      if (mStationChecklist) {
+        mStationChecklist.innerHTML = globalBuildingTemplates.map(b => `
+          <div style="display:flex; justify-content:space-between; align-items:center; background:var(--bg-input); padding:6px 10px; border-radius:6px; border:1px solid var(--border);">
+            <span style="font-size:0.75rem; font-weight:600;">${b.name}</span>
+            <input type="number" min="0" value="0" data-station-name="${b.name}" class="form-control admin-mis-station-input" style="width:60px; padding:2px 4px; text-align:center; height:28px;">
+          </div>
+        `).join("") || '<span style="font-size:0.75rem; color:var(--text-muted);">Keine Gebäude-Templates vorhanden</span>';
+      }
+
+      const vehChecklist = document.getElementById("adminMissionVehiclesChecklist");
+      if (vehChecklist) {
+        vehChecklist.innerHTML = globalVehicleTemplates.map(v => `
+          <div style="display:flex; justify-content:space-between; align-items:center; background:var(--bg-input); padding:6px 10px; border-radius:6px; border:1px solid var(--border);">
+            <span style="font-size:0.75rem; font-weight:600;">${v.name}</span>
+            <input type="number" min="0" value="0" data-veh-name="${v.name}" class="form-control admin-mis-veh-input" style="width:60px; padding:2px 4px; text-align:center; height:28px;">
+          </div>
+        `).join("") || '<span style="font-size:0.75rem; color:var(--text-muted);">Keine Fahrzeug-Templates vorhanden</span>';
+      }
+
+      const bContainer = document.getElementById("adminBuildingListContainer");
+      if (bContainer) {
+        bContainer.innerHTML = `<table class="nui-table"><tr><th>Name</th><th>Preis</th><th>Stellplatz</th><th>Max.</th><th>Aktionen</th></tr>` +
+          globalBuildingTemplates.map(b => {
+            let startVehObj = b.startVehicles || {};
+            let startVehStr = JSON.stringify(startVehObj).replace(/"/g, '&quot;');
+            return `<tr><td><strong>${b.name}</strong></td><td>${b.price.toLocaleString()} C</td><td>${b.slotPrice||50000} C</td><td>${b.maxSlots||10}</td><td>
+            <button class="admin-action-btn btn-edit" onclick="window.editAdminBuilding('${b.id}', '${b.name}', ${b.price}, ${b.slotPrice||50000}, ${b.maxSlots||10}, '${b.iconUrl||''}', JSON.parse('${startVehStr}'))"><i class="fa-solid fa-pen"></i></button>
+            <button class="admin-action-btn btn-del" onclick="window.deleteAdminDoc('building_templates', '${b.id}')"><i class="fa-solid fa-trash"></i></button>
+          </td></tr>`;
+          }).join("") + `</table>`;
+      }
+
+      const mContainer = document.getElementById("adminMissionListContainer");
+      if (mContainer) {
+        mContainer.innerHTML = `<table class="nui-table"><tr><th>Titel</th><th>Dauer</th><th>Belohnung</th><th>Aktionen</th></tr>` +
+          globalMissionTemplates.map(m => {
+            let reqStationsObj = m.reqStations || {};
+            let reqStationsStr = JSON.stringify(reqStationsObj).replace(/"/g, '&quot;');
+            let reqVehObj = m.reqVehicles || {};
+            let reqVehStr = JSON.stringify(reqVehObj).replace(/"/g, '&quot;');
+            return `<tr><td><strong>${m.title}</strong></td><td>${m.duration || 60}s</td><td>${m.reward} C</td><td>
+            <button class="admin-action-btn btn-edit" onclick="window.editAdminMission('${m.id}', '${m.title}', ${m.reward}, ${m.xp||100}, ${m.duration||60}, '${m.reqExtension||''}', '${m.iconUrl||''}', JSON.parse('${reqStationsStr}'), JSON.parse('${reqVehStr}'))"><i class="fa-solid fa-pen"></i></button>
+            <button class="admin-action-btn btn-del" onclick="window.deleteAdminDoc('mission_templates', '${m.id}')"><i class="fa-solid fa-trash"></i></button>
+          </td></tr>`
+          }).join("") + `</table>`;
+      }
+
+      const vContainer = document.getElementById("adminVehicleListContainer");
+      if (vContainer) {
+        vContainer.innerHTML = `<table class="nui-table"><tr><th>Name</th><th>Kategorie</th><th>Preis</th><th>Level</th><th>Aktionen</th></tr>` +
+          globalVehicleTemplates.map(v => `<tr><td><strong>${v.name}</strong></td><td>${v.category}</td><td>${(v.price||5000).toLocaleString()} C</td><td>Lv. ${v.level||0}</td><td>
+            <button class="admin-action-btn btn-edit" onclick="window.editAdminVehicle('${v.id}', '${v.name}', '${v.category}', ${v.price||5000}, ${v.level||0})"><i class="fa-solid fa-pen"></i></button>
+            <button class="admin-action-btn btn-del" onclick="window.deleteAdminDoc('vehicle_templates', '${v.id}')"><i class="fa-solid fa-trash"></i></button>
+          </td></tr>`).join("") + `</table>`;
+      }
+
+      const cContainer = document.getElementById("adminCategoryListContainer");
+      if (cContainer) {
+        cContainer.innerHTML = `<table class="nui-table"><tr><th>Kategorie</th><th>Geschwindigkeit</th><th>Aktionen</th></tr>` +
+          globalVehicleCategories.map(c => `<tr><td><strong>${c.name}</strong></td><td>${c.speed} km/h</td><td>
+            <button class="admin-action-btn btn-edit" onclick="window.editAdminCategory('${c.id}', '${c.name}', ${c.speed})"><i class="fa-solid fa-pen"></i></button>
+            <button class="admin-action-btn btn-del" onclick="window.deleteAdminDoc('vehicle_categories', '${c.id}')"><i class="fa-solid fa-trash"></i></button>
+          </td></tr>`).join("") + `</table>`;
+      }
+
+      const rContainer = document.getElementById("adminRankListContainer");
+      if (rContainer) {
+        rContainer.innerHTML = `<table class="nui-table"><tr><th>Rang-Name</th><th>Benötigte XP</th><th>Aktionen</th></tr>` +
+          globalRanksTemplates.map(r => `<tr><td><strong>${r.name}</strong></td><td>${r.xp.toLocaleString()} XP</td><td>
+            <button class="admin-action-btn btn-edit" onclick="window.editAdminRank('${r.id}', '${r.name}', ${r.xp})"><i class="fa-solid fa-pen"></i></button>
+            <button class="admin-action-btn btn-del" onclick="window.deleteAdminDoc('ranks', '${r.id}')"><i class="fa-solid fa-trash"></i></button>
+          </td></tr>`).join("") + `</table>`;
+      }
+
+      const uContainer = document.getElementById("adminUserListContainer");
+      if(uContainer) {
+        uContainer.innerHTML = `<table class="nui-table"><tr><th>Spieler</th><th>Credits</th><th>Coins</th><th>Lv.</th><th>Aktionen</th></tr>` +
+          globalUsersList.map(u => `<tr>
+            <td><strong>${u.username||'Spieler'}</strong><br><span style="font-size:0.65rem; color:var(--text-muted);">${u.email||''}</span></td>
+            <td>${(u.credits||0).toLocaleString()} C</td>
+            <td>${u.coins||0} 💎</td>
+            <td>${u.level||0}</td>
+            <td>
+              <button class="admin-action-btn btn-edit" onclick="window.adminEditUser('${u.id}', ${u.credits||0}, ${u.coins||0}, ${u.level||0})" title="Geld / Level bearbeiten"><i class="fa-solid fa-pen"></i></button>
+              <button class="admin-action-btn btn-warning" onclick="window.adminResetUser('${u.id}')" title="Spieler zurücksetzen"><i class="fa-solid fa-rotate-left"></i></button>
+              ${u.isBanned ? `<button class="admin-action-btn btn-success" onclick="window.adminUnbanUser('${u.id}')" title="Entbannen"><i class="fa-solid fa-unlock"></i></button>` : `<button class="admin-action-btn btn-danger" onclick="window.adminBanUser('${u.id}', false)" title="Bannen"><i class="fa-solid fa-ban"></i></button>`}
+              <button class="admin-action-btn btn-del" onclick="window.deleteAdminDoc('users', '${u.id}')" title="Account löschen"><i class="fa-solid fa-trash"></i></button>
+            </td>
+          </tr>`).join("") + `</table>`;
+      }
+    }
+
+    let missionMarkersMap = {};
+    function renderMapStations() {
+      Object.values(stationMarkersMap).forEach(m => map.removeLayer(m));
+      stationMarkersMap = {};
+      (window.gameState.stations || []).forEach(s => {
+        const bTemp = globalBuildingTemplates.find(b => b.name === s.type);
+        const iconUrl = bTemp?.iconUrl || s.iconUrl || "https://cdn-icons-png.flaticon.com/512/3448/3448609.png";
+        
+        const m = L.marker([s.lat, s.lng], { icon: L.icon({ iconUrl: iconUrl, iconSize: [32, 32], iconAnchor: [16, 16] }) }).addTo(map).bindPopup(`<b>${s.name}</b>`);
+        stationMarkersMap[s.id] = m;
+      });
+      document.getElementById("stationCount").innerText = (window.gameState.stations || []).length;
+    }
+
+    function renderMapVehicles() {
+      Object.values(vehicleMarkersMap).forEach(m => map.removeLayer(m));
+      vehicleMarkersMap = {};
+      (window.gameState.missions || []).forEach(m => {
+        if (m.assignedVehicles) {
+          m.assignedVehicles.forEach((av, idx) => {
+            if (typeof av.routeCoordinates === 'string') {
+              try { av.routeCoordinates = JSON.parse(av.routeCoordinates); } catch(e){}
+            }
+
+            if (av.status === "enroute" && av.currentLat && av.currentLng) {
+              const vm = L.marker([av.currentLat, av.currentLng], { icon: L.icon({ iconUrl: "https://cdn-icons-png.flaticon.com/512/1995/1995470.png", iconSize: [28, 28], iconAnchor: [14, 14] }) }).addTo(map);
+              vehicleMarkersMap[`${m.id}_${idx}`] = vm;
+            }
+          });
+        }
+      });
+    }
+
+    function renderMapRoutes() {
+      Object.values(routePolylinesMap).forEach(l => map.removeLayer(l));
+      routePolylinesMap = {};
+      (window.gameState.missions || []).forEach(m => {
+        if (m.assignedVehicles) {
+          m.assignedVehicles.forEach((av, idx) => {
+            if (typeof av.routeCoordinates === 'string') {
+              try { av.routeCoordinates = JSON.parse(av.routeCoordinates); } catch(e){}
+            }
+
+            if (av.status === "enroute" && av.routeCoordinates) {
+              routePolylinesMap[`${m.id}_${idx}`] = L.polyline(av.routeCoordinates, { color: '#3b82f6', weight: 4, opacity: 0.7, dashArray: '5, 10' }).addTo(map);
+            }
+          });
+        }
+      });
+    }
+
+    function renderMapMissions() {
+      Object.values(missionMarkersMap).forEach(m => map.removeLayer(m));
+      missionMarkersMap = {};
+      (window.gameState.missions || []).forEach(m => {
+        const mTemp = globalMissionTemplates.find(mt => mt.title === m.title);
+        const iconUrl = mTemp?.iconUrl || m.iconUrl || "https://cdn-icons-png.flaticon.com/512/2966/2966327.png";
+
+        const mm = L.marker([m.lat, m.lng], { icon: L.icon({ iconUrl: iconUrl, iconSize: [26, 26], iconAnchor: [13, 13] }) }).addTo(map).bindPopup(`<b>${m.title}</b>`);
+        missionMarkersMap[m.id] = mm;
+      });
+    }
+
+    function generateSingleMission() {
+      const autoGenToggle = document.getElementById("autoGenToggle").value;
+      if (autoGenToggle !== "on") return;
+      if (!window.gameState.stations || window.gameState.stations.length === 0 || globalMissionTemplates.length === 0) return;
+      if (!window.gameState.missions) window.gameState.missions = [];
+      
+      const maxAllowedMissions = window.gameState.stations.length + 1;
+      if (window.gameState.missions.length >= maxAllowedMissions) return;
+
+      const t = globalMissionTemplates[Math.floor(Math.random() * globalMissionTemplates.length)];
+      const st = window.gameState.stations[Math.floor(Math.random() * window.gameState.stations.length)];
+      
+      window.gameState.missions.push({
+        id: Date.now(), title: t.title, reward: Number(t.reward)||500, xp: Number(t.xp)||100, duration: Number(t.duration) || 60,
+        reqStations: t.reqStations || {}, reqExtension: t.reqExtension || "",
+        iconUrl: t.iconUrl, reqVehicles: t.reqVehicles || {"Einsatzfahrzeug 1": 1}, lat: st.lat + (Math.random() * 0.04 - 0.02), lng: st.lng + (Math.random() * 0.04 - 0.02),
+        status: "open", assignedVehicles: []
+      });
+      renderMissions();
+      renderMapMissions();
+      saveUserData();
+    }
+
+    function renderMissions() {
+      const list = document.getElementById("missionList");
+      if (!window.gameState.missions || window.gameState.missions.length === 0) {
+        list.innerHTML = `<p style="text-align:center; color:var(--text-muted); margin-top:20px;">Warte auf Einsätze...</p>`;
+        return;
+      }
+      
+      const now = Date.now();
+      list.innerHTML = window.gameState.missions.map(m => {
+        let reqVehText = Object.entries(m.reqVehicles || {}).map(([v, c]) => `${c}x ${v}`).join(', ') || '1x Einsatzfahrzeug';
+        
+        let statusText = "Offen";
+        let timeText = "";
+        
+        if (m.status === "processing" && m.processingEndTime) {
+          statusText = "In Bearbeitung";
+          let remain = Math.max(0, Math.floor((m.processingEndTime - now) / 1000));
+          timeText = ` | ⏳ ${remain}s`;
+        } else if (m.status === "enroute") {
+          statusText = "Auf Anfahrt";
+          let maxArrival = Math.max(...(m.assignedVehicles||[]).map(v => v.arrivalEndTime || 0));
+          let remain = Math.max(0, Math.floor((maxArrival - now) / 1000));
+          timeText = ` | 🚨 Anfahrt: ${remain}s`;
+        }
+
+        return `
+        <div class="mission-card" data-id="${m.id}" onclick="window.openMissionModal(${m.id})">
+          <div class="mission-card-title">
+            <span>${m.title}</span>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="color:var(--accent-green); font-size:0.75rem;">+${m.reward||0}C / +${m.xp||100}XP</span>
+              <button class="admin-action-btn btn-del" onclick="window.deletePlayerMission(${m.id}, event)" title="Einsatz löschen"><i class="fa-solid fa-trash"></i></button>
+            </div>
+          </div>
+          <div style="font-size:0.75rem; color:var(--text-muted); line-height:1.4;">
+            <div style="margin-bottom:2px;"><strong>Status:</strong> ${statusText}${timeText}</div>
+            <div><strong>Fahrzeuge:</strong> <span style="color:var(--accent-blue);">${reqVehText}</span></div>
+          </div>
+        </div>
+      `}).join("");
+    }
+
+    window.openMissionModal = function(id) {
+      currentOpenMissionId = id;
+      const m = window.gameState.missions.find(mi => mi.id === id);
+      if (!m) return;
+      
+      let stSelect = window.gameState.stations.map(st => `<option value="${st.id}">${st.name} (${st.type})</option>`).join('');
+      
+      const modal = document.getElementById("missionDetailModal");
+      modal.innerHTML = `
+        <div class="nui-header">
+          <div class="nui-title"><i class="fa-solid fa-bullhorn" style="color:var(--accent-red);"></i> ${m.title}</div>
+          <button class="nui-close-btn" onclick="document.getElementById('missionDetailModal').style.display='none'"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div style="margin-bottom:16px; font-size:0.85rem; color:var(--text-muted);">
+          Belohnung: <strong style="color:var(--accent-green);">+${m.reward||0} Credits</strong> | XP: <strong style="color:var(--accent-purple);">+${m.xp||100} XP</strong> | Dauer: <strong>${m.duration||60}s</strong>
+        </div>
+        <div style="display:flex; gap:10px; align-items:center; background:var(--bg-card); padding:12px; border-radius:10px; border:1px solid var(--border);">
+          <select id="modStSelect" class="form-control" onchange="window.updateMissionVehicleDropdown()">${stSelect}</select>
+          <select id="modVehSelect" class="form-control"></select>
+          <button class="btn btn-success" onclick="window.alarmFromModal(${m.id})" style="white-space:nowrap;"><i class="fa-solid fa-bell"></i> Alarmieren</button>
+        </div>
+      `;
+      modal.style.display = "block";
+      window.updateMissionVehicleDropdown();
+    };
+
+    window.updateMissionVehicleDropdown = function() {
+      const stSelectEl = document.getElementById("modStSelect");
+      const vehSelectEl = document.getElementById("modVehSelect");
+      if (!stSelectEl || !vehSelectEl) return;
+
+      const stId = Number(stSelectEl.value);
+      const st = window.gameState.stations.find(s => s.id === stId);
+      if (!st || !st.vehicles || st.vehicles.length === 0) {
+        vehSelectEl.innerHTML = '<option value="">Keine Fahrzeuge in dieser Wache</option>';
+        return;
+      }
+
+      vehSelectEl.innerHTML = st.vehicles.map((v, idx) => {
+        const vName = typeof v === 'object' ? v.name : v;
+        return `<option value="${idx}">${vName}</option>`;
+      }).join('');
+    };
+
+    window.alarmFromModal = async function(missionId) {
+      const m = window.gameState.missions.find(mi => mi.id === missionId);
+      const stId = Number(document.getElementById("modStSelect").value);
+      const vIdx = Number(document.getElementById("modVehSelect").value);
+      const st = window.gameState.stations.find(s => s.id === stId);
+      if (!st || !st.vehicles || st.vehicles[vIdx] === undefined) return alert("Bitte ein gültiges Fahrzeug auswählen!");
+      
+      const vObj = st.vehicles[vIdx];
+      const vCustomName = typeof vObj === 'object' ? vObj.name : vObj;
+      const vTypeName = typeof vObj === 'object' ? vObj.type : vObj;
+
+      logRadio(`Alarm für ${vCustomName} (${st.name}) zu "${m.title}"`);
+      const routeData = await fetchStreetRoute(st.lat, st.lng, m.lat, m.lng, vTypeName);
+      const now = Date.now();
+
+      if (!m.assignedVehicles) m.assignedVehicles = [];
+      m.assignedVehicles.push({
+        stationId: st.id, stationName: st.name, stationLat: st.lat, stationLng: st.lng,
+        currentLat: st.lat, currentLng: st.lng, vehicleIndex: vIdx, vehicleType: vTypeName, vehicleCustomName: vCustomName,
+        status: "enroute", startTime: now, arrivalEndTime: now + (routeData.duration * 1000),
+        routeCoordinates: routeData.coordinates
+      });
+
+      if (m.status === "open") m.status = "enroute";
+      renderMissions();
+      renderMapVehicles();
+      renderMapRoutes();
+      document.getElementById("missionDetailModal").style.display = "none";
+      await saveUserData();
+    };
+
+    function completeMission(id) {
+      const idx = window.gameState.missions.findIndex(m => m.id === id);
+      if (idx > -1) {
+        const m = window.gameState.missions[idx];
+        const earned = Number(m.reward) || 500;
+        
+        window.gameState.credits = (Number(window.gameState.credits) || 0) + earned;
+        window.gameState.totalEarnedCredits = (Number(window.gameState.totalEarnedCredits) || 0) + earned;
+        window.gameState.xp = (Number(window.gameState.xp) || 0) + (Number(m.xp) || 100);
+        window.gameState.completedMissions = (Number(window.gameState.completedMissions) || 0) + 1;
+        
+        window.gameState.missions.splice(idx, 1);
+        
+        updateUI();
+        updatePlayerRank();
+        renderMissions();
+        renderMapMissions();
+        renderMapRoutes();
+        saveUserData();
+        logRadio(`Einsatz "${m.title}" erfolgreich beendet. +${earned} C`);
+        
+        const autoGenToggle = document.getElementById("autoGenToggle").value;
+        if (autoGenToggle === "on") {
+          generateSingleMission();
+        }
+      }
+    }
+
+    function listenToGlobalData() {
+      onSnapshot(collection(db, "building_templates"), (snap) => { 
+        globalBuildingTemplates = snap.docs.map(d => ({ id: d.id, ...d.data() })); 
+        renderAdminLists();
+        renderMapStations();
+      });
+      onSnapshot(collection(db, "mission_templates"), (snap) => { 
+        globalMissionTemplates = snap.docs.map(d => ({ id: d.id, ...d.data() })); 
+        renderAdminLists();
+        renderMapMissions();
+        
+        const autoGenToggle = document.getElementById("autoGenToggle").value;
+        const maxAllowedMissions = (window.gameState.stations || []).length + 1;
+        if (window.currentUser && window.gameState.missions.length < maxAllowedMissions && autoGenToggle === "on") {
+          generateSingleMission();
+        }
+      });
+      onSnapshot(collection(db, "vehicle_templates"), (snap) => { 
+        globalVehicleTemplates = snap.docs.map(d => ({ id: d.id, ...d.data() })); 
+        renderAdminLists();
+      });
+      onSnapshot(collection(db, "vehicle_categories"), (snap) => { 
+        globalVehicleCategories = snap.docs.map(d => ({ id: d.id, ...d.data() })); 
+        renderAdminLists();
+      });
+      onSnapshot(collection(db, "ranks"), (snap) => { 
+        globalRanksTemplates = snap.docs.map(d => ({ id: d.id, ...d.data() })); 
+        renderAdminLists();
+        updatePlayerRank();
+      });
+      onSnapshot(collection(db, "users"), (snap) => { 
+        globalUsersList = snap.docs.map(d => ({ id: d.id, ...d.data() })); 
+        renderAdminLists();
+      });
+    }
+
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const uDoc = await getDoc(doc(db, "users", user.uid));
+        if (uDoc.exists()) {
+          const data = uDoc.data();
+          if (data.isBanned) {
+            alert(`Dein Account wurde gesperrt!\nGrund: ${data.banReason || 'Kein Grund angegeben'}`);
+            signOut(auth);
+            return;
+          }
+          window.gameState = data;
+        } else {
+          window.gameState = {
+            username: user.displayName || "Fritzer",
+            email: user.email,
+            credits: 200176,
+            coins: 290,
+            completedMissions: 59,
+            xp: 248582,
+            totalEarnedCredits: 0,
+            level: 248,
+            rank: "Hauptbrandmeister",
+            role: "Spieler",
+            association: "Kein Verband",
+            bio: "",
+            vipActive: true,
+            playtimeSeconds: 0,
+            theme: "dark",
+            headerLogoUrl: "https://cdn-icons-png.flaticon.com/512/2966/2966327.png",
+            createdAt: Date.now(),
+            autoGenActive: true,
+            autoGenInterval: 60000,
+            stations: [],
+            missions: []
+          };
+          await saveUserData();
+        }
+
+        const userTheme = window.gameState.theme || "dark";
+        document.documentElement.setAttribute("data-theme", userTheme);
+        document.getElementById("themeIcon").className = userTheme === "dark" ? "fa-solid fa-moon" : "fa-solid fa-sun";
+
+        await restoreActiveMissionsRoutes();
+
+        window.currentUser = user;
+        document.getElementById("authModal").style.display = "none";
+        updateUI();
+        updatePlayerRank();
+        renderMapStations();
+        renderMapMissions();
+        renderMapVehicles();
+        renderMapRoutes();
+        renderMissions();
+        logRadio("Leitstelle bereit.");
+      } else {
+        document.getElementById("authModal").style.display = "flex";
+      }
+    });
+
+    async function saveUserData() {
+      if (!window.currentUser) return;
+      try {
+        const stateToSave = JSON.parse(JSON.stringify(window.gameState));
+        if (stateToSave.missions) {
+          stateToSave.missions.forEach(m => {
+            if (m.assignedVehicles) {
+              m.assignedVehicles.forEach(av => {
+                if (Array.isArray(av.routeCoordinates)) {
+                  av.routeCoordinates = JSON.stringify(av.routeCoordinates);
+                }
+              });
+            }
+          });
+        }
+        await setDoc(doc(db, "users", window.currentUser.uid), stateToSave);
+      } catch (err) {
+        console.error("Speicherfehler:", err);
+      }
+    }
+
+    function updateUI() {
+      document.getElementById("creditsDisplay").innerText = (Number(window.gameState.credits) || 0).toLocaleString('de-DE');
+      document.getElementById("coinsDisplay").innerText = (Number(window.gameState.coins) || 0).toLocaleString('de-DE');
+      document.getElementById("xpDisplay").innerText = (Number(window.gameState.xp) || 0).toLocaleString('de-DE');
+      document.getElementById("userDisplay").innerText = window.gameState.username || "Spieler";
+      updatePlayerRank();
+      
+      if (document.getElementById("profileModal").style.display === "block") {
+        renderPlayerProfileModal();
+      }
+    }
+
+    async function handleLogin() {
+      const email = document.getElementById("loginEmail").value.trim();
+      const pass = document.getElementById("loginPassword").value;
+      try {
+        await signInWithEmailAndPassword(auth, email, pass);
+      } catch (e) {
+        document.getElementById("authError").innerText = e.message;
+        document.getElementById("authError").style.display = "block";
+      }
+    }
+
+    async function handleRegister() {
+      const username = document.getElementById("regUsername").value.trim();
+      const email = document.getElementById("regEmail").value.trim();
+      const pass = document.getElementById("regPassword").value;
+      try {
+        const cred = await createUserWithEmailAndPassword(auth, email, pass);
+        await updateProfile(cred.user, { displayName: username });
+        window.gameState = {
+          username: username,
+          email: email,
+          credits: 200176,
+          coins: 290,
+          completedMissions: 59,
+          xp: 248582,
+          totalEarnedCredits: 0,
+          level: 248,
+          rank: "Hauptbrandmeister",
+          role: "Spieler",
+          association: "Kein Verband",
+          bio: "",
+          vipActive: true,
+          playtimeSeconds: 0,
+          theme: "dark",
+          headerLogoUrl: "https://cdn-icons-png.flaticon.com/512/2966/2966327.png",
+          createdAt: Date.now(),
+          autoGenActive: true,
+          autoGenInterval: 60000,
+          stations: [],
+          missions: []
+        };
+        await saveUserData();
+      } catch (e) {
+        document.getElementById("authError").innerText = e.message;
+        document.getElementById("authError").style.display = "block";
+      }
+    }
+  </script>
+</body>
+</html>
