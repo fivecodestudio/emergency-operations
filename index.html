@@ -81,7 +81,7 @@
     }
 
     .brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 1.1rem; color: var(--text-main); }
-    .brand-logo-img { height: 36px; width: auto; object-fit: contain; border-radius: 6px; }
+    .brand-logo-img { height: 42px; width: auto; object-fit: contain; border-radius: 6px; }
     
     .header-stats { display: flex; align-items: center; gap: 16px; font-size: 0.8rem; font-weight: 600; }
     .stat-item { display: flex; align-items: center; gap: 6px; }
@@ -89,7 +89,8 @@
     .stat-item i.fa-coins { color: var(--accent-pink); }
     .stat-item.clickable { cursor: pointer; padding: 4px 8px; border-radius: 6px; transition: background 0.2s; background: var(--bg-card); border: 1px solid var(--border); }
     .stat-item.clickable:hover { background: var(--border); color: var(--accent-amber); }
-    .badge-xp { background: var(--accent-purple); color: white; padding: 1px 6px; border-radius: 10px; font-size: 0.7rem; font-weight: 800; }
+    .badge-xp { background: var(--accent-purple); color: white; padding: 2px 8px; border-radius: 10px; font-size: 0.75rem; font-weight: 800; cursor: pointer; transition: 0.2s; }
+    .badge-xp:hover { opacity: 0.85; transform: scale(1.05); }
 
     .rank-container { display: flex; flex-direction: column; gap: 3px; }
     .xp-progress-bar-container { width: 120px; height: 6px; background: var(--bg-input); border-radius: 3px; border: 1px solid var(--border); overflow: hidden; position: relative; }
@@ -97,8 +98,6 @@
     .xp-progress-text { font-size: 0.65rem; color: var(--text-muted); display: flex; justify-content: space-between; font-weight: 500; }
 
     .header-user-nav { display: flex; align-items: center; gap: 10px; }
-    .user-btn-profile { background: transparent; border: none; color: var(--text-main); font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 6px; }
-    .user-btn-profile:hover { text-decoration: underline; color: var(--accent-pink); }
     
     .badge-status { background: rgba(16, 185, 129, 0.15); color: var(--accent-green); padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; display: flex; align-items: center; gap: 6px; font-weight: 700; border: 1px solid rgba(16, 185, 129, 0.3); }
     .status-dot { width: 6px; height: 6px; background: var(--accent-green); border-radius: 50%; box-shadow: 0 0 8px var(--accent-green); }
@@ -114,7 +113,7 @@
 
     .app-container { display: flex; flex: 1; position: relative; overflow: hidden; }
 
-    .sidebar-left { width: 330px; background: var(--bg-panel); backdrop-filter: var(--backdrop-blur); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 12px; gap: 10px; z-index: 500; overflow-y: auto; }
+    .sidebar-left { width: 340px; background: var(--bg-panel); backdrop-filter: var(--backdrop-blur); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 12px; gap: 10px; z-index: 500; overflow-y: auto; }
     
     .search-box { display: flex; gap: 6px; }
     .search-input { flex: 1; background: var(--bg-input); border: 1px solid var(--border); border-radius: 6px; color: var(--text-main); padding: 7px 12px; font-size: 0.8rem; }
@@ -127,7 +126,15 @@
     .chat-tab { flex: 1; text-align: center; padding: 5px; font-size: 0.75rem; font-weight: 700; color: var(--text-muted); cursor: pointer; border-radius: 4px; transition: 0.2s; }
     .chat-tab.active { background: var(--bg-card); color: var(--text-main); box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
 
-    .radio-log { font-family: monospace; font-size: 0.75rem; background: var(--bg-input); padding: 10px; border-radius: 8px; flex: 1; min-height: 120px; overflow-y: auto; border: 1px solid var(--border); color: var(--accent-blue); line-height: 1.4; }
+    .radio-log { font-family: monospace; font-size: 0.75rem; background: var(--bg-input); padding: 10px; border-radius: 8px; height: 110px; overflow-y: auto; border: 1px solid var(--border); color: var(--accent-blue); line-height: 1.4; }
+    
+    .global-chat-box { font-family: 'Inter', sans-serif; font-size: 0.75rem; background: var(--bg-input); padding: 10px; border-radius: 8px; height: 140px; overflow-y: auto; border: 1px solid var(--border); display: flex; flex-direction: column; gap: 6px; }
+    .chat-msg-row { line-height: 1.3; word-break: break-word; }
+    .chat-msg-time { color: var(--text-muted); font-size: 0.65rem; margin-right: 4px; }
+    .chat-msg-user { font-weight: 700; color: var(--accent-pink); cursor: pointer; }
+    .chat-msg-user:hover { text-decoration: underline; }
+    .chat-msg-text { color: var(--text-main); }
+    .chat-input-row { display: flex; gap: 6px; }
 
     .map-center { flex: 1; height: 100%; position: relative; background: #0f172a; }
     #map { height: 100%; width: 100%; }
@@ -142,9 +149,21 @@
 
     footer { background: var(--footer-bg); border-top: 1px solid var(--border); padding: 6px 16px; display: flex; justify-content: space-between; align-items: center; font-size: 0.7rem; color: var(--text-muted); z-index: 1000; }
 
-    /* --- MODALE --- */
-    .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(5, 8, 15, 0.75); backdrop-filter: blur(8px); z-index: 2000; display: flex; justify-content: center; align-items: center; padding: 20px; animation: fadeIn 0.2s ease-out; }
-    
+    .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(5, 8, 15, 0.85); backdrop-filter: blur(8px); z-index: 3000; display: flex; justify-content: center; align-items: center; padding: 20px; animation: fadeIn 0.2s ease-out; }
+    .auth-box { background: var(--bg-panel); border: 1px solid var(--border); border-radius: 16px; padding: 24px; width: 100%; max-width: 420px; box-shadow: var(--shadow); position: relative; }
+    .login-stats-container { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 12px; margin-bottom: 16px; }
+    .login-stats-title { font-weight: 700; font-size: 0.85rem; margin-bottom: 4px; }
+    .login-stats-subtitle { font-size: 0.75rem; color: var(--text-muted); display: flex; align-items: center; gap: 6px; margin-bottom: 10px; }
+    .login-stats-dot { width: 6px; height: 6px; background: var(--accent-green); border-radius: 50%; box-shadow: 0 0 6px var(--accent-green); }
+    .login-stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; text-align: center; }
+    .login-stat-card { background: var(--bg-input); padding: 8px; border-radius: 6px; border: 1px solid var(--border); }
+    .login-stat-value { font-weight: 800; font-size: 0.95rem; color: var(--accent-blue); }
+    .login-stat-label { font-size: 0.65rem; color: var(--text-muted); }
+
+    .auth-nav { display: flex; gap: 6px; margin-bottom: 16px; background: var(--bg-input); padding: 4px; border-radius: 8px; border: 1px solid var(--border); }
+    .auth-nav-btn { flex: 1; background: transparent; border: none; color: var(--text-muted); font-weight: 700; padding: 8px; border-radius: 6px; cursor: pointer; transition: 0.2s; font-size: 0.8rem; }
+    .auth-nav-btn.active { background: var(--bg-card); color: var(--text-main); box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+
     @keyframes fadeIn {
       from { opacity: 0; transform: scale(0.96); }
       to { opacity: 1; transform: scale(1); }
@@ -162,14 +181,16 @@
       border-radius: 16px;
       padding: 24px;
       z-index: 4000;
-      width: 90%;
-      max-width: 820px;
+      width: 92%;
+      max-width: 950px;
       max-height: 85vh;
       overflow-y: auto;
       color: var(--text-main);
       box-shadow: var(--shadow);
       animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
+
+    #vehicleBuyModal { z-index: 5000 !important; }
 
     .admin-panel { border-color: rgba(239, 68, 68, 0.4); }
     
@@ -179,7 +200,7 @@
     .nui-close-btn:hover { background: var(--accent-red); color: white; border-color: var(--accent-red); }
 
     .nui-table { width: 100%; border-collapse: separate; border-spacing: 0; margin-top: 10px; font-size: 0.85rem; border-radius: 10px; overflow: hidden; border: 1px solid var(--border); }
-    .nui-table th, .nui-table td { padding: 12px 14px; text-align: left; border-bottom: 1px solid var(--border); background: var(--bg-card); }
+    .nui-table th, .nui-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); background: var(--bg-card); }
     .nui-table th { background: var(--bg-input); color: var(--text-muted); font-weight: 700; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.5px; }
     .nui-table tr:last-child td { border-bottom: none; }
     .nui-table tr:hover td { background: rgba(59, 130, 246, 0.05); }
@@ -210,8 +231,7 @@
     .profile-status-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 0.75rem; color: var(--text-muted); font-weight: 600; }
     
     .profile-section-title { font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
-    .profile-bio-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 10px 14px; margin-bottom: 16px; font-size: 0.85rem; color: var(--text-muted); cursor: pointer; transition: 0.2s; }
-    .profile-bio-box:hover { border-color: var(--accent-blue); color: var(--text-main); }
+    .profile-bio-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 10px 14px; margin-bottom: 16px; font-size: 0.85rem; color: var(--text-muted); transition: 0.2s; }
     
     .profile-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 16px; }
     .profile-stat-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; display: flex; justify-content: space-between; align-items: center; }
@@ -223,25 +243,6 @@
     .profile-info-row span:first-child { color: var(--text-muted); font-weight: 600; display: flex; align-items: center; gap: 8px; }
     .profile-info-row span:last-child { font-weight: 700; }
 
-    .profile-discord-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 14px; margin-bottom: 10px; }
-    .profile-discord-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-weight: 700; font-size: 0.85rem; }
-    .profile-discord-desc { font-size: 0.75rem; color: var(--text-muted); line-height: 1.4; margin-top: 6px; }
-
-    .auth-box { background: var(--bg-panel); backdrop-filter: var(--backdrop-blur); border: 1px solid var(--border); padding: 30px; border-radius: 20px; width: 100%; max-width: 480px; box-shadow: var(--shadow); color: var(--text-main); }
-    .auth-nav { display: flex; margin-bottom: 20px; background: var(--bg-input); border-radius: 8px; padding: 4px; border: 1px solid var(--border); }
-    .auth-nav-btn { flex: 1; padding: 10px; text-align: center; background: transparent; border: none; color: var(--text-muted); font-weight: 700; cursor: pointer; border-radius: 6px; transition: 0.2s; }
-    .auth-nav-btn.active { color: white; background: var(--accent-blue); box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
-
-    .login-stats-container { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 18px; margin-bottom: 20px; text-align: center; }
-    .login-stats-title { font-size: 1.15rem; font-weight: 800; color: var(--text-main); margin-bottom: 4px; }
-    .login-stats-subtitle { font-size: 0.75rem; color: var(--text-muted); display: flex; align-items: center; justify-content: center; gap: 6px; margin-bottom: 15px; }
-    .login-stats-dot { width: 6px; height: 6px; background: var(--accent-green); border-radius: 50%; box-shadow: 0 0 8px var(--accent-green); }
-    .login-stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-    .login-stat-card { text-align: center; background: var(--bg-input); padding: 10px; border-radius: 8px; border: 1px solid var(--border); }
-    .login-stat-value { font-size: 1.1rem; font-weight: 800; color: var(--accent-pink); margin-bottom: 2px; }
-    .login-stat-label { font-size: 0.65rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; }
-
-    /* Menü-Popup Stil */
     .menu-container { display: flex; flex-direction: column; gap: 6px; }
     .menu-dropdown { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; transition: 0.2s; }
     .menu-header { width: 100%; background: transparent; border: none; color: var(--text-main); padding: 10px 14px; font-weight: 700; font-size: 0.85rem; display: flex; align-items: center; justify-content: space-between; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; }
@@ -254,19 +255,29 @@
     .menu-dropdown.open .menu-content { display: flex; }
     .menu-sub-item { background: transparent; border: none; color: var(--text-muted); text-align: left; padding: 6px 8px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; font-weight: 600; transition: 0.2s; display: flex; align-items: center; gap: 8px; }
     .menu-sub-item:hover { color: var(--text-main); background: var(--border); }
+
+    .vehicle-shop-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; margin-top: 10px; }
+    .vehicle-shop-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; display: flex; flex-direction: column; gap: 10px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); position: relative; }
+    .vehicle-shop-card-header { display: flex; justify-content: space-between; align-items: flex-start; }
+    .vehicle-shop-title { font-size: 1.1rem; font-weight: 800; color: var(--text-main); }
+    .vehicle-shop-subtitle { font-size: 0.78rem; color: var(--text-muted); font-weight: 600; margin-top: 2px; }
+    .vehicle-shop-details { display: flex; flex-direction: column; gap: 6px; font-size: 0.8rem; color: var(--text-main); margin-top: 4px; }
+    .vehicle-shop-detail-row { display: flex; align-items: center; gap: 6px; }
+    .vehicle-shop-bar { height: 6px; background: var(--accent-blue); border-radius: 3px; width: 100%; margin: 2px 0; }
+    .vehicle-shop-actions { display: flex; gap: 8px; margin-top: 10px; }
   </style>
 </head>
 <body>
 
   <!-- Top Banner -->
   <div class="top-banner">
-    <span>🚨 Emergency Operations – Leitstellensimulator v2.12</span>
+    <span>🚨 Emergency Operations – Leitstellensimulator v2.25</span>
   </div>
 
   <!-- Header -->
   <header>
     <div class="brand">
-      <img id="headerLogoImg" src="https://cdn-icons-png.flaticon.com/512/2966/2966327.png" alt="Logo" class="brand-logo-img">
+      <img id="headerLogoImg" src="logo.png" alt="Emergency Operations Logo" class="brand-logo-img">
       <span id="headerBrandTitle">EinsatzLeiter 112</span>
     </div>
 
@@ -274,6 +285,7 @@
       <div class="stat-item"><i class="fa-solid fa-coins"></i> <span id="creditsDisplay">0</span> Credits</div>
       <div class="stat-item"><i class="fa-solid fa-gem" style="color:var(--accent-pink);"></i> <span id="coinsDisplay">0</span> Coins</div>
       
+      <!-- Rang-Container (Klick öffnet Ränge-Übersicht) -->
       <div class="stat-item clickable rank-container" id="btnOpenRanksModal" title="Alle Ränge anzeigen">
         <div style="display:flex; align-items:center; gap:6px;">
           <i class="fa-solid fa-trophy" style="color:var(--accent-purple);"></i> <span id="rankDisplay">Anwärter</span> <i class="fa-solid fa-chevron-down" style="font-size:0.65rem; margin-left:2px;"></i>
@@ -287,7 +299,11 @@
         </div>
       </div>
 
-      <div class="stat-item"><i class="fa-solid fa-star"></i> <span id="xpDisplay">0</span> XP <span class="badge-xp" id="levelBadge">Lv. 0</span></div>
+      <!-- Level-Badge (Klick öffnet Level- & Belohnungs-Übersicht) -->
+      <div class="stat-item">
+        <span class="badge-xp" id="levelBadge" title="Level- & Belohnungsübersicht öffnen">Lv. 0</span>
+      </div>
+      
       <div class="stat-item"><i class="fa-regular fa-clock"></i> <span id="liveClock">00:00:00</span></div>
     </div>
 
@@ -296,16 +312,12 @@
         <i class="fa-solid fa-moon" id="themeIcon"></i>
       </button>
 
-      <button type="button" class="user-btn-profile" id="btnOpenProfile">
-        <i class="fa-solid fa-user-circle" style="font-size: 1.1rem; color:var(--accent-blue);"></i>
-        <span id="userDisplay">Spieler</span>
-      </button>
-      <button type="button" class="btn-shop-header" id="btnOpenShopHeader" title="Shop öffnen">
+      <button type="button" class="btn-shop-header" id="btnOpenShopHeader" title="Shop öffnen" onclick="alert('Shop / Premium wird geladen...')">
         <i class="fa-solid fa-store"></i> Shop 💎
       </button>
       <div class="badge-status"><div class="status-dot"></div> Aktiv</div>
       
-      <button type="button" class="btn btn-warning" id="btnOpenAdmin" title="Admin-Panel"><i class="fa-solid fa-gear"></i></button>
+      <button type="button" class="btn btn-warning" id="btnOpenAdmin" title="Admin-Panel" style="display:none;"><i class="fa-solid fa-gear"></i></button>
       
       <button type="button" class="btn btn-secondary" id="btnOpenMainMenuModal" style="padding: 6px 12px; font-weight: 700;">
         <i class="fa-solid fa-bars"></i> Menu
@@ -320,7 +332,6 @@
     
     <!-- Left Sidebar -->
     <div class="sidebar-left">
-      <!-- 1. Ortssuche -->
       <div style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display:flex; align-items:center; gap:6px;">
         <i class="fa-solid fa-magnifying-glass" style="color:var(--accent-red);"></i> ORTSSUCHE
       </div>
@@ -329,7 +340,6 @@
         <button type="button" class="btn btn-danger" id="btnSearchAddress"><i class="fa-solid fa-magnifying-glass"></i></button>
       </div>
 
-      <!-- 2. Menü-Buttons untereinander -->
       <button type="button" class="side-menu-btn" id="sideBtnBuildStation">
         <i class="fa-solid fa-building-shield"></i> Wache bauen
       </button>
@@ -338,8 +348,8 @@
         <i class="fa-solid fa-warehouse"></i> Meine Wachen (<span id="stationCount">0</span>)
       </button>
 
-      <button type="button" class="side-menu-btn" id="sideBtnPersonal" style="border-color: rgba(16, 185, 129, 0.4);">
-        <i class="fa-solid fa-user-tie" style="color: var(--accent-green);"></i> Personal
+      <button type="button" class="side-menu-btn" id="sideBtnManagementBuilding" style="border-color: rgba(245, 158, 11, 0.4);">
+        <i class="fa-solid fa-building-user" style="color: var(--accent-amber);"></i> Verwaltungsgebäude
       </button>
 
       <button type="button" class="side-menu-btn" id="sideBtnMyAssociation">
@@ -350,21 +360,32 @@
         <i class="fa-solid fa-network-wired"></i> Verband-Wachen
       </button>
 
-      <!-- 3. Chat Tabs (Global / Verband) & Chat-Box -->
-      <div style="display: flex; gap: 6px; margin-top: 4px;">
-        <div class="chat-tabs" style="flex: 1;">
-          <div class="chat-tab active">Global</div>
-          <div class="chat-tab">Verband</div>
-        </div>
-        <button class="btn btn-secondary" style="padding: 4px 8px; font-size: 0.7rem;"><i class="fa-solid fa-user-group"></i> Gruppen</button>
-        <button class="btn btn-primary" style="padding: 4px 8px; font-size: 0.7rem;"><i class="fa-solid fa-plus"></i></button>
-      </div>
-
       <div style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); margin-top: 4px; display:flex; justify-content:space-between; align-items:center;">
         <span><i class="fa-solid fa-walkie-talkie"></i> FUNKKANAL</span>
         <span style="font-size:0.65rem;"><input type="checkbox" checked id="toggleSound"> Ton</span>
       </div>
       <div class="radio-log" id="radioLog">[SYS] Leitstelle gestartet...</div>
+
+      <div style="display: flex; gap: 6px; margin-top: 4px;">
+        <div class="chat-tabs" style="flex: 1;">
+          <div class="chat-tab active" id="tabGlobalChatBtn">Globaler Chat</div>
+          <div class="chat-tab" id="tabAssocChatBtn" onclick="alert('Verbands-Chat ist aktiv')">Verband</div>
+        </div>
+      </div>
+
+      <div style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); display:flex; justify-content:space-between; align-items:center;">
+        <span><i class="fa-solid fa-globe"></i> GLOBALER CHAT</span>
+        <label style="font-size:0.65rem; cursor:pointer;"><input type="checkbox" checked id="toggleGlobalChatActive"> Chat aktiv</label>
+      </div>
+      
+      <div class="global-chat-box" id="globalChatContainer">
+        <div style="color: var(--text-muted); text-align: center; margin-top: 20px;">Lade Chat...</div>
+      </div>
+      
+      <div class="chat-input-row">
+        <input type="text" id="globalChatInput" class="search-input" placeholder="Nachricht an alle schreiben..." autocomplete="off">
+        <button type="button" class="btn btn-primary" id="btnSendGlobalChat" style="padding: 7px 12px;"><i class="fa-solid fa-paper-plane"></i></button>
+      </div>
     </div>
 
     <!-- Center Map -->
@@ -378,7 +399,7 @@
         <span style="font-weight:800; color:var(--text-main); display:flex; align-items:center; gap:6px;">
           <i class="fa-solid fa-bullhorn" style="color:var(--accent-red);"></i> EINSÄTZE
         </span>
-        <button class="btn btn-danger" style="padding: 4px 8px; font-size: 0.7rem;"><i class="fa-solid fa-plus"></i> Neu</button>
+        <button class="btn btn-danger" style="padding: 4px 8px; font-size: 0.7rem;" onclick="generateSingleMission()"><i class="fa-solid fa-plus"></i> Neu</button>
       </div>
 
       <div style="padding: 8px 12px; background: var(--bg-card); border-bottom: 1px solid var(--border); font-size: 0.75rem; display: flex; flex-direction: column; gap: 6px;">
@@ -417,6 +438,33 @@
     </div>
   </footer>
 
+  <!-- FINANZÜBERSICHT MODAL -->
+  <div id="financeOverviewModal" class="nui-modal" style="display:none; max-width: 700px;">
+    <div class="nui-header">
+      <div class="nui-title" style="color:var(--accent-green);"><i class="fa-solid fa-chart-pie"></i> Finanzübersicht & Kontostand</div>
+      <button class="nui-close-btn" onclick="document.getElementById('financeOverviewModal').style.display='none'"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div id="financeOverviewContent"></div>
+  </div>
+
+  <!-- VERWALTUNGSGEBÄUDE MODAL -->
+  <div id="managementBuildingModal" class="nui-modal" style="display:none; max-width: 800px;">
+    <div class="nui-header">
+      <div class="nui-title" style="color:var(--accent-amber);"><i class="fa-solid fa-building-user"></i> Verwaltungsgebäude</div>
+      <button class="nui-close-btn" onclick="document.getElementById('managementBuildingModal').style.display='none'"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div id="managementBuildingContent"></div>
+  </div>
+
+  <!-- FAHRZEUG-KAUF POPUP MODAL -->
+  <div id="vehicleBuyModal" class="nui-modal" style="display:none; max-width: 900px;">
+    <div class="nui-header">
+      <div class="nui-title" style="color:var(--accent-blue);"><i class="fa-solid fa-cart-shopping"></i> Fahrzeuge kaufen</div>
+      <button class="nui-close-btn" onclick="document.getElementById('vehicleBuyModal').style.display='none'"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div id="vehicleBuyModalContent"></div>
+  </div>
+
   <!-- HAUPTMENÜ MODAL -->
   <div id="mainMenuModal" class="nui-modal" style="display:none; max-width: 600px;">
     <div class="nui-header">
@@ -431,7 +479,7 @@
           <i class="fa-solid fa-chevron-right menu-arrow"></i>
         </button>
         <div class="menu-content">
-          <button class="menu-sub-item" onclick="document.getElementById('mainMenuModal').style.display='none'; document.getElementById('profileModal').style.display='block'; renderPlayerProfileModal();"><i class="fa-solid fa-id-card"></i> Mein Profil</button>
+          <button class="menu-sub-item" onclick="document.getElementById('mainMenuModal').style.display='none'; document.getElementById('profileModal').style.display='block'; window.openSpecificPlayerProfileModal(window.currentUser.uid);"><i class="fa-solid fa-id-card"></i> Mein Profil</button>
           <button class="menu-sub-item" onclick="window.editUserBio()"><i class="fa-solid fa-pen"></i> Biografie bearbeiten</button>
         </div>
       </div>
@@ -442,7 +490,7 @@
           <i class="fa-solid fa-chevron-right menu-arrow"></i>
         </button>
         <div class="menu-content">
-          <button class="menu-sub-item" onclick="alert('Finanzübersicht öffnet sich...')"><i class="fa-solid fa-chart-pie"></i> Übersicht & Kontostand</button>
+          <button class="menu-sub-item" onclick="document.getElementById('mainMenuModal').style.display='none'; window.openFinanceOverviewModal();"><i class="fa-solid fa-chart-pie"></i> Übersicht & Kontostand</button>
           <button class="menu-sub-item" onclick="document.getElementById('mainMenuModal').style.display='none'; document.getElementById('btnOpenShopHeader').click()"><i class="fa-solid fa-store"></i> Shop / Premium</button>
         </div>
       </div>
@@ -475,6 +523,7 @@
         </button>
         <div class="menu-content">
           <button class="menu-sub-item" onclick="document.getElementById('mainMenuModal').style.display='none'; document.getElementById('stationsOverviewModal').style.display='block'; renderStationsOverviewModal();"><i class="fa-solid fa-warehouse"></i> Meine Wachen verwalten</button>
+          <button class="menu-sub-item" onclick="document.getElementById('mainMenuModal').style.display='none'; document.getElementById('managementBuildingModal').style.display='block'; window.openManagementBuildingModal();"><i class="fa-solid fa-building-user"></i> Verwaltungsgebäude</button>
           <button class="menu-sub-item" onclick="document.getElementById('mainMenuModal').style.display='none'; window.openBuildMenu();"><i class="fa-solid fa-city"></i> Neue Wache bauen</button>
         </div>
       </div>
@@ -530,7 +579,7 @@
         </button>
         <div class="menu-content">
           <button class="menu-sub-item" onclick="document.getElementById('mainMenuModal').style.display='none'; document.getElementById('btnToggleTheme').click()"><i class="fa-solid fa-circle-half-stroke"></i> Design wechseln</button>
-          <button class="menu-sub-item" onclick="document.getElementById('mainMenuModal').style.display='none'; document.getElementById('btnOpenAdmin').click()"><i class="fa-solid fa-screwdriver-wrench"></i> Admin Panel</button>
+          <button class="menu-sub-item" id="menuAdminBtn" style="display:none;" onclick="document.getElementById('mainMenuModal').style.display='none'; document.getElementById('btnOpenAdmin').click()"><i class="fa-solid fa-screwdriver-wrench"></i> Admin Panel</button>
         </div>
       </div>
     </div>
@@ -539,7 +588,7 @@
   <!-- SPIELERPROFIL MODAL -->
   <div id="profileModal" class="nui-modal" style="display:none;">
     <div class="nui-header">
-      <div class="nui-title" style="color:var(--accent-pink);"><i class="fa-solid fa-user-circle"></i> Mein Profil</div>
+      <div class="nui-title" style="color:var(--accent-pink);"><i class="fa-solid fa-user-circle"></i> <span id="profileModalTitleHeader">Spielerprofil</span></div>
       <button class="nui-close-btn" onclick="document.getElementById('profileModal').style.display='none'"><i class="fa-solid fa-xmark"></i></button>
     </div>
     
@@ -555,8 +604,8 @@
     </div>
 
     <div class="profile-section-title"><i class="fa-solid fa-pen-to-square"></i> Über mich</div>
-    <div class="profile-bio-box" id="profileBioText" onclick="window.editUserBio()">
-      Klicke hier um dich vorzustellen...
+    <div class="profile-bio-box" id="profileBioText">
+      Noch keine Beschreibung hinterlegt...
     </div>
 
     <div class="profile-grid">
@@ -584,19 +633,11 @@
         <div class="profile-stat-label"><i class="fa-solid fa-gamepad" style="color:var(--accent-purple);"></i> Spielzeit:</div>
         <div class="profile-stat-value" id="profilePlaytime" style="color:var(--accent-green);">0T 0Std</div>
       </div>
-      <div class="profile-stat-box">
-        <div class="profile-stat-label"><i class="fa-solid fa-fire" style="color:var(--accent-orange);"></i> FL-Guthaben:</div>
-        <div class="profile-stat-value" id="profileCoins" style="color:var(--accent-amber);">0 FL</div>
-      </div>
-      <div class="profile-stat-box">
-        <div class="profile-stat-label"><i class="fa-solid fa-crown" style="color:var(--accent-amber);"></i> VIP-Status:</div>
-        <div class="profile-stat-value" id="profileVip" style="color:var(--accent-amber);">Inaktiv</div>
-      </div>
     </div>
 
     <div class="profile-info-card">
       <div class="profile-info-row">
-        <span><i class="fa-solid fa-mask"></i> Rolle:</span>
+        <span><i class="fa-solid fa-mask"></i> Rolle / Gruppe:</span>
         <span id="profileRole" style="color:var(--text-main);">Spieler</span>
       </div>
       <div class="profile-info-row">
@@ -607,29 +648,6 @@
         <span><i class="fa-solid fa-building-columns"></i> Verband:</span>
         <span id="profileAssociation" style="color:var(--text-main);">Kein Verband</span>
       </div>
-    </div>
-
-    <div class="profile-info-card">
-      <div class="profile-info-row">
-        <span><i class="fa-solid fa-calendar-days"></i> Registriert:</span>
-        <span id="profileCreatedAt">-</span>
-      </div>
-      <div class="profile-info-row">
-        <span><i class="fa-solid fa-clock-rotate-left"></i> Dabei seit:</span>
-        <span id="profileDaysActive">0 Tage</span>
-      </div>
-      <div class="profile-info-row">
-        <span><i class="fa-solid fa-circle-check"></i> Zuletzt online:</span>
-        <span id="profileLastOnline">Gerade eben</span>
-      </div>
-    </div>
-
-    <div class="profile-discord-card">
-      <div class="profile-discord-header">
-        <span><i class="fa-brands fa-discord" style="color:#5865F2;"></i> Discord-Verknüpfung</span>
-        <button class="btn btn-danger" style="padding: 3px 8px; font-size: 0.7rem;" onclick="alert('Discord entknüpft')">Trennen</button>
-      </div>
-      <div style="font-size: 0.8rem; color:var(--text-main);">Nicht verknüpft</div>
     </div>
   </div>
 
@@ -643,12 +661,22 @@
 
   <div id="stationDetailModal" class="nui-modal" style="display:none;"></div>
   
+  <!-- RÄNGE MODAL (Nur Ränge & benötigte XP) -->
   <div id="ranksDetailModal" class="nui-modal" style="display:none;">
     <div class="nui-header">
-      <div class="nui-title" style="color:var(--accent-purple);"><i class="fa-solid fa-trophy"></i> Ränge & benötigte XP</div>
+      <div class="nui-title" style="color:var(--accent-purple);"><i class="fa-solid fa-trophy"></i> Ränge & benötiigte XP</div>
       <button class="nui-close-btn" onclick="document.getElementById('ranksDetailModal').style.display='none'"><i class="fa-solid fa-xmark"></i></button>
     </div>
     <div id="ranksDetailListContainer"></div>
+  </div>
+
+  <!-- LEVEL & BELOHNUNGEN MODAL -->
+  <div id="levelsDetailModal" class="nui-modal" style="display:none;">
+    <div class="nui-header">
+      <div class="nui-title" style="color:var(--accent-blue);"><i class="fa-solid fa-star"></i> Level, XP bis zum nächsten Level & Belohnungen</div>
+      <button class="nui-close-btn" onclick="document.getElementById('levelsDetailModal').style.display='none'"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div id="levelsDetailListContainer"></div>
   </div>
 
   <div id="missionDetailModal" class="nui-modal" style="display:none;"></div>
@@ -656,34 +684,57 @@
   <!-- Admin-Panel NUI Modal -->
   <div id="adminModal" class="nui-modal admin-panel">
     <div class="nui-header">
-      <div class="nui-title" style="color:var(--accent-red);"><i class="fa-solid fa-gear"></i> Admin-Verwaltungspanel (Echtzeit aktiv)</div>
+      <div class="nui-title" style="color:var(--accent-red);"><i class="fa-solid fa-gear"></i> Admin-Verwaltungspanel (Rechte- & Gruppenverwaltung)</div>
       <button class="nui-close-btn" onclick="document.getElementById('adminModal').style.display='none'"><i class="fa-solid fa-xmark"></i></button>
     </div>
     
     <div class="admin-tabs">
-      <button class="admin-tab-btn active" data-tab="admTabBuildings">Gebäude-Templates</button>
+      <button class="admin-tab-btn active" data-tab="admTabGroups">Gruppen & Berechtigungen</button>
+      <button class="admin-tab-btn" data-tab="admTabBuildings">Gebäude-Templates</button>
+      <button class="admin-tab-btn" data-tab="admTabBuildingCategories">Gebäude-Kategorien</button>
       <button class="admin-tab-btn" data-tab="admTabMissions">Einsatz-Templates</button>
       <button class="admin-tab-btn" data-tab="admTabVehicles">Fahrzeug-Templates</button>
       <button class="admin-tab-btn" data-tab="admTabCategories">Fahrzeug-Kategorien</button>
       <button class="admin-tab-btn" data-tab="admTabRanks">Ränge & XP</button>
+      <button class="admin-tab-btn" data-tab="admTabLevelConfig">Level & Belohnungen</button>
       <button class="admin-tab-btn" data-tab="admTabUsers">Spieler-Verwaltung</button>
+      <button class="admin-tab-btn" data-tab="admTabSettings">Einstellungen</button>
     </div>
 
     <div id="adminTabContent">
-      <div id="admTabBuildings" class="admin-tab-pane">
-        <h4 style="margin-bottom:10px; font-size:0.9rem;">Gebäude verwalten (Stellplätze & Startfahrzeuge)</h4>
+      <div id="admTabGroups" class="admin-tab-pane">
+        <h4 style="margin-bottom:10px; font-size:0.9rem;">Rollen- & Gruppenverwaltung</h4>
+        <div class="form-group">
+          <label>Gruppenname:</label>
+          <div style="display:flex; gap:10px;">
+            <input type="text" id="adminGroupName" class="form-control" placeholder="">
+            <button class="btn btn-success" id="btnAdminAddGroup">Gruppe Hinzufügen</button>
+          </div>
+        </div>
+        <div id="adminGroupListContainer"></div>
+      </div>
+
+      <div id="admTabBuildings" class="admin-tab-pane" style="display:none;">
+        <h4 style="margin-bottom:10px; font-size:0.9rem;">Gebäude verwalten (Stellplätze, Startpersonal & Startfahrzeuge)</h4>
         <div style="display:flex; gap:10px; margin-bottom:10px;">
-          <input type="text" id="adminBuildName" class="form-control" placeholder="Name (z.B. Feuerwache)">
-          <input type="number" id="adminBuildPrice" class="form-control" placeholder="Preis in Credits" value="100000">
+          <div style="flex:1;" class="form-group"><label>Name:</label><input type="text" id="adminBuildName" class="form-control" placeholder=""></div>
+          <div style="flex:1;" class="form-group"><label>Gebäude-Kategorie:</label><select id="adminBuildCategorySelect" class="form-control"></select></div>
+          <div style="flex:1;" class="form-group"><label>Preis in Credits:</label><input type="number" id="adminBuildPrice" class="form-control" placeholder=""></div>
         </div>
         <div style="display:flex; gap:10px; margin-bottom:10px;">
-          <input type="number" id="adminBuildSlotPrice" class="form-control" placeholder="Preis 1. Stellplatz" value="50000">
-          <input type="number" id="adminBuildMaxSlots" class="form-control" placeholder="Max. Stellplätze" value="10">
+          <div style="flex:1;" class="form-group"><label>Preis 1. Stellplatz:</label><input type="number" id="adminBuildSlotPrice" class="form-control" placeholder=""></div>
+          <div style="flex:1;" class="form-group"><label>Max. Stellplätze:</label><input type="number" id="adminBuildMaxSlots" class="form-control" placeholder=""></div>
+          <div style="flex:1;" class="form-group"><label>Start-Personal bei Bau:</label><input type="number" id="adminBuildStartStaff" class="form-control" placeholder=""></div>
         </div>
         
         <div class="form-group">
+          <label>Beschreibung (Wird Spielern beim Bau angezeigt):</label>
+          <textarea id="adminBuildDesc" class="form-control" placeholder="" rows="2"></textarea>
+        </div>
+
+        <div class="form-group">
           <label>Icon URL (Moderne BOS-Icons):</label>
-          <input type="text" id="adminBuildIcon" class="form-control" placeholder="https://...">
+          <input type="text" id="adminBuildIcon" class="form-control" placeholder="">
           <div class="icon-preset-container">
             <button type="button" class="icon-preset-btn" onclick="window.setIconUrl('https://cdn-icons-png.flaticon.com/512/3448/3448609.png')"><i class="fa-solid fa-fire" style="color:#ef4444;"></i> Feuerwehr</button>
             <button type="button" class="icon-preset-btn" onclick="window.setIconUrl('https://cdn-icons-png.flaticon.com/512/2991/2991148.png')"><i class="fa-solid fa-shield-halved" style="color:#3b82f6;"></i> Polizei</button>
@@ -700,27 +751,40 @@
         <div id="adminBuildingListContainer" style="margin-top:12px;"></div>
       </div>
 
+      <div id="admTabBuildingCategories" class="admin-tab-pane" style="display:none;">
+        <h4 style="margin-bottom:10px; font-size:0.9rem;">Gebäude-Kategorien verwalten</h4>
+        <div class="form-group">
+          <label>Kategoriename:</label>
+          <div style="display:flex; gap:10px;">
+            <input type="text" id="adminBuildCatName" class="form-control" placeholder="">
+            <button class="btn btn-success" id="btnAdminAddBuildingCategory">Kategorie Hinzufügen</button>
+          </div>
+        </div>
+        <div id="adminBuildingCategoryListContainer"></div>
+      </div>
+
       <div id="admTabMissions" class="admin-tab-pane" style="display:none;">
-        <h4 style="margin-bottom:10px; font-size:0.9rem;">Einsätze verwalten (Mehrere Wachen & Fahrzeuge)</h4>
+        <h4 style="margin-bottom:10px; font-size:0.9rem;">Einsätze verwalten (Fahrzeug-Anforderungen mit Anzahl & flexiblen Alternativen)</h4>
         <div style="display:flex; gap:10px; margin-bottom:10px;">
-          <input type="text" id="adminMisTitle" class="form-control" placeholder="Titel (z.B. Großbrand)">
-          <input type="number" id="adminMisReward" class="form-control" placeholder="Credits" value="500">
-          <input type="number" id="adminMisXp" class="form-control" placeholder="XP" value="100">
-          <input type="number" id="adminMisDuration" class="form-control" placeholder="Dauer in Sek." value="60">
+          <div style="flex:1;" class="form-group"><label>Titel:</label><input type="text" id="adminMisTitle" class="form-control" placeholder=""></div>
+          <div style="flex:1;" class="form-group"><label>Credits:</label><input type="number" id="adminMisReward" class="form-control" placeholder=""></div>
+          <div style="flex:1;" class="form-group"><label>XP:</label><input type="number" id="adminMisXp" class="form-control" placeholder=""></div>
+          <div style="flex:1;" class="form-group"><label>Dauer in Sek.:</label><input type="number" id="adminMisDuration" class="form-control" placeholder=""></div>
         </div>
         <div style="display:flex; gap:10px; margin-bottom:10px;">
-          <input type="text" id="adminMisIcon" class="form-control" placeholder="Icon URL">
+          <div style="flex:1;" class="form-group"><label>Icon URL:</label><input type="text" id="adminMisIcon" class="form-control" placeholder=""></div>
+          <div style="flex:1;" class="form-group"><label>Spezielle Erweiterung (optional):</label><input type="text" id="adminMisReqExtension" class="form-control" placeholder=""></div>
         </div>
 
         <div style="background:var(--bg-card); border:1px solid var(--border); padding:12px; border-radius:10px; margin-bottom:10px;">
           <div style="font-weight:700; margin-bottom:8px; font-size:0.8rem; color:var(--text-muted);">Benötigte Wachen-Typen & Anzahl:</div>
-          <div id="adminMissionStationsChecklist" style="display:grid; grid-template-columns: repeat(2, 1fr); gap:8px; max-height:120px; overflow-y:auto; margin-bottom:10px;"></div>
-          <input type="text" id="adminMisReqExtension" class="form-control" placeholder="Spezielle Erweiterung (optional)">
+          <div id="adminMissionStationsChecklist" style="display:grid; grid-template-columns: repeat(2, 1fr); gap:8px; max-height:120px; overflow-y:auto;"></div>
         </div>
 
         <div style="background:var(--bg-card); border:1px solid var(--border); padding:12px; border-radius:10px; margin-bottom:14px;">
-          <div style="font-weight:700; margin-bottom:8px; font-size:0.8rem; color:var(--text-muted);">Fahrzeug-Anforderungen:</div>
-          <div id="adminMissionVehiclesChecklist" style="display:grid; grid-template-columns: repeat(2, 1fr); gap:8px; max-height:140px; overflow-y:auto;"></div>
+          <div style="font-weight:700; margin-bottom:4px; font-size:0.8rem; color:var(--text-muted);">Fahrzeug-Anforderungen & Alternativen mit Anzahl:</div>
+          <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:8px;">Wähle die Hauptfahrzeuge mit Anzahl sowie die dazugehörigen Alternativfahrzeuge und deren Stückzahlen aus.</div>
+          <div id="adminMissionVehiclesConfigContainer" style="display:flex; flex-direction:column; gap:10px; max-height:220px; overflow-y:auto;"></div>
         </div>
 
         <button class="btn btn-success" id="btnAdminAddMission" style="width:100%;">Einsatz-Template speichern</button>
@@ -730,40 +794,85 @@
       <div id="admTabVehicles" class="admin-tab-pane" style="display:none;">
         <h4 style="margin-bottom:10px; font-size:0.9rem;">Fahrzeuge verwalten</h4>
         <div style="display:flex; gap:10px; margin-bottom:10px;">
-          <input type="text" id="adminVehName" class="form-control" placeholder="Fahrzeugname (z.B. HLF 20)">
-          <input type="text" id="adminVehCategory" class="form-control" placeholder="Kategorie">
+          <div style="flex:1;" class="form-group"><label>Fahrzeugname:</label><input type="text" id="adminVehName" class="form-control" placeholder=""></div>
+          <div style="flex:1;" class="form-group"><label>Gebäude-Kategorie:</label><select id="adminVehBuildCategorySelect" class="form-control" title="Gebäude-Kategorie zuweisen"></select></div>
+          <div style="flex:1;" class="form-group"><label>Geschwindigkeits-Kategorie:</label><input type="text" id="adminVehCategory" class="form-control" placeholder=""></div>
         </div>
-        <div style="display:flex; gap:10px; margin-bottom:14px;">
-          <input type="number" id="adminVehPrice" class="form-control" placeholder="Preis (Credits)" value="5000">
-          <input type="number" id="adminVehLevel" class="form-control" placeholder="Erforderliches Level" value="0">
-          <button class="btn btn-success" id="btnAdminAddVehicle">Hinzufügen</button>
+        <div style="display:flex; gap:10px; margin-bottom:10px;">
+          <div style="flex:1;" class="form-group"><label>Preis (Credits):</label><input type="number" id="adminVehPrice" class="form-control" placeholder=""></div>
+          <div style="flex:1;" class="form-group"><label>Erforderliches Level:</label><input type="number" id="adminVehLevel" class="form-control" placeholder=""></div>
         </div>
+        <div style="display:flex; gap:10px; margin-bottom:10px;">
+          <div style="flex:1;" class="form-group"><label>Max. Sitzplätze:</label><input type="number" id="adminVehSeats" class="form-control" placeholder=""></div>
+          <div style="flex:1;" class="form-group"><label>Mindestpersonal:</label><input type="number" id="adminVehMinStaff" class="form-control" placeholder=""></div>
+        </div>
+        <div class="form-group">
+          <label>Beschreibung (Wird Spielern beim Kauf angezeigt):</label>
+          <textarea id="adminVehDesc" class="form-control" placeholder="" rows="2"></textarea>
+        </div>
+        <button class="btn btn-success" id="btnAdminAddVehicle" style="width:100%; margin-bottom:10px;">Fahrzeug-Template speichern</button>
         <div id="adminVehicleListContainer"></div>
       </div>
 
       <div id="admTabCategories" class="admin-tab-pane" style="display:none;">
         <h4 style="margin-bottom:10px; font-size:0.9rem;">Fahrzeug-Kategorien (Geschwindigkeit)</h4>
         <div style="display:flex; gap:10px; margin-bottom:14px;">
-          <input type="text" id="adminCatName" class="form-control" placeholder="Kategoriename">
-          <input type="number" id="adminCatSpeed" class="form-control" placeholder="Geschwindigkeit km/h" value="60">
-          <button class="btn btn-success" id="btnAdminAddCategory">Hinzufügen</button>
+          <div style="flex:1;" class="form-group"><label>Kategoriename:</label><input type="text" id="adminCatName" class="form-control" placeholder=""></div>
+          <div style="flex:1;" class="form-group"><label>Geschwindigkeit km/h:</label><input type="number" id="adminCatSpeed" class="form-control" placeholder=""></div>
+          <div style="align-self: flex-end;"><button class="btn btn-success" id="btnAdminAddCategory" style="height: 38px;">Hinzufügen</button></div>
         </div>
         <div id="adminCategoryListContainer"></div>
       </div>
 
       <div id="admTabRanks" class="admin-tab-pane" style="display:none;">
-        <h4 style="margin-bottom:10px; font-size:0.9rem;">Ränge verwalten</h4>
-        <div style="display:flex; gap:10px; margin-bottom:14px;">
-          <input type="text" id="adminRankName" class="form-control" placeholder="Rang-Name (z.B. Löschmeister)">
-          <input type="number" id="adminRankXp" class="form-control" placeholder="Benötigte XP" value="1000">
-          <button class="btn btn-success" id="btnAdminAddRank">Hinzufügen</button>
+        <h4 style="margin-bottom:10px; font-size:0.9rem;">Ränge verwalten (inkl. Belohnungen)</h4>
+        <div style="display:flex; gap:10px; margin-bottom:10px;">
+          <div style="flex:1;" class="form-group"><label>Rang-Name:</label><input type="text" id="adminRankName" class="form-control" placeholder=""></div>
+          <div style="flex:1;" class="form-group"><label>Benötigte XP:</label><input type="number" id="adminRankXp" class="form-control" placeholder=""></div>
+        </div>
+        <div style="display:flex; gap:10px; margin-bottom:14px; align-items: flex-end;">
+          <div style="flex:1;" class="form-group" style="margin-bottom:0;"><label>Credits-Belohnung:</label><input type="number" id="adminRankRewardCred" class="form-control" placeholder=""></div>
+          <div style="flex:1;" class="form-group" style="margin-bottom:0;"><label>Coins-Belohnung:</label><input type="number" id="adminRankRewardCoins" class="form-control" placeholder=""></div>
+          <button class="btn btn-success" id="btnAdminAddRank" style="height: 38px;">Hinzufügen</button>
         </div>
         <div id="adminRankListContainer"></div>
       </div>
 
+      <!-- Level-Verwaltung im Admin-Panel -->
+      <div id="admTabLevelConfig" class="admin-tab-pane" style="display:none;">
+        <h4 style="margin-bottom:10px; font-size:0.9rem;">Level & Stufen-Verwaltung</h4>
+        <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:10px;">Hier kannst du exakte Spieler-Level anlegen, deren benötigte XP sowie Belohnungen (Credits & Coins) einstellen, bearbeiten oder löschen.</div>
+        <div style="display:flex; gap:10px; margin-bottom:10px;">
+          <div style="flex:1;" class="form-group"><label>Level-Nummer:</label><input type="number" id="adminLevelNum" class="form-control" placeholder=""></div>
+          <div style="flex:1;" class="form-group"><label>Benötigte XP:</label><input type="number" id="adminLevelXp" class="form-control" placeholder=""></div>
+        </div>
+        <div style="display:flex; gap:10px; margin-bottom:14px; align-items: flex-end;">
+          <div style="flex:1;" class="form-group" style="margin-bottom:0;"><label>Credits-Belohnung:</label><input type="number" id="adminLevelRewardCred" class="form-control" placeholder=""></div>
+          <div style="flex:1;" class="form-group" style="margin-bottom:0;"><label>Coins-Belohnung:</label><input type="number" id="adminLevelRewardCoins" class="form-control" placeholder=""></div>
+          <button class="btn btn-success" id="btnAdminAddLevel" style="height: 38px;">Level Hinzufügen</button>
+        </div>
+        <div id="adminLevelListContainer"></div>
+      </div>
+
       <div id="admTabUsers" class="admin-tab-pane" style="display:none;">
         <h4 style="margin-bottom:10px; font-size:0.9rem;">Spieler-Verwaltung</h4>
+        <div class="form-group">
+          <label>Spieler suchen:</label>
+          <input type="text" id="adminUserSearchInput" class="form-control" placeholder="" oninput="window.renderAdminUserList()">
+        </div>
         <div id="adminUserListContainer"></div>
+      </div>
+
+      <div id="admTabSettings" class="admin-tab-pane" style="display:none;">
+        <h4 style="margin-bottom:10px; font-size:0.9rem;">Seiten-Einstellungen (Globale Konfiguration)</h4>
+        <div class="form-group">
+          <label>Seiten-Logo Bildadresse (URL):</label>
+          <div style="display:flex; gap:10px;">
+            <input type="text" id="adminGlobalLogoUrlInput" class="form-control" placeholder="">
+            <button class="btn btn-success" id="btnSaveGlobalLogoUrl" style="white-space:nowrap;"><i class="fa-solid fa-floppy-disk"></i> Logo speichern</button>
+          </div>
+          <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 6px;">Trage hier eine direkte Bild-URL ein, um das Logo im Kopfbereich der gesamten Plattform zu aktualisieren.</p>
+        </div>
       </div>
     </div>
   </div>
@@ -787,14 +896,14 @@
       </div>
       <div id="authError" style="color: var(--accent-red); font-size: 0.85rem; margin-bottom: 12px; display: none; text-align: center;"></div>
       <div id="formLogin">
-        <div class="form-group"><label>E-Mail Adresse</label><input type="email" id="loginEmail" class="form-control" placeholder="leitstelle@einsatz.de"></div>
-        <div class="form-group"><label>Passwort</label><input type="password" id="loginPassword" class="form-control" placeholder="••••••••"></div>
+        <div class="form-group"><label>E-Mail Adresse</label><input type="email" id="loginEmail" class="form-control" placeholder=""></div>
+        <div class="form-group"><label>Passwort</label><input type="password" id="loginPassword" class="form-control" placeholder=""></div>
         <button type="button" class="btn btn-danger" style="width: 100%; margin-top: 8px;" id="btnDoLogin">Anmelden</button>
       </div>
       <div id="formRegister" style="display: none;">
-        <div class="form-group"><label>Benutzername</label><input type="text" id="regUsername" class="form-control" placeholder="DeinBenutzername"></div>
-        <div class="form-group"><label>E-Mail Adresse</label><input type="email" id="regEmail" class="form-control" placeholder="leitstelle@einsatz.de"></div>
-        <div class="form-group"><label>Passwort</label><input type="password" id="regPassword" class="form-control" placeholder="••••••••"></div>
+        <div class="form-group"><label>Benutzername</label><input type="text" id="regUsername" class="form-control" placeholder=""></div>
+        <div class="form-group"><label>E-Mail Adresse</label><input type="email" id="regEmail" class="form-control" placeholder=""></div>
+        <div class="form-group"><label>Passwort</label><input type="password" id="regPassword" class="form-control" placeholder=""></div>
         <button type="button" class="btn btn-success" style="width: 100%; margin-top: 8px;" id="btnDoRegister">Account erstellen</button>
       </div>
     </div>
@@ -805,7 +914,7 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, updateProfile, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-    import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, addDoc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, addDoc, updateDoc, deleteDoc, query, orderBy, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyBSKawhE0nUzfh3OsromkiwA5YMRgIz6c4",
@@ -822,11 +931,13 @@
 
     window.currentUser = null;
     window.gameState = {
-      username: "Spieler", email: "", credits: 200176, coins: 290, completedMissions: 59,
-      xp: 248582, totalEarnedCredits: 0, level: 248, rank: "Hauptbrandmeister", role: "Spieler", association: "Kein Verband",
-      bio: "", vipActive: true, playtimeSeconds: 0,
-      theme: "dark", headerLogoUrl: "https://cdn-icons-png.flaticon.com/512/2966/2966327.png",
-      createdAt: Date.now(), autoGenActive: true, autoGenInterval: 60000, stations: [], missions: []
+      username: "Spieler", email: "", credits: 100000, coins: 0, completedMissions: 0,
+      xp: 0, totalEarnedCredits: 0, level: 0, rank: "Anwärter", role: "Spieler", association: "Kein Verband",
+      bio: "", vipActive: false, playtimeSeconds: 0, chatActive: true,
+      managementBuilding: null,
+      theme: "dark", headerLogoUrl: "",
+      createdAt: Date.now(), autoGenActive: true, autoGenInterval: 60000, stations: [], missions: [], claimedRanks: [],
+      financeLogs: []
     };
 
     let map, tempBuildMarker = null;
@@ -835,8 +946,11 @@
     let globalVehicleTemplates = [];
     let globalVehicleCategories = [];
     let globalBuildingTemplates = [];
+    let globalBuildingCategories = [];
     let globalRanksTemplates = [];
+    let globalLevelConfigTemplates = [];
     let globalUsersList = [];
+    let globalGroupsList = [];
     
     let stationMarkersMap = {};
     let vehicleMarkersMap = {};
@@ -848,6 +962,383 @@
     document.getElementById("btnOpenMainMenuModal").addEventListener("click", () => {
       document.getElementById("mainMenuModal").style.display = "block";
     });
+
+    // Klick auf Rang (Öffnet reine Ränge-Übersicht)
+    document.getElementById("btnOpenRanksModal").addEventListener("click", () => {
+      renderRanksDetailModal();
+      document.getElementById("ranksDetailModal").style.display = "block";
+    });
+
+    // Klick auf Level-Badge (Öffnet Level- & Belohnungs-Übersicht)
+    document.getElementById("levelBadge").addEventListener("click", () => {
+      renderLevelsDetailModal();
+      document.getElementById("levelsDetailModal").style.display = "block";
+    });
+
+    document.getElementById("btnSendGlobalChat").addEventListener("click", sendGlobalChatMessage);
+    document.getElementById("globalChatInput").addEventListener("keypress", (e) => {
+      if (e.key === 'Enter') sendGlobalChatMessage();
+    });
+
+    window.addFinanceTransaction = function(amount, type, description) {
+      if (!window.gameState.financeLogs) window.gameState.financeLogs = [];
+      window.gameState.financeLogs.push({
+        timestamp: Date.now(),
+        amount: Number(amount) || 0,
+        type: type,
+        description: description || ''
+      });
+      saveUserData();
+    };
+
+    window.openFinanceOverviewModal = function() {
+      const modal = document.getElementById("financeOverviewModal");
+      const content = document.getElementById("financeOverviewContent");
+      if (!modal || !content) return;
+
+      const now = Date.now();
+      const oneDayMs = 24 * 60 * 60 * 1000;
+      const sevenDaysMs = 7 * oneDayMs;
+      
+      const currentDate = new Date(now);
+      const prevMonthYear = currentDate.getMonth() === 0 ? currentDate.getFullYear() - 1 : currentDate.getFullYear();
+      const prevMonthIndex = currentDate.getMonth() === 0 ? 11 : currentDate.getMonth() - 1;
+      const prevMonthStart = new Date(prevMonthYear, prevMonthIndex, 1).getTime();
+      const prevMonthEnd = new Date(prevMonthYear, prevMonthIndex + 1, 1).getTime();
+
+      let income24h = 0, expense24h = 0;
+      let income7d = 0, expense7d = 0;
+      let incomePrevMonth = 0, expensePrevMonth = 0;
+
+      const logs = window.gameState.financeLogs || [];
+      logs.forEach(log => {
+        const t = log.timestamp;
+        const amt = log.amount;
+
+        if (now - t <= oneDayMs) {
+          if (log.type === 'income') income24h += amt;
+          else expense24h += amt;
+        }
+
+        if (now - t <= sevenDaysMs) {
+          if (log.type === 'income') income7d += amt;
+          else expense7d += amt;
+        }
+
+        if (t >= prevMonthStart && t < prevMonthEnd) {
+          if (log.type === 'income') incomePrevMonth += amt;
+          else expensePrevMonth += amt;
+        }
+      });
+
+      const net24h = income24h - expense24h;
+      const net7d = income7d - expense7d;
+      const netPrevMonth = incomePrevMonth - expensePrevMonth;
+
+      content.innerHTML = `
+        <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:12px; margin-bottom:20px;">
+          <div style="background:var(--bg-card); padding:14px; border-radius:10px; border:1px solid var(--border); text-align:center;">
+            <div style="font-size:0.75rem; color:var(--text-muted); font-weight:700; text-transform:uppercase; margin-bottom:6px;">Letzte 24 Stunden</div>
+            <div style="font-size:0.85rem; color:var(--accent-green);">+${income24h.toLocaleString('de-DE')} C</div>
+            <div style="font-size:0.85rem; color:var(--accent-red); margin-bottom:4px;">-${expense24h.toLocaleString('de-DE')} C</div>
+            <div style="font-size:0.95rem; font-weight:800; color:${net24h >= 0 ? 'var(--accent-green)' : 'var(--accent-red)'};">Netto: ${net24h.toLocaleString('de-DE')} C</div>
+          </div>
+
+          <div style="background:var(--bg-card); padding:14px; border-radius:10px; border:1px solid var(--border); text-align:center;">
+            <div style="font-size:0.75rem; color:var(--text-muted); font-weight:700; text-transform:uppercase; margin-bottom:6px;">Letzte 7 Tage</div>
+            <div style="font-size:0.85rem; color:var(--accent-green);">+${income7d.toLocaleString('de-DE')} C</div>
+            <div style="font-size:0.85rem; color:var(--accent-red); margin-bottom:4px;">-${expense7d.toLocaleString('de-DE')} C</div>
+            <div style="font-size:0.95rem; font-weight:800; color:${net7d >= 0 ? 'var(--accent-green)' : 'var(--accent-red)'};">Netto: ${net7d.toLocaleString('de-DE')} C</div>
+          </div>
+
+          <div style="background:var(--bg-card); padding:14px; border-radius:10px; border:1px solid var(--border); text-align:center;">
+            <div style="font-size:0.75rem; color:var(--text-muted); font-weight:700; text-transform:uppercase; margin-bottom:6px;">Monat zuvor</div>
+            <div style="font-size:0.85rem; color:var(--accent-green);">+${incomePrevMonth.toLocaleString('de-DE')} C</div>
+            <div style="font-size:0.85rem; color:var(--accent-red); margin-bottom:4px;">-${expensePrevMonth.toLocaleString('de-DE')} C</div>
+            <div style="font-size:0.95rem; font-weight:800; color:${netPrevMonth >= 0 ? 'var(--accent-green)' : 'var(--accent-red)'};">Netto: ${netPrevMonth.toLocaleString('de-DE')} C</div>
+          </div>
+        </div>
+
+        <h4 style="font-size:0.85rem; font-weight:700; color:var(--text-muted); text-transform:uppercase; margin-bottom:8px;">Letzte Finanz-Transaktionen:</h4>
+        <div style="max-height:220px; overflow-y:auto; border-radius:10px; border:1px solid var(--border);">
+          <table class="nui-table" style="margin-top:0;">
+            <tr><th>Zeitpunkt</th><th>Beschreibung</th><th style="text-align:right;">Betrag</th></tr>
+            ${logs.length === 0 ? `<tr><td colspan="3" style="text-align:center; color:var(--text-muted);">Noch keine Transaktionen vorhanden</td></tr>` :
+              logs.slice(-20).reverse().map(l => `
+                <tr>
+                  <td style="font-size:0.75rem; color:var(--text-muted);">${new Date(l.timestamp).toLocaleString('de-DE')}</td>
+                  <td>${l.description}</td>
+                  <td style="text-align:right; font-weight:700; color:${l.type === 'income' ? 'var(--accent-green)' : 'var(--accent-red)'};">
+                    ${l.type === 'income' ? '+' : '-'}${l.amount.toLocaleString('de-DE')} C
+                  </td>
+                </tr>
+              `).join('')}
+          </table>
+        </div>
+      `;
+      modal.style.display = "block";
+    };
+
+    async function sendGlobalChatMessage() {
+      const input = document.getElementById("globalChatInput");
+      const text = input.value.trim();
+      if (!text || !window.currentUser) return;
+
+      if (!window.gameState.chatActive) {
+        alert("Dein globaler Chat ist deaktiviert. Aktiviere 'Chat aktiv', um Nachrichten zu senden.");
+        return;
+      }
+
+      try {
+        const now = new Date();
+        const timeStr = now.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        
+        await addDoc(collection(db, "global_chat"), {
+          uid: window.currentUser.uid,
+          username: window.gameState.username || window.currentUser.displayName || "Spieler",
+          text: text,
+          time: timeStr,
+          timestamp: Date.now()
+        });
+        input.value = "";
+      } catch(e) {
+        console.error("Fehler beim Senden der Chat-Nachricht:", e);
+      }
+    }
+
+    window.openSpecificPlayerProfileModal = async function(userIdOrUsername) {
+      try {
+        let targetUser = null;
+        
+        const docRef = doc(db, "users", userIdOrUsername);
+        const docSnap = await getDoc(docRef);
+        
+        if (docSnap.exists()) {
+          targetUser = docSnap.data();
+        } else {
+          targetUser = globalUsersList.find(u => u.username === userIdOrUsername || u.id === userIdOrUsername);
+          if (!targetUser) {
+            const qSnapshot = await getDocs(collection(db, "users"));
+            qSnapshot.forEach(dSnap => {
+              const uData = dSnap.data();
+              if (uData.username === userIdOrUsername || dSnap.id === userIdOrUsername) {
+                targetUser = uData;
+              }
+            });
+          }
+        }
+
+        if (targetUser) {
+          renderServerPlayerProfileModal(targetUser);
+          document.getElementById("profileModal").style.display = "block";
+        } else {
+          alert(`Profil konnte auf dem Server nicht gefunden werden.`);
+        }
+      } catch (e) {
+        console.error("Fehler beim Laden des Server-Spielerprofils:", e);
+      }
+    };
+
+    function renderServerPlayerProfileModal(userState) {
+      document.getElementById("profileModalTitleHeader").innerText = `Profil von ${userState.username || "Spieler"}`;
+      document.getElementById("profileModalUsername").innerText = userState.username || "Spieler";
+      document.getElementById("profileAvatarLetter").innerText = (userState.username || "S").charAt(0).toUpperCase();
+      
+      const bioEl = document.getElementById("profileBioText");
+      bioEl.innerText = userState.bio && userState.bio !== "" ? userState.bio : "Noch keine Beschreibung hinterlegt...";
+
+      document.getElementById("profileXp").innerText = (Number(userState.xp) || 0).toLocaleString('de-DE');
+      document.getElementById("profileCredits").innerText = (Number(userState.credits) || 0).toLocaleString('de-DE');
+      document.getElementById("profileTotalEarned").innerText = (Number(userState.totalEarnedCredits) || 0).toLocaleString('de-DE');
+      document.getElementById("profileMissions").innerText = (Number(userState.completedMissions) || 0).toLocaleString('de-DE');
+      document.getElementById("profileStations").innerText = (window.gameState.stations || []).length;
+      
+      const ptSec = userState.playtimeSeconds || 0;
+      const days = Math.floor(ptSec / 86400);
+      const hours = Math.floor((ptSec % 86400) / 3600);
+      const mins = Math.floor((ptSec % 3600) / 60);
+      document.getElementById("profilePlaytime").innerText = `${days}T ${hours}Std ${mins}Min`;
+
+      document.getElementById("profileRole").innerText = userState.role || "Spieler";
+      document.getElementById("profileRank").innerText = userState.rank || "Anwärter";
+      document.getElementById("profileAssociation").innerText = userState.association || "Kein Verband";
+    }
+
+    window.openManagementBuildingModal = function() {
+      const modal = document.getElementById("managementBuildingModal");
+      const content = document.getElementById("managementBuildingContent");
+      if (!modal || !content) return;
+
+      if (!window.gameState.managementBuilding) {
+        content.innerHTML = `
+          <div style="text-align: center; padding: 20px;">
+            <i class="fa-solid fa-building-user" style="font-size: 3rem; color: var(--accent-amber); margin-bottom: 14px;"></i>
+            <h3 style="margin-bottom: 10px;">Verwaltungsgebäude errichten</h3>
+            <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 20px;">Das Verwaltungsgebäude steuert dein Personal und Werbephasen. Es kann pro Spieler nur einmal gebaut werden und ist völlig <strong>kostenlos</strong>!</p>
+            <button class="btn btn-success" style="padding: 10px 20px; font-size: 0.9rem;" onclick="window.buildManagementBuilding()"><i class="fa-solid fa-circle-plus"></i> Verwaltungsgebäude bauen</button>
+          </div>
+        `;
+      } else {
+        const mb = window.gameState.managementBuilding;
+        const unallocated = mb.unallocatedStaff || 0;
+        
+        const now = Date.now();
+        const campaignActive = mb.adCampaignExpiresAt && now < mb.adCampaignExpiresAt;
+        let campaignStatusText = "Inaktiv";
+        if (campaignActive) {
+          const remainSec = Math.floor((mb.adCampaignExpiresAt - now) / 1000);
+          const remDays = Math.floor(remainSec / 86400);
+          const remHours = Math.floor((remainSec % 86400) / 3600);
+          const remMins = Math.floor((remainSec % 3600) / 60);
+          campaignStatusText = `Aktiv (Noch ${remDays}T ${remHours}Std ${remMins}Min)`;
+        }
+
+        let stationsStaffHtml = "";
+        if (!window.gameState.stations || window.gameState.stations.length === 0) {
+          stationsStaffHtml = `<tr><td colspan="3" style="text-align:center; color:var(--text-muted);">Du hast noch keine Wachen gebaut.</td></tr>`;
+        } else {
+          stationsStaffHtml = window.gameState.stations.map(st => `
+            <tr>
+              <td><strong>${st.name}</strong> <span style="font-size:0.75rem; color:var(--text-muted);">(${st.type})</span></td>
+              <td><span style="color:var(--accent-green); font-weight:700;">${st.staffCount || 0} Mitarbeiter</span></td>
+              <td style="text-align:right;">
+                <button class="btn btn-secondary" style="padding:4px 8px; font-size:0.75rem;" onclick="window.openStationDetailModal(${st.id})"><i class="fa-solid fa-eye"></i> Details</button>
+              </td>
+            </tr>
+          `).join('');
+        }
+
+        content.innerHTML = `
+          <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-bottom: 20px;">
+            <div style="background: var(--bg-card); border: 1px solid var(--border); padding: 14px; border-radius: 10px;">
+              <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; margin-bottom: 6px;">Unverteiltes Personal</div>
+              <div style="font-size: 1.4rem; font-weight: 800; color: var(--accent-amber);">${unallocated} Mitarbeiter</div>
+            </div>
+            <div style="background: var(--bg-card); border: 1px solid var(--border); padding: 14px; border-radius: 10px;">
+              <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; margin-bottom: 6px;">Werbephase Status</div>
+              <div style="font-size: 0.95rem; font-weight: 800; color: ${campaignActive ? 'var(--accent-green)' : 'var(--text-muted)'};">${campaignStatusText}</div>
+              ${!campaignActive ? `<button class="btn btn-primary" style="margin-top: 8px; padding: 4px 10px; font-size: 0.75rem;" onclick="window.startAdCampaign()"><i class="fa-solid fa-bullhorn"></i> Werbephase starten (3 Tage)</button>` : ''}
+            </div>
+          </div>
+
+          <div style="background: var(--bg-card); border: 1px solid var(--border); padding: 16px; border-radius: 10px; margin-bottom: 20px;">
+            <h4 style="font-size: 0.9rem; font-weight: 700; margin-bottom: 10px; color: var(--text-main);"><i class="fa-solid fa-user-plus" style="color:var(--accent-blue);"></i> Mitarbeiter kaufen</h4>
+            <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+              <input type="number" id="buyStaffCountInput" class="form-control" placeholder="" value="1" min="1" style="width: 100px;">
+              <button class="btn btn-primary" onclick="window.buyStaff('credits')"><i class="fa-solid fa-coins"></i> Mit Credits kaufen (1.000 Credits / Stk)</button>
+              <button class="btn btn-success" onclick="window.buyStaff('coins')"><i class="fa-solid fa-gem"></i> Mit Coins kaufen (250 Coins / Stk)</button>
+            </div>
+          </div>
+
+          <div style="background: var(--bg-card); border: 1px solid var(--border); padding: 16px; border-radius: 10px; margin-bottom: 20px;">
+            <h4 style="font-size: 0.9rem; font-weight: 700; margin-bottom: 10px; color: var(--text-main);"><i class="fa-solid fa-share-nodes" style="color:var(--accent-green);"></i> Personal zu Wachen zuweisen</h4>
+            <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 10px;">
+              <select id="assignStaffStationSelect" class="form-control">
+                ${(window.gameState.stations || []).map(s => `<option value="${s.id}">${s.name} (${s.type})</option>`).join('')}
+              </select>
+              <input type="number" id="assignStaffCountInput" class="form-control" placeholder="" value="1" min="1" style="width: 100px;">
+              <button class="btn btn-success" onclick="window.assignStaffToStation()" style="white-space: nowrap;"><i class="fa-solid fa-arrow-right"></i> Zuweisen</button>
+            </div>
+          </div>
+
+          <h4 style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px;">Deine Wachen & Personal-Übersicht:</h4>
+          <div style="max-height: 180px; overflow-y: auto; border-radius: 10px; border: 1px solid var(--border);">
+            <table class="nui-table" style="margin-top:0;">
+              <tr><th>Wache</th><th>Personal</th><th style="text-align:right;">Aktion</th></tr>
+              ${stationsStaffHtml}
+            </table>
+          </div>
+        `;
+      }
+      modal.style.display = "block";
+    };
+
+    window.buildManagementBuilding = async function() {
+      window.gameState.managementBuilding = {
+        unallocatedStaff: 5,
+        adCampaignExpiresAt: 0,
+        lastAdDailyRewardDate: ""
+      };
+      await saveUserData();
+      logRadio("Verwaltungsgebäude erfolgreich errichtet!");
+      openManagementBuildingModal();
+    };
+
+    window.buyStaff = async function(currencyType) {
+      const countInput = document.getElementById("buyStaffCountInput");
+      const count = parseInt(countInput.value) || 0;
+      if (count <= 0) return alert("Bitte eine gültige Anzahl eingeben!");
+
+      const costPerUnit = currencyType === 'coins' ? 250 : 1000;
+      const totalCost = count * costPerUnit;
+
+      if (currencyType === 'coins') {
+        if (window.gameState.coins < totalCost) return alert("Nicht genügend Coins! (Benötigt: " + totalCost + " Coins)");
+        window.gameState.coins -= totalCost;
+      } else {
+        if (window.gameState.credits < totalCost) return alert("Nicht genügend Credits! (Benötigt: " + totalCost.toLocaleString() + " Credits)");
+        window.gameState.credits -= totalCost;
+        window.addFinanceTransaction(totalCost, 'expense', `Kauf von ${count} Mitarbeiter(n)`);
+      }
+
+      window.gameState.managementBuilding.unallocatedStaff = (window.gameState.managementBuilding.unallocatedStaff || 0) + count;
+      updateUI();
+      await saveUserData();
+      logRadio(`${count} Mitarbeiter im Verwaltungsgebäude gekauft.`);
+      openManagementBuildingModal();
+    };
+
+    window.assignStaffToStation = async function() {
+      const stationId = Number(document.getElementById("assignStaffStationSelect").value);
+      const countInput = document.getElementById("assignStaffCountInput");
+      const count = parseInt(countInput.value) || 0;
+      
+      if (count <= 0) return alert("Bitte eine gültige Anzahl eingeben!");
+      const unallocated = window.gameState.managementBuilding.unallocatedStaff || 0;
+      if (count > unallocated) return alert("Nicht genügend unverteiltes Personal im Verwaltungsgebäude verfügbar!");
+
+      const st = window.gameState.stations.find(s => s.id === stationId);
+      if (!st) return alert("Wache nicht gefunden!");
+
+      window.gameState.managementBuilding.unallocatedStaff -= count;
+      st.staffCount = (st.staffCount || 0) + count;
+
+      if (!st.staffDetails) st.staffDetails = [];
+      for (let i = 0; i < count; i++) {
+        st.staffDetails.push({ name: `Mitarbeiter #${Math.floor(Math.random() * 90000) + 10000}`, training: "Grundausbildung" });
+      }
+
+      await saveUserData();
+      logRadio(`${count} Mitarbeiter an Wache "${st.name}" zugewiesen.`);
+      openManagementBuildingModal();
+    };
+
+    window.startAdCampaign = async function() {
+      const now = Date.now();
+      const threeDaysMs = 3 * 24 * 60 * 60 * 1000;
+      window.gameState.managementBuilding.adCampaignExpiresAt = now + threeDaysMs;
+      await saveUserData();
+      logRadio("Werbephase für 3 Tage gestartet!");
+      openManagementBuildingModal();
+    };
+
+    function checkAdCampaignDailyReward() {
+      if (!window.gameState.managementBuilding) return;
+      const mb = window.gameState.managementBuilding;
+      const now = Date.now();
+      if (!mb.adCampaignExpiresAt || now >= mb.adCampaignExpiresAt) return;
+
+      const dateObj = new Date(now);
+      const todayDateStr = dateObj.toISOString().split('T')[0];
+      const currentHour = dateObj.getHours();
+
+      if (currentHour === 18 && mb.lastAdDailyRewardDate !== todayDateStr) {
+        mb.lastAdDailyRewardDate = todayDateStr;
+        mb.unallocatedStaff = (mb.unallocatedStaff || 0) + 2;
+        saveUserData();
+        logRadio("Werbephase-Belohnung: 2 Gratis-Mitarbeiter um 18:00 Uhr erhalten!");
+      }
+    }
 
     window.toggleMenu = function(btn) {
       const dropdown = btn.parentElement;
@@ -863,107 +1354,270 @@
       document.getElementById("adminBuildIcon").value = url;
     };
 
-    document.getElementById("btnOpenProfile").addEventListener("click", () => {
-      renderPlayerProfileModal();
-      document.getElementById("profileModal").style.display = "block";
-    });
-
     window.editUserBio = async function() {
       const currentBio = window.gameState.bio || "";
       const newBio = prompt("Trage deine Beschreibung / Vorstellung ein:", currentBio);
       if (newBio !== null) {
         window.gameState.bio = newBio.trim();
         await saveUserData();
-        renderPlayerProfileModal();
+        renderServerPlayerProfileModal(window.gameState);
         logRadio("Profil-Info aktualisiert.");
       }
     };
 
-    function renderPlayerProfileModal() {
-      const state = window.gameState;
-      document.getElementById("profileModalUsername").innerText = state.username || "Spieler";
-      document.getElementById("profileAvatarLetter").innerText = (state.username || "S").charAt(0).toUpperCase();
-      
-      const bioEl = document.getElementById("profileBioText");
-      bioEl.innerText = state.bio && state.bio !== "" ? state.bio : "Klicke hier um dich vorzustellen...";
+    function checkPermission(actionType, categoryName) {
+      const userRole = window.gameState.role || "Spieler";
+      const grp = globalGroupsList.find(g => g.name === userRole);
+      if (!grp) {
+        return userRole === "Admin";
+      }
+      if (grp.permissions && grp.permissions[actionType]) {
+        if (categoryName && grp.permissions[actionType][categoryName] === false) {
+          return false;
+        }
+        return true;
+      }
+      return false;
+    }
 
-      document.getElementById("profileXp").innerText = (Number(state.xp) || 0).toLocaleString('de-DE');
-      document.getElementById("profileCredits").innerText = (Number(state.credits) || 0).toLocaleString('de-DE');
-      document.getElementById("profileTotalEarned").innerText = (Number(state.totalEarnedCredits) || 0).toLocaleString('de-DE');
-      document.getElementById("profileMissions").innerText = (Number(state.completedMissions) || 0).toLocaleString('de-DE');
-      document.getElementById("profileStations").innerText = (state.stations || []).length;
-      
-      const ptSec = state.playtimeSeconds || 0;
-      const days = Math.floor(ptSec / 86400);
-      const hours = Math.floor((ptSec % 86400) / 3600);
-      const mins = Math.floor((ptSec % 3600) / 60);
-      document.getElementById("profilePlaytime").innerText = `${days}T ${hours}Std ${mins}Min`;
+    function checkAdminPanelVisibility() {
+      const userRole = window.gameState.role || "Spieler";
+      if (userRole === "Admin") return true;
+      const grp = globalGroupsList.find(g => g.name === userRole);
+      if (grp && grp.canSeeAdminPanel) return true;
+      return false;
+    }
 
-      document.getElementById("profileCoins").innerText = `${state.coins || 0} FL`;
-      document.getElementById("profileVip").innerText = state.vipActive ? "Aktiv 👑" : "Inaktiv";
-
-      document.getElementById("profileRole").innerText = state.role || "Spieler";
-      document.getElementById("profileRank").innerText = state.rank || "Anwärter";
-      document.getElementById("profileAssociation").innerText = state.association || "Kein Verband";
-
-      const createdDate = state.createdAt ? new Date(state.createdAt) : new Date();
-      document.getElementById("profileCreatedAt").innerText = createdDate.toLocaleDateString('de-DE') + ", " + createdDate.toLocaleTimeString('de-DE', {hour: '2-digit', minute:'2-digit'});
-      
-      const diffDays = Math.floor((Date.now() - createdDate.getTime()) / (1000 * 60 * 60 * 24));
-      document.getElementById("profileDaysActive").innerText = `${Math.max(0, diffDays)} Tage`;
-      document.getElementById("profileLastOnline").innerText = "Gerade eben";
+    function updateAdminPanelUI() {
+      const canSee = checkAdminPanelVisibility();
+      const adminBtn = document.getElementById("btnOpenAdmin");
+      const menuAdminBtn = document.getElementById("menuAdminBtn");
+      if (adminBtn) adminBtn.style.display = canSee ? "inline-flex" : "none";
+      if (menuAdminBtn) menuAdminBtn.style.display = canSee ? "flex" : "none";
     }
 
     window.openStationDetailModal = function(stationId) {
       const st = window.gameState.stations.find(s => s.id === stationId);
       if (!st) return;
 
-      const bTemp = globalBuildingTemplates.find(b => b.name === st.type) || { slotPrice: 50000, maxSlots: 10 };
+      const bTemp = globalBuildingTemplates.find(b => b.name === st.type) || { slotPrice: 50000, maxSlots: 10, category: 'Standard' };
+      const stationCategory = bTemp.category || st.category || 'Standard';
+      
+      const vehiclesList = st.vehicles || [];
+      const usedSlots = vehiclesList.length;
       const currentSlots = st.slots || 1;
       const maxSlots = bTemp.maxSlots || 10;
       const slotPrice = bTemp.slotPrice || 50000;
-      const vehiclesList = st.vehicles || [];
-
-      let vehBuyOptions = globalVehicleTemplates.map(v => `<option value="${v.name}">${v.name} (${(v.price||5000).toLocaleString('de-DE')} C)</option>`).join('');
+      const staffCount = st.staffCount || 0;
 
       const modal = document.getElementById("stationDetailModal");
       modal.innerHTML = `
         <div class="nui-header">
-          <div class="nui-title" style="color:var(--accent-amber);"><i class="fa-solid fa-warehouse"></i> ${st.name} <span style="font-size:0.75rem; color:var(--text-muted); font-weight:400;">(${st.type})</span></div>
+          <div class="nui-title" style="color:var(--accent-amber);"><i class="fa-solid fa-warehouse"></i> ${st.name} <span style="font-size:0.75rem; color:var(--text-muted); font-weight:400;">(${st.type} &bull; Kat: ${stationCategory})</span></div>
           <button class="nui-close-btn" onclick="document.getElementById('stationDetailModal').style.display='none'"><i class="fa-solid fa-xmark"></i></button>
         </div>
         
-        <div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:12px; margin-bottom:16px;">
-          <div style="background:var(--bg-card); padding:12px; border-radius:10px; border:1px solid var(--border);">
-            <div style="font-size:0.75rem; color:var(--text-muted); font-weight:700; text-transform:uppercase; margin-bottom:4px;">Stellplätze</div>
-            <div style="font-size:1.1rem; font-weight:800; color:var(--text-main);">${currentSlots} / ${maxSlots}</div>
+        <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:10px; margin-bottom:16px;">
+          <div style="background:var(--bg-card); padding:10px; border-radius:10px; border:1px solid var(--border);">
+            <div style="font-size:0.7rem; color:var(--text-muted); font-weight:700; text-transform:uppercase;">Stellplätze (Belegt / Max)</div>
+            <div style="font-size:1rem; font-weight:800; color:var(--text-main);">${usedSlots} / ${currentSlots} (Max: ${maxSlots})</div>
           </div>
-          <div style="background:var(--bg-card); padding:12px; border-radius:10px; border:1px solid var(--border);">
-            <div style="font-size:0.75rem; color:var(--text-muted); font-weight:700; text-transform:uppercase; margin-bottom:4px;">Nächster Stellplatz</div>
-            <div style="font-size:1.1rem; font-weight:800; color:var(--accent-amber);">${slotPrice.toLocaleString('de-DE')} C</div>
+          <div style="background:var(--bg-card); padding:10px; border-radius:10px; border:1px solid var(--border);">
+            <div style="font-size:0.7rem; color:var(--text-muted); font-weight:700; text-transform:uppercase;">Verfügbares Wachen-Personal</div>
+            <div style="font-size:1rem; font-weight:800; color:var(--accent-green);">${staffCount} Mitarbeiter</div>
+          </div>
+          <div style="background:var(--bg-card); padding:10px; border-radius:10px; border:1px solid var(--border);">
+            <div style="font-size:0.7rem; color:var(--text-muted); font-weight:700; text-transform:uppercase;">Nächster Stellplatz</div>
+            <div style="font-size:1rem; font-weight:800; color:var(--accent-amber);">${slotPrice.toLocaleString('de-DE')} C</div>
           </div>
         </div>
 
-        <div style="margin-bottom:16px;">
-          <button class="btn btn-success" style="width:100%;" ${currentSlots >= maxSlots ? 'disabled' : ''} onclick="window.buyStationSlot(${st.id}, ${slotPrice}, ${maxSlots})"><i class="fa-solid fa-circle-plus"></i> Stellplatz kaufen (+1)</button>
+        <div style="display:flex; gap:10px; margin-bottom:16px;">
+          <button class="btn btn-success" style="flex:1;" ${currentSlots >= maxSlots ? 'disabled' : ''} onclick="window.buyStationSlot(${st.id}, ${slotPrice}, ${maxSlots})"><i class="fa-solid fa-circle-plus"></i> Stellplatz kaufen (+1)</button>
+          <button class="btn btn-primary" style="flex:1;" onclick="window.openVehicleBuyModal(${st.id})"><i class="fa-solid fa-cart-shopping"></i> Fahrzeuge kaufen</button>
         </div>
 
-        <h4 style="margin-bottom:8px; font-size:0.85rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Vorhandene Fahrzeuge (${vehiclesList.length}/${currentSlots}):</h4>
-        <div style="margin-bottom:16px; max-height:140px; overflow-y:auto; border-radius:10px; border:1px solid var(--border);">
+        <h4 style="margin-bottom:8px; font-size:0.85rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Vorhandene Fahrzeuge & Personal-Zuordnung:</h4>
+        <div style="margin-bottom:16px; max-height:160px; overflow-y:auto; border-radius:10px; border:1px solid var(--border);">
           <table class="nui-table" style="margin-top:0;">
-            <tr><th>Fahrzeugname</th><th style="width:100px; text-align:right;">Aktion</th></tr>
-            ${vehiclesList.length === 0 ? `<tr><td colspan="2" style="text-align:center; color:var(--text-muted);">Keine Fahrzeuge vorhanden</td></tr>` : 
-              vehiclesList.map((v, idx) => `<tr><td><strong>${typeof v === 'object' ? v.name : v}</strong></td><td style="text-align:right;"><button class="admin-action-btn btn-edit" onclick="window.renameStationVehicle(${st.id}, ${idx})" title="Umbenennen"><i class="fa-solid fa-pen"></i></button> <button class="admin-action-btn btn-del" onclick="window.deleteStationVehicle(${st.id}, ${idx})" title="Verkaufen"><i class="fa-solid fa-trash"></i></button></td></tr>`).join('')}
-          </table>
-        </div>
+            <tr><th>Fahrzeug</th><th>Personal auf Fahrzeug</th><th style="text-align:right;">Aktion</th></tr>
+            ${vehiclesList.length === 0 ? `<tr><td colspan="3" style="text-align:center; color:var(--text-muted);">Keine Fahrzeuge vorhanden</td></tr>` : 
+              vehiclesList.map((v, idx) => {
+                const vTypeName = typeof v === 'object' ? (v.type || v.name) : v;
+                const vTemp = globalVehicleTemplates.find(vt => vt.name === vTypeName);
+                const maxSeats = vTemp ? (vTemp.seats || 6) : 6;
+                const minStaff = vTemp ? (vTemp.minStaff || 1) : 1;
+                const assignedStaff = v.assignedStaff || 0;
+                const isReady = assignedStaff >= minStaff;
 
-        <h4 style="margin-bottom:8px; font-size:0.85rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Neues Fahrzeug erwerben:</h4>
-        <div style="display:flex; gap:10px;">
-          <select id="stationNewVehSelect" class="form-control">${vehBuyOptions}</select>
-          <button class="btn btn-primary" onclick="window.buyStationVehicle(${st.id})" style="white-space:nowrap;"><i class="fa-solid fa-cart-shopping"></i> Kaufen</button>
+                return `
+                  <tr>
+                    <td>
+                      <strong>${typeof v === 'object' ? v.name : v}</strong><br>
+                      <span style="font-size:0.7rem; color:${isReady ? 'var(--accent-green)' : 'var(--accent-red)'};">
+                        ${isReady ? `Einsatzbereit (${assignedStaff}/${maxSeats} Sitze)` : `Nicht bereit! Min. ${minStaff} Pers. nötig (Aktuell: ${assignedStaff}/${maxSeats})`}
+                      </span>
+                    </td>
+                    <td>
+                      <div style="display:flex; gap:6px; align-items:center;">
+                        <input type="number" id="vehStaffInput_${st.id}_${idx}" class="form-control" value="${assignedStaff}" min="0" max="${maxSeats}" style="width:70px; padding:4px; height:28px;">
+                        <button class="btn btn-primary" style="padding:3px 8px; font-size:0.7rem;" onclick="window.updateVehicleStaff(${st.id}, ${idx})">Setzen</button>
+                      </div>
+                    </td>
+                    <td style="text-align:right;">
+                      <button class="admin-action-btn btn-edit" onclick="window.renameStationVehicle(${st.id}, ${idx})" title="Umbenennen"><i class="fa-solid fa-pen"></i></button>
+                      <button class="admin-action-btn btn-del" onclick="window.deleteStationVehicle(${st.id}, ${idx})" title="Verkaufen"><i class="fa-solid fa-trash"></i></button>
+                    </td>
+                  </tr>`;
+              }).join('')}
+          </table>
         </div>
       `;
       modal.style.display = "block";
+    };
+
+    window.openVehicleBuyModal = function(stationId) {
+      const st = window.gameState.stations.find(s => s.id === stationId);
+      if (!st) return;
+
+      const bTemp = globalBuildingTemplates.find(b => b.name === st.type) || { category: 'Standard' };
+      const stationCategory = bTemp.category || st.category || 'Standard';
+
+      const matchingVehicles = globalVehicleTemplates.filter(v => {
+        let vBuildCat = v.buildCategory || 'Standard';
+        return vBuildCat === stationCategory;
+      });
+
+      const modal = document.getElementById("vehicleBuyModal");
+      const content = document.getElementById("vehicleBuyModalContent");
+
+      let vehiclesHtml = "";
+      if (matchingVehicles.length === 0) {
+        vehiclesHtml = `<div style="text-align:center; color:var(--text-muted); padding:30px; grid-column: 1 / -1;">Keine Fahrzeuge für die Gebäude-Kategorie "${stationCategory}" verfügbar.</div>`;
+      } else {
+        vehiclesHtml = matchingVehicles.map(v => {
+          const reqLvl = Number(v.level) || 0;
+          const price = Number(v.price) || 5000;
+          const minStaff = Number(v.minStaff) || 1;
+          const maxSeats = Number(v.seats) || 6;
+          const userLevel = Number(window.gameState.level) || 0;
+          const canBuy = userLevel >= reqLvl;
+          const descText = v.description ? `<div style="font-size:0.75rem; color:var(--text-muted); margin-top:4px; font-style:italic;">"${v.description}"</div>` : '';
+
+          const ownedCount = (st.vehicles || []).filter(veh => {
+            const vName = typeof veh === 'object' ? (veh.type || veh.name) : veh;
+            return vName === v.name;
+          }).length;
+
+          return `
+            <div class="vehicle-shop-card">
+              <div class="vehicle-shop-card-header">
+                <div>
+                  <div class="vehicle-shop-title">${v.name}</div>
+                  <div class="vehicle-shop-subtitle">Erforderliches Level: <span style="color:var(--accent-purple);">Level ${reqLvl}</span></div>
+                </div>
+                ${ownedCount > 0 ? `<div style="font-size:0.75rem; color:var(--accent-green); font-weight:700; background:rgba(16,185,129,0.15); padding:2px 8px; border-radius:6px; border:1px solid rgba(16,185,129,0.3);">${ownedCount} in Besitz</div>` : ''}
+              </div>
+
+              <div class="vehicle-shop-details">
+                <div class="vehicle-shop-detail-row"><i class="fa-solid fa-users" style="color:var(--accent-blue); width:16px;"></i> Max. Personen: <strong>${maxSeats}</strong> (Min. ${minStaff})</div>
+                ${descText}
+                <div class="vehicle-shop-bar"></div>
+              </div>
+
+              <div class="vehicle-shop-actions">
+                <button class="btn btn-success" style="flex:1; font-size:0.75rem;" ${!canBuy ? 'disabled' : ''} onclick="window.buyStationVehicleAction(${st.id}, '${v.name}')">
+                  <i class="fa-solid fa-cart-shopping"></i> ${price.toLocaleString('de-DE')} Credits
+                </button>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      content.innerHTML = `
+        <div style="margin-bottom:14px; font-size:0.85rem; color:var(--text-muted); display:flex; justify-content:space-between; align-items:center;">
+          <span>Wache: <strong style="color:var(--text-main);">${st.name}</strong></span>
+          <span>Kategorie: <strong style="color:var(--accent-blue);">${stationCategory}</strong></span>
+        </div>
+        <div style="max-height: 450px; overflow-y: auto; padding-right: 4px;">
+          <div class="vehicle-shop-grid">
+            ${vehiclesHtml}
+          </div>
+        </div>
+      `;
+      modal.style.display = "block";
+    };
+
+    window.buyStationVehicleAction = async function(stationId, vehName) {
+      const st = window.gameState.stations.find(s => s.id === stationId);
+      if (!st) return;
+
+      const vTemp = globalVehicleTemplates.find(v => v.name === vehName);
+      const price = vTemp ? (vTemp.price || 5000) : 5000;
+      const requiredLevel = vTemp ? (Number(vTemp.level) || 0) : 0;
+      const currentPlayerLevel = Number(window.gameState.level) || 0;
+
+      if (currentPlayerLevel < requiredLevel) {
+        return alert(`Dein Level ist zu niedrig! Du benötigst Level ${requiredLevel}, um dieses Fahrzeug zu kaufen (Dein Level: ${currentPlayerLevel}).`);
+      }
+
+      const usedSlots = (st.vehicles || []).length;
+      const totalSlots = st.slots || 1;
+      if (usedSlots >= totalSlots) {
+        return alert(`Nicht genügend freie Stellplätze in dieser Wache! Bitte kaufe zuerst einen weiteren Stellplatz.`);
+      }
+
+      if (window.gameState.credits < price) return alert("Nicht genügend Credits!");
+
+      window.gameState.credits -= price;
+      window.addFinanceTransaction(price, 'expense', `Fahrzeugkauf: ${vehName}`);
+      
+      if (!st.vehicles) st.vehicles = [];
+      st.vehicles.push({ name: vehName, type: vehName, assignedStaff: 0 });
+      updateUI();
+      await saveUserData();
+      logRadio(`Fahrzeug "${vehName}" für Wache "${st.name}" gekauft (0 Personal zugewiesen).`);
+      
+      document.getElementById('vehicleBuyModal').style.display = 'none';
+      openStationDetailModal(stationId);
+    };
+
+    window.updateVehicleStaff = async function(stationId, vehIdx) {
+      const st = window.gameState.stations.find(s => s.id === stationId);
+      if (!st || !st.vehicles || !st.vehicles[vehIdx]) return;
+
+      const inputVal = parseInt(document.getElementById(`vehStaffInput_${stationId}_${vehIdx}`).value) || 0;
+      const vObj = st.vehicles[vehIdx];
+      const vTypeName = typeof vObj === 'object' ? (vObj.type || vObj.name) : vObj;
+      const vTemp = globalVehicleTemplates.find(vt => vt.name === vTypeName);
+      const maxSeats = vTemp ? (vTemp.seats || 6) : 6;
+
+      if (inputVal < 0 || inputVal > maxSeats) {
+        return alert(`Ungültige Anzahl! Das Fahrzeug hat maximal ${maxSeats} Sitzplätze.`);
+      }
+
+      let currentAssigned = vObj.assignedStaff || 0;
+      let diff = inputVal - currentAssigned;
+
+      if (diff > 0) {
+        if ((st.staffCount || 0) < diff) {
+          return alert(`Nicht genügend freies Personal an dieser Wache! (Verfügbar: ${st.staffCount || 0}, Benötigt zusätzlich: ${diff})`);
+        }
+        st.staffCount -= diff;
+      } else if (diff < 0) {
+        st.staffCount = (st.staffCount || 0) + Math.abs(diff);
+      }
+
+      if (typeof vObj !== 'object') {
+        st.vehicles[vehIdx] = { name: vObj, type: vObj, assignedStaff: inputVal };
+      } else {
+        vObj.assignedStaff = inputVal;
+      }
+
+      await saveUserData();
+      logRadio(`Personal für Fahrzeug an Wache "${st.name}" angepasst (${inputVal} Mitarbeiter).`);
+      openStationDetailModal(stationId);
     };
 
     window.renameStationVehicle = async function(stationId, vehIdx) {
@@ -976,7 +1630,7 @@
         if (typeof st.vehicles[vehIdx] === 'object') {
           st.vehicles[vehIdx].name = newName.trim();
         } else {
-          st.vehicles[vehIdx] = { name: newName.trim(), type: st.vehicles[vehIdx] };
+          st.vehicles[vehIdx] = { name: newName.trim(), type: st.vehicles[vehIdx], assignedStaff: 0 };
         }
         await saveUserData();
         openStationDetailModal(stationId);
@@ -991,6 +1645,8 @@
       if ((st.slots || 1) >= maxSlots) return alert("Maximale Stellplatzanzahl erreicht!");
 
       window.gameState.credits -= price;
+      window.addFinanceTransaction(price, 'expense', `Stellplatzerweiterung an Wache: ${st.name}`);
+      
       st.slots = (st.slots || 1) + 1;
       updateUI();
       await saveUserData();
@@ -998,32 +1654,16 @@
       openStationDetailModal(stationId);
     };
 
-    window.buyStationVehicle = async function(stationId) {
-      const st = window.gameState.stations.find(s => s.id === stationId);
-      if (!st) return;
-      const currentSlots = st.slots || 1;
-      const currentVehCount = (st.vehicles || []).length;
-      if (currentVehCount >= currentSlots) return alert("Keine freien Stellplätze verfügbar! Bitte erst einen Stellplatz kaufen.");
-
-      const vehName = document.getElementById("stationNewVehSelect").value;
-      const vTemp = globalVehicleTemplates.find(v => v.name === vehName);
-      const price = vTemp ? (vTemp.price || 5000) : 5000;
-
-      if (window.gameState.credits < price) return alert("Nicht genügend Credits!");
-
-      window.gameState.credits -= price;
-      if (!st.vehicles) st.vehicles = [];
-      st.vehicles.push({ name: vehName, type: vehName });
-      updateUI();
-      await saveUserData();
-      logRadio(`Fahrzeug "${vehName}" für Wache "${st.name}" gekauft.`);
-      openStationDetailModal(stationId);
-    };
-
     window.deleteStationVehicle = async function(stationId, vehIdx) {
       if (!confirm("Fahrzeug wirklich verkaufen/löschen?")) return;
       const st = window.gameState.stations.find(s => s.id === stationId);
       if (!st || !st.vehicles) return;
+
+      const removedVeh = st.vehicles[vehIdx];
+      if (typeof removedVeh === 'object' && removedVeh.assignedStaff) {
+        st.staffCount = (st.staffCount || 0) + removedVeh.assignedStaff;
+      }
+
       st.vehicles.splice(vehIdx, 1);
       await saveUserData();
       logRadio(`Fahrzeug von Wache "${st.name}" entfernt.`);
@@ -1042,6 +1682,7 @@
         renderMapStations();
         renderMissions();
         renderMapMissions();
+        updateUI();
         await saveUserData();
         logRadio("Wache erfolgreich abgerissen.");
       }
@@ -1069,12 +1710,13 @@
       }
 
       container.innerHTML = `<table class="nui-table">
-        <tr><th>Wachen-Name</th><th>Typ</th><th>Stellplätze</th><th>Aktionen</th></tr>` +
+        <tr><th>Wachen-Name</th><th>Typ</th><th>Stellplätze</th><th>Personal</th><th>Aktionen</th></tr>` +
         window.gameState.stations.map(s => `
           <tr>
             <td><strong>${s.name}</strong></td>
             <td><span style="color:var(--accent-blue);">${s.type}</span></td>
             <td><span style="background:var(--bg-input); padding:2px 8px; border-radius:6px; border:1px solid var(--border);">${(s.vehicles||[]).length} / ${s.slots||1}</span></td>
+            <td><span style="color:var(--accent-green); font-weight:700;">${s.staffCount || 0} Pers.</span></td>
             <td>
               <div style="display:flex; gap:6px;">
                 <button class="btn btn-secondary" style="padding:4px 10px; font-size:0.75rem;" onclick="openStationDetailModal(${s.id})"><i class="fa-solid fa-sliders"></i> Verwalten</button>
@@ -1086,39 +1728,123 @@
         `).join("") + `</table>`;
     }
 
+    // Modal für Ränge (Zeigt Ränge und benötigte XP)
     function renderRanksDetailModal() {
       const container = document.getElementById("ranksDetailListContainer");
       if (!container) return;
 
-      if (!globalRanksTemplates || globalRanksTemplates.length === 0) {
-        container.innerHTML = `<p style="text-align:center; color:var(--text-muted); padding:20px;">Keine Ränge konfiguriert.</p>`;
-        return;
+      const userXp = Number(window.gameState.xp) || 0;
+      let ranksArr = [...globalRanksTemplates].sort((a, b) => a.xp - b.xp);
+
+      let ranksHtml = "";
+      if (ranksArr.length > 0) {
+        ranksHtml = `<table class="nui-table">
+          <tr><th>Rang-Name</th><th>Benötigte XP</th><th>Fortschritt / Status</th></tr>` +
+          ranksArr.map(r => {
+            const hasReached = userXp >= r.xp;
+            const isCurrent = window.gameState.rank === r.name;
+            return `
+              <tr>
+                <td><strong>${r.name}</strong> ${isCurrent ? '<span style="color:var(--accent-purple); font-size:0.7rem;">(Aktueller Rang)</span>' : hasReached ? '<span style="color:var(--accent-green); font-size:0.7rem;">(Erreicht)</span>' : ''}</td>
+                <td><span style="color:var(--accent-purple); font-weight:700;">${r.xp.toLocaleString('de-DE')} XP</span></td>
+                <td>${hasReached ? '<span style="color:var(--accent-green);">-</span>' : `<span style="color:var(--accent-amber);">${Math.max(0, r.xp - userXp).toLocaleString('de-DE')} XP nötig</span>`}</td>
+              </tr>
+            `;
+          }).join("") + `</table>`;
+      } else {
+        ranksHtml = `<p style="text-align:center; color:var(--text-muted); padding:10px;">Keine Ränge im Admin-Panel hinterlegt.</p>`;
       }
 
-      const sorted = [...globalRanksTemplates].sort((a, b) => a.xp - b.xp);
-      container.innerHTML = `<table class="nui-table">
-        <tr><th>Rang-Name</th><th>Benötigte XP</th></tr>` +
-        sorted.map(r => `
-          <tr>
-            <td><strong>${r.name}</strong></td>
-            <td><span style="color:var(--accent-purple); font-weight:700;">${r.xp.toLocaleString('de-DE')} XP</span></td>
-          </tr>
-        `).join("") + `</table>`;
+      container.innerHTML = `
+        <div style="background:var(--bg-card); padding:16px; border-radius:10px; border:1px solid var(--border); margin-bottom:16px; display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <div style="font-size:0.75rem; color:var(--text-muted); font-weight:700; text-transform:uppercase;">Aktueller Rang</div>
+            <div style="font-size:1.4rem; font-weight:800; color:var(--accent-purple);">${window.gameState.rank} (${userXp.toLocaleString('de-DE')} XP)</div>
+          </div>
+        </div>
+        <h4 style="font-size:0.85rem; font-weight:700; color:var(--text-muted); text-transform:uppercase; margin-bottom:8px;">Alle Ränge & Anforderungen:</h4>
+        ${ranksHtml}
+      `;
     }
 
-    window.adminEditUser = async (uid, currentCredits, currentCoins, currentLevel) => {
+    // Modal für Level & Belohnungen (Zeigt Level, XP bis zum nächsten Level, was es für Level gibt & Belohnungen)
+    function renderLevelsDetailModal() {
+      const container = document.getElementById("levelsDetailListContainer");
+      if (!container) return;
+
+      const userXp = Number(window.gameState.xp) || 0;
+      const currentLevel = Number(window.gameState.level) || 0;
+
+      let levelsArr = [...globalLevelConfigTemplates].sort((a, b) => a.level - b.level);
+      
+      let nextLevelXp = (currentLevel + 1) * 1000;
+      let xpNeededForNext = Math.max(0, nextLevelXp - userXp);
+
+      if (levelsArr.length > 0) {
+        const nextLvObj = levelsArr.find(l => l.level === currentLevel + 1);
+        if (nextLvObj) {
+          nextLevelXp = nextLvObj.xp;
+          xpNeededForNext = Math.max(0, nextLevelXp - userXp);
+        } else {
+          xpNeededForNext = 0;
+        }
+      }
+
+      let levelsHtml = "";
+      if (levelsArr.length > 0) {
+        levelsHtml = `<table class="nui-table">
+          <tr><th>Level</th><th>Benötigte XP</th><th>Fortschritt / Status</th><th>Belohnung (Credits / Coins)</th></tr>` +
+          levelsArr.map(l => {
+            const hasReached = userXp >= l.xp;
+            const isCurrent = l.level === currentLevel;
+            return `
+              <tr>
+                <td><strong>Level ${l.level}</strong> ${isCurrent ? '<span style="color:var(--accent-blue); font-size:0.7rem;">(Aktuell)</span>' : hasReached ? '<span style="color:var(--accent-green); font-size:0.7rem;">(Erreicht)</span>' : ''}</td>
+                <td><span style="color:var(--accent-blue); font-weight:700;">${l.xp.toLocaleString('de-DE')} XP</span></td>
+                <td>${hasReached ? '<span style="color:var(--accent-green);">-</span>' : `<span style="color:var(--accent-amber);">${Math.max(0, l.xp - userXp).toLocaleString('de-DE')} XP nötig</span>`}</td>
+                <td><span style="color:var(--accent-green);">${(l.rewardCredits || 0).toLocaleString('de-DE')} C</span> &bull; <span style="color:var(--accent-pink);">${l.rewardCoins || 0} Coins</span></td>
+              </tr>
+            `;
+          }).join("") + `</table>`;
+      } else {
+        levelsHtml = `<p style="text-align:center; color:var(--text-muted); padding:10px;">Keine spezifischen Level im Admin-Panel hinterlegt (Standard: 1000 XP pro Level).</p>`;
+      }
+
+      container.innerHTML = `
+        <div style="background:var(--bg-card); padding:16px; border-radius:10px; border:1px solid var(--border); margin-bottom:16px; display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <div style="font-size:0.75rem; color:var(--text-muted); font-weight:700; text-transform:uppercase;">Aktuelles Level</div>
+            <div style="font-size:1.4rem; font-weight:800; color:var(--accent-blue);">Level ${currentLevel} (${userXp.toLocaleString('de-DE')} XP)</div>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:0.75rem; color:var(--text-muted); font-weight:700; text-transform:uppercase;">Bis zum nächsten Level</div>
+            <div style="font-size:1.2rem; font-weight:800; color:var(--accent-amber);">${xpNeededForNext.toLocaleString('de-DE')} XP nötig</div>
+          </div>
+        </div>
+        <h4 style="font-size:0.85rem; font-weight:700; color:var(--text-muted); text-transform:uppercase; margin-bottom:8px;">Alle Level, Anforderungen & Belohnungen:</h4>
+        ${levelsHtml}
+      `;
+      document.getElementById("levelsDetailModal").style.display = "block";
+    }
+
+    window.adminEditUser = async (uid, currentCredits, currentCoins, currentLevel, currentRole) => {
       const newCred = prompt("Geld (Credits) bearbeiten:", currentCredits);
       if (newCred === null) return;
       const newCoins = prompt("Coins bearbeiten:", currentCoins);
       if (newCoins === null) return;
       const newLevel = prompt("Spieler-Level bearbeiten:", currentLevel);
       if (newLevel === null) return;
+      
+      let groupOptions = globalGroupsList.map(g => g.name).join(", ");
+      const newRole = prompt(`Gruppe / Rolle zuweisen (Verfügbare Gruppen: ${groupOptions}):`, currentRole || "Spieler");
+      if (newRole === null) return;
 
       try {
         await updateDoc(doc(db, "users", uid), {
           credits: Number(newCred) || 0,
           coins: Number(newCoins) || 0,
-          level: Number(newLevel) || 0
+          level: Number(newLevel) || 0,
+          role: newRole.trim() || "Spieler"
         });
         logRadio("Admin: Spieler-Daten aktualisiert.");
       } catch(e) { alert("Fehler: " + e.message); }
@@ -1128,14 +1854,14 @@
       if(!confirm("Spieler wirklich auf Startwerte zurücksetzen?")) return;
       try {
         await updateDoc(doc(db, "users", uid), {
-          credits: 0,
+          credits: 100000,
           coins: 0,
           xp: 0,
           level: 0,
           stations: [],
           missions: []
         });
-        logRadio("Admin: Spieler zurückgesetzt.");
+        logRadio("Admin: Spieler auf Startwerte zurückgesetzt.");
       } catch(e) { alert("Fehler: " + e.message); }
     };
 
@@ -1167,6 +1893,17 @@
         const idx = window.gameState.missions.findIndex(m => m.id === missionId);
         if (idx > -1) {
           const removed = window.gameState.missions.splice(idx, 1)[0];
+          
+          window.gameState.missions.forEach(m => {
+            if (m.assignedVehicles) {
+              m.assignedVehicles.forEach(av => {
+                if (av.queuedMissions) {
+                  av.queuedMissions = av.queuedMissions.filter(qmId => qmId !== missionId);
+                }
+              });
+            }
+          });
+
           renderMissions();
           renderMapMissions();
           renderMapRoutes();
@@ -1190,12 +1927,16 @@
       }
     };
 
-    window.editAdminBuilding = (id, name, price, slotPrice, maxSlots, iconUrl, startVehObj) => {
+    window.editAdminBuilding = (id, name, category, price, slotPrice, maxSlots, startStaff, iconUrl, description, startVehObj) => {
+      if (!checkPermission('change', 'Gebäude')) return alert("Keine Berechtigung zum Ändern in dieser Kategorie!");
       document.getElementById("adminBuildName").value = name;
+      document.getElementById("adminBuildCategorySelect").value = category || "";
       document.getElementById("adminBuildPrice").value = price;
       document.getElementById("adminBuildSlotPrice").value = slotPrice || 50000;
       document.getElementById("adminBuildMaxSlots").value = maxSlots || 10;
+      document.getElementById("adminBuildStartStaff").value = startStaff !== undefined ? startStaff : 3;
       document.getElementById("adminBuildIcon").value = iconUrl;
+      document.getElementById("adminBuildDesc").value = description || "";
 
       document.querySelectorAll(".admin-build-veh-input").forEach(input => {
         const vName = input.dataset.vehName;
@@ -1207,7 +1948,16 @@
       btn.dataset.editId = id;
     };
 
+    window.editAdminBuildingCategory = (id, name) => {
+      if (!checkPermission('change', 'Gebäude-Kategorien')) return alert("Keine Berechtigung zum Ändern in dieser Kategorie!");
+      document.getElementById("adminBuildCatName").value = name;
+      const btn = document.getElementById("btnAdminAddBuildingCategory");
+      btn.innerText = "Speichern";
+      btn.dataset.editId = id;
+    };
+
     window.editAdminMission = (id, title, reward, xp, duration, reqExtension, iconUrl, reqStationsObj, reqVehObj) => {
+      if (!checkPermission('change', 'Einsätze')) return alert("Keine Berechtigung zum Ändern in dieser Kategorie!");
       document.getElementById("adminMisTitle").value = title;
       document.getElementById("adminMisReward").value = reward;
       document.getElementById("adminMisXp").value = xp;
@@ -1220,9 +1970,22 @@
         input.value = (reqStationsObj && reqStationsObj[sName]) ? reqStationsObj[sName] : 0;
       });
 
-      document.querySelectorAll(".admin-mis-veh-input").forEach(input => {
-        const vName = input.dataset.vehName;
-        input.value = (reqVehObj && reqVehObj[vName]) ? reqVehObj[vName] : 0;
+      document.querySelectorAll(".admin-mis-veh-row").forEach(row => {
+        const vName = row.dataset.vehName;
+        const mainInput = row.querySelector(".admin-mis-veh-count");
+        const configData = reqVehObj && reqVehObj[vName];
+
+        if (configData) {
+          mainInput.value = configData.count || 0;
+          let altMap = configData.alternatives || {};
+          row.querySelectorAll(".admin-mis-alt-input").forEach(altInput => {
+            const altName = altInput.dataset.altName;
+            altInput.value = altMap[altName] || 0;
+          });
+        } else {
+          mainInput.value = 0;
+          row.querySelectorAll(".admin-mis-alt-input").forEach(altInput => altInput.value = 0);
+        }
       });
 
       const btn = document.getElementById("btnAdminAddMission");
@@ -1230,17 +1993,23 @@
       btn.dataset.editId = id;
     };
 
-    window.editAdminVehicle = (id, name, cat, price, level) => {
+    window.editAdminVehicle = (id, name, buildCategory, cat, price, level, seats, minStaff, description) => {
+      if (!checkPermission('change', 'Fahrzeuge')) return alert("Keine Berechtigung zum Ändern in dieser Kategorie!");
       document.getElementById("adminVehName").value = name;
+      document.getElementById("adminVehBuildCategorySelect").value = buildCategory || "";
       document.getElementById("adminVehCategory").value = cat;
       document.getElementById("adminVehPrice").value = price || 5000;
       document.getElementById("adminVehLevel").value = level || 0;
+      document.getElementById("adminVehSeats").value = seats || 6;
+      document.getElementById("adminVehMinStaff").value = minStaff || 1;
+      document.getElementById("adminVehDesc").value = description || "";
       const btn = document.getElementById("btnAdminAddVehicle");
       btn.innerText = "Speichern";
       btn.dataset.editId = id;
     };
 
     window.editAdminCategory = (id, name, speed) => {
+      if (!checkPermission('change', 'Fahrzeug-Kategorien')) return alert("Keine Berechtigung zum Ändern in dieser Kategorie!");
       document.getElementById("adminCatName").value = name;
       document.getElementById("adminCatSpeed").value = speed;
       const btn = document.getElementById("btnAdminAddCategory");
@@ -1248,12 +2017,48 @@
       btn.dataset.editId = id;
     };
 
-    window.editAdminRank = (id, name, xp) => {
+    window.editAdminRank = (id, name, xp, rewardCred, rewardCoins) => {
+      if (!checkPermission('change', 'Ränge')) return alert("Keine Berechtigung zum Ändern in dieser Kategorie!");
       document.getElementById("adminRankName").value = name;
       document.getElementById("adminRankXp").value = xp;
+      document.getElementById("adminRankRewardCred").value = rewardCred || 10000;
+      document.getElementById("adminRankRewardCoins").value = rewardCoins || 5;
       const btn = document.getElementById("btnAdminAddRank");
       btn.innerText = "Speichern";
       btn.dataset.editId = id;
+    };
+
+    window.editAdminLevel = (id, levelNum, xp, rewardCred, rewardCoins) => {
+      document.getElementById("adminLevelNum").value = levelNum;
+      document.getElementById("adminLevelXp").value = xp;
+      document.getElementById("adminLevelRewardCred").value = rewardCred || 10000;
+      document.getElementById("adminLevelRewardCoins").value = rewardCoins || 5;
+      const btn = document.getElementById("btnAdminAddLevel");
+      btn.innerText = "Speichern";
+      btn.dataset.editId = id;
+    };
+
+    window.saveGroupPermissions = async (groupId) => {
+      const canSee = document.getElementById(`grpSee_${groupId}`).checked;
+      const categories = ['Gebäude', 'Gebäude-Kategorien', 'Einsätze', 'Fahrzeuge', 'Fahrzeug-Kategorien', 'Ränge'];
+      
+      let permissions = { add: {}, change: {}, delete: {} };
+      categories.forEach(cat => {
+        permissions.add[cat] = document.getElementById(`permAdd_${groupId}_${cat}`).checked;
+        permissions.change[cat] = document.getElementById(`permChange_${groupId}_${cat}`).checked;
+        permissions.delete[cat] = document.getElementById(`permDel_${groupId}_${cat}`).checked;
+      });
+
+      try {
+        await updateDoc(doc(db, "groups", groupId), {
+          canSeeAdminPanel: canSee,
+          permissions: permissions
+        });
+        logRadio("Gruppen-Berechtigungen erfolgreich aktualisiert.");
+        alert("Berechtigungen gespeichert!");
+      } catch(e) {
+        alert("Fehler beim Speichern: " + e.message);
+      }
     };
 
     function logRadio(msg) {
@@ -1274,19 +2079,28 @@
         
         if (window.currentUser) {
           window.gameState.playtimeSeconds = (window.gameState.playtimeSeconds || 0) + 1;
+          checkAdCampaignDailyReward();
         }
       }, 1000);
 
       setupEventListeners();
       listenToGlobalData();
+      listenToGlobalChat();
       startActiveMissionLoop();
       setupAutoGenLoop();
     });
 
     function setupAutoGenLoop() {
       if (autoGenLoopTimer) clearInterval(autoGenLoopTimer);
-      const toggle = document.getElementById("autoGenToggle").value;
-      const intervalMs = Number(document.getElementById("autoGenIntervalSelect").value) || 60000;
+      const toggleSelect = document.getElementById("autoGenToggle");
+      const intervalSelect = document.getElementById("autoGenIntervalSelect");
+      
+      const toggle = toggleSelect.value;
+      const intervalMs = Number(intervalSelect.value) || 60000;
+
+      window.gameState.autoGenActive = toggle === "on";
+      window.gameState.autoGenInterval = intervalMs;
+      saveUserData();
 
       if (toggle === "on") {
         autoGenLoopTimer = setInterval(() => {
@@ -1296,6 +2110,33 @@
         }, intervalMs);
       }
     }
+
+    function renderMapStations() {
+      for (let id in stationMarkersMap) {
+        map.removeLayer(stationMarkersMap[id]);
+      }
+      stationMarkersMap = {};
+
+      const stations = window.gameState.stations || [];
+      document.getElementById("stationCount").innerText = stations.length;
+      document.getElementById("statStationsCount").innerText = stations.length;
+
+      stations.forEach(st => {
+        if (st.lat && st.lng) {
+          const marker = L.marker([st.lat, st.lng]).addTo(map);
+          marker.bindPopup(`<b>${st.name}</b><br>Typ: ${st.type}<br><button class="btn btn-secondary" style="margin-top:6px; padding:2px 8px; font-size:0.7rem;" onclick="openStationDetailModal(${st.id})">Verwalten</button>`);
+          stationMarkersMap[st.id] = marker;
+        }
+      });
+    }
+
+    function renderMapMissions() {}
+    function renderMapVehicles() {}
+    function renderMapRoutes() {}
+    function renderMissions() {}
+    function generateSingleMission() {}
+    function completeMission(mId) {}
+    function updateMissionModalTimers(mId) {}
 
     async function fetchStreetRoute(lat1, lon1, lat2, lon2, vehicleTypeName) {
       let speedKmH = 50;
@@ -1314,13 +2155,13 @@
           const coords = route.geometry.coordinates.map(c => [c[1], c[0]]);
           const distKm = route.distance / 1000;
           const calculatedDurationSec = Math.max(10, Math.round((distKm / speedKmH) * 3600));
-          return { coordinates: JSON.stringify(coords), duration: calculatedDurationSec };
+          return { coordinates: JSON.stringify(coords), duration: calculatedDurationSec, distanceKm: distKm };
         }
       } catch (e) {}
 
       const dist = calculateDistance(lat1, lon1, lat2, lon2);
       const calculatedDurationSec = Math.max(10, Math.round((dist / speedKmH) * 3600));
-      return { coordinates: JSON.stringify([[lat1, lon1], [lat2, lon2]]), duration: calculatedDurationSec };
+      return { coordinates: JSON.stringify([[lat1, lon1], [lat2, lon2]]), duration: calculatedDurationSec, distanceKm: dist };
     }
 
     function calculateDistance(lat1, lon1, lat2, lon2) {
@@ -1379,20 +2220,33 @@
 
             const reqVehicles = m.reqVehicles || {};
             let allRequirementsMet = true;
-            for (const [vType, count] of Object.entries(reqVehicles)) {
-              if (count > 0) {
-                const arrivedCount = m.assignedVehicles.filter(av => av.vehicleType === vType && av.status === "processing").length;
-                if (arrivedCount < count) { allRequirementsMet = false; break; }
+
+            for (const [vKey, reqConfig] of Object.entries(reqVehicles)) {
+              let requiredCount = typeof reqConfig === 'object' ? (Number(reqConfig.count) || 0) : Number(reqConfig) || 0;
+              if (requiredCount > 0) {
+                let allowedTypes = [vKey];
+                if (typeof reqConfig === 'object' && reqConfig.alternatives) {
+                  for (const [altName, altCnt] of Object.entries(reqConfig.alternatives)) {
+                    if (Number(altCnt) > 0) allowedTypes.push(altName);
+                  }
+                }
+
+                let arrivedCount = m.assignedVehicles.filter(av => (av.status === "processing" || av.status === "enroute") && allowedTypes.includes(av.vehicleType)).length;
+                if (arrivedCount < requiredCount) {
+                  allRequirementsMet = false;
+                  break;
+                }
               }
             }
-            if (Object.keys(reqVehicles).length === 0) allRequirementsMet = m.assignedVehicles.some(av => av.status === "processing");
+
+            if (Object.keys(reqVehicles).length === 0) allRequirementsMet = m.assignedVehicles.some(av => av.status === "processing" || av.status === "enroute");
 
             if (m.status !== "processing" && allRequirementsMet) {
               m.status = "processing";
               if (!m.processingEndTime) {
                 m.processingEndTime = now + ((m.duration || 60) * 1000);
               }
-              logRadio(`Alle Fahrzeuge vor Ort. Einsatz "${m.title}" in Bearbeitung...`);
+              logRadio(`Fahrzeuge alarmiert. Einsatz "${m.title}" ist in Bearbeitung...`);
               updated = true;
             } else if (m.status === "processing" && m.processingEndTime && now >= m.processingEndTime) {
               completeMission(m.id);
@@ -1403,7 +2257,7 @@
 
         if (updated || needsTimerRender) {
           renderMissions();
-          if (currentOpenMissionId !== null) openMissionDetailModal(currentOpenMissionId);
+          if (currentOpenMissionId !== null) updateMissionModalTimers(currentOpenMissionId);
         }
         if(updated) {
           renderMapVehicles();
@@ -1430,8 +2284,8 @@
                 av.currentLng = m.lng;
               } else if (!av.arrivalEndTime || !av.routeCoordinates || av.routeCoordinates.length === 0) {
                 const st = window.gameState.stations.find(s => s.id === av.stationId);
-                const stLat = av.stationLat || (st ? st.lat : null) || m.lat;
-                const stLng = av.stationLng || (st ? st.lng : null) || m.lng;
+                const stLat = av.currentLat || av.stationLat || (st ? st.lat : null) || m.lat;
+                const stLng = av.currentLng || av.stationLng || (st ? st.lng : null) || m.lng;
 
                 const routeData = await fetchStreetRoute(stLat, stLng, m.lat, m.lng, av.vehicleType);
                 av.routeCoordinates = JSON.parse(routeData.coordinates);
@@ -1470,6 +2324,21 @@
       document.getElementById("autoGenToggle").addEventListener("change", setupAutoGenLoop);
       document.getElementById("autoGenIntervalSelect").addEventListener("change", setupAutoGenLoop);
 
+      document.getElementById("toggleGlobalChatActive").addEventListener("change", async (e) => {
+        const chatBox = document.getElementById("globalChatContainer");
+        const isActive = e.target.checked;
+        window.gameState.chatActive = isActive;
+        
+        if (isActive) {
+          chatBox.style.opacity = "1";
+          chatBox.style.pointerEvents = "auto";
+        } else {
+          chatBox.style.opacity = "0.3";
+          chatBox.style.pointerEvents = "none";
+        }
+        await saveUserData();
+      });
+
       document.getElementById("sideBtnBuildStation").addEventListener("click", () => {
         window.openBuildMenu();
       });
@@ -1477,8 +2346,8 @@
         renderStationsOverviewModal();
         document.getElementById("stationsOverviewModal").style.display = "block";
       });
-      document.getElementById("sideBtnPersonal").addEventListener("click", () => {
-        alert("Personal-Übersicht wird geöffnet...");
+      document.getElementById("sideBtnManagementBuilding").addEventListener("click", () => {
+        window.openManagementBuildingModal();
       });
       document.getElementById("sideBtnMyAssociation").addEventListener("click", () => {
         alert("Verbands-Übersicht wird geöffnet...");
@@ -1495,23 +2364,40 @@
         modal.innerHTML = `
           <div class="nui-header">
             <div class="nui-title" style="color:var(--accent-blue);"><i class="fa-solid fa-building"></i> Wache bauen</div>
-            <button class="nui-close-btn" onclick="document.getElementById('buildModalPrompt').remove()"><i class="fa-solid fa-xmark"></i></button>
+            <button class="nui-close-btn" onclick="window.cancelBuildStation()"><i class="fa-solid fa-xmark"></i></button>
           </div>
           <div class="form-group">
             <label>Wache-Typ:</label>
-            <select id="modalBuildTypeSelect" class="form-control"></select>
+            <select id="modalBuildTypeSelect" class="form-control" onchange="window.updateBuildModalDescription()"></select>
           </div>
+          <div id="modalBuildDescContainer" style="font-size:0.78rem; color:var(--text-muted); margin-bottom:12px; font-style:italic; background:var(--bg-input); padding:8px; border-radius:6px; border:1px solid var(--border);"></div>
           <div class="form-group">
             <label>Wachen-Name:</label>
-            <input type="text" id="modalBuildNameInput" class="form-control" placeholder="z. B. Hauptfeuerwache 1">
+            <input type="text" id="modalBuildNameInput" class="form-control" placeholder="">
           </div>
           <p style="font-size:0.75rem; color:var(--text-muted); margin-bottom:12px;">Klicke auf die Karte, um den Standort für die Wache auszuwählen.</p>
-          <button type="button" class="btn btn-success" style="width:100%;" id="btnModalConfirmBuild">Kostenpflichtig bauen</button>
+          <div style="display:flex; gap:10px;">
+            <button type="button" class="btn btn-secondary" style="flex:1;" onclick="window.cancelBuildStation()">Abbrechen</button>
+            <button type="button" class="btn btn-success" style="flex:2;" id="btnModalConfirmBuild">Kostenpflichtig bauen</button>
+          </div>
         `;
         document.body.appendChild(modal);
 
         const select = document.getElementById("modalBuildTypeSelect");
-        select.innerHTML = globalBuildingTemplates.map(b => `<option value="${b.name}" data-cost="${b.price}" data-iconurl="${b.iconUrl || ''}">${b.name} (${(b.price||0).toLocaleString('de-DE')} C)</option>`).join("") || '<option value="">Keine Gebäude-Templates vorhanden</option>';
+        select.innerHTML = globalBuildingTemplates.map(b => `<option value="${b.name}" data-cost="${b.price}" data-category="${b.category || 'Standard'}" data-iconurl="${b.iconUrl || ''}" data-desc="${b.description || ''}">${b.name} [${b.category || 'Standard'}] (${(b.price||0).toLocaleString('de-DE')} C)</option>`).join("") || '<option value="">Keine Gebäude-Templates vorhanden</option>';
+
+        window.updateBuildModalDescription = function() {
+          const selOpt = select.options[select.selectedIndex];
+          const descEl = document.getElementById("modalBuildDescContainer");
+          if (selOpt && selOpt.dataset.desc) {
+            descEl.innerText = `"${selOpt.dataset.desc}"`;
+            descEl.style.display = "block";
+          } else {
+            descEl.innerText = "Keine Beschreibung verfügbar.";
+            descEl.style.display = "block";
+          }
+        };
+        window.updateBuildModalDescription();
 
         setMarker(map.getCenter().lat, map.getCenter().lng);
 
@@ -1527,17 +2413,26 @@
           if (bTemp && bTemp.startVehicles) {
             for (const [vName, count] of Object.entries(bTemp.startVehicles)) {
               for (let i = 0; i < count; i++) {
-                initialVehicles.push({ name: vName, type: vName });
+                initialVehicles.push({ name: vName, type: vName, assignedStaff: 0 });
               }
             }
           }
-          if (initialVehicles.length === 0) initialVehicles.push({ name: "Einsatzfahrzeug 1", type: "Einsatzfahrzeug 1" });
+          if (initialVehicles.length === 0) initialVehicles.push({ name: "Einsatzfahrzeug 1", type: "Einsatzfahrzeug 1", assignedStaff: 0 });
+
+          const startStaffCount = bTemp && bTemp.startStaff !== undefined ? Number(bTemp.startStaff) : 3;
+          let staffDetailsArr = [];
+          for (let i = 0; i < startStaffCount; i++) {
+            staffDetailsArr.push({ name: `Mitarbeiter #${Math.floor(Math.random() * 90000) + 10000}`, training: "Grundausbildung" });
+          }
 
           window.gameState.credits -= cost;
+          window.addFinanceTransaction(cost, 'expense', `Wachenbau: ${name}`);
+
           const station = {
-            id: Date.now(), name, type: selectEl.value,
+            id: Date.now(), name, type: selectEl.value, category: bTemp?.category || 'Standard',
             iconUrl: bTemp?.iconUrl || "https://cdn-icons-png.flaticon.com/512/3448/3448609.png",
-            lat: selectedLat, lng: selectedLng, slots: Math.max(initialVehicles.length, 1), vehicles: initialVehicles, extensions: []
+            lat: selectedLat, lng: selectedLng, slots: Math.max(initialVehicles.length, 1), vehicles: initialVehicles, extensions: [],
+            staffCount: startStaffCount, staffDetails: staffDetailsArr
           };
           if (!window.gameState.stations) window.gameState.stations = [];
           window.gameState.stations.push(station);
@@ -1553,11 +2448,19 @@
           }
           
           await saveUserData();
-          logRadio(`Wache "${name}" in Betrieb genommen.`);
+          logRadio(`Wache "${name}" mit ${startStaffCount} Start-Mitarbeitern in Betrieb genommen.`);
         });
+      };
+
+      window.cancelBuildStation = function() {
+        const modal = document.getElementById('buildModalPrompt');
+        if (modal) modal.remove();
+        if (tempBuildMarker) { map.removeLayer(tempBuildMarker); tempBuildMarker = null; }
+        logRadio("Wachenbau abgebrochen.");
       };
       
       document.getElementById("btnOpenAdmin").addEventListener("click", () => {
+        if (!checkAdminPanelVisibility()) return alert("Du hast keine Berechtigung, das Admin-Panel zu öffnen!");
         document.getElementById("adminModal").style.display = "block";
         renderAdminLists();
       });
@@ -1572,12 +2475,35 @@
         });
       });
 
+      document.getElementById("btnAdminAddGroup").addEventListener("click", async () => {
+        const name = document.getElementById("adminGroupName").value.trim();
+        if (!name) return alert("Gruppenname erforderlich!");
+        try {
+          await addDoc(collection(db, "groups"), {
+            name: name,
+            canSeeAdminPanel: false,
+            permissions: {
+              add: { 'Gebäude': false, 'Gebäude-Kategorien': false, 'Einsätze': false, 'Fahrzeuge': false, 'Fahrzeug-Kategorien': false, 'Ränge': false },
+              change: { 'Gebäude': false, 'Gebäude-Kategorien': false, 'Einsätze': false, 'Fahrzeuge': false, 'Fahrzeug-Kategorien': false, 'Ränge': false },
+              delete: { 'Gebäude': false, 'Gebäude-Kategorien': false, 'Einsätze': false, 'Fahrzeuge': false, 'Fahrzeug-Kategorien': false, 'Ränge': false }
+            }
+          });
+          document.getElementById("adminGroupName").value = "";
+          logRadio(`Gruppe "${name}" erstellt.`);
+          renderAdminLists();
+        } catch(e) { alert("Fehler: " + e.message); }
+      });
+
       document.getElementById("btnAdminAddBuilding").addEventListener("click", async (e) => {
+        if (!checkPermission('add', 'Gebäude')) return alert("Keine Berechtigung zum Hinzufügen in dieser Kategorie!");
         const name = document.getElementById("adminBuildName").value;
+        const category = document.getElementById("adminBuildCategorySelect").value;
         const price = Number(document.getElementById("adminBuildPrice").value);
         const slotPrice = Number(document.getElementById("adminBuildSlotPrice").value) || 50000;
         const maxSlots = Number(document.getElementById("adminBuildMaxSlots").value) || 10;
+        const startStaff = Number(document.getElementById("adminBuildStartStaff").value) || 3;
         const iconUrl = document.getElementById("adminBuildIcon").value;
+        const description = document.getElementById("adminBuildDesc").value.trim();
         
         let startVehicles = {};
         document.querySelectorAll(".admin-build-veh-input").forEach(input => {
@@ -1589,7 +2515,7 @@
         
         try {
           const btn = e.target;
-          const buildData = { name, price, slotPrice, maxSlots, iconUrl, startVehicles };
+          const buildData = { name, category, price, slotPrice, maxSlots, startStaff, iconUrl, description, startVehicles };
           if(btn.dataset.editId) {
             await updateDoc(doc(db, "building_templates", btn.dataset.editId), buildData);
             delete btn.dataset.editId;
@@ -1599,11 +2525,31 @@
           }
           document.getElementById("adminBuildName").value = "";
           document.getElementById("adminBuildIcon").value = "";
+          document.getElementById("adminBuildDesc").value = "";
+          renderAdminLists();
+        } catch(err) { alert("Fehler: " + err.message); }
+      });
+
+      document.getElementById("btnAdminAddBuildingCategory").addEventListener("click", async (e) => {
+        if (!checkPermission('add', 'Gebäude-Kategorien')) return alert("Keine Berechtigung zum Hinzufügen in dieser Kategorie!");
+        const name = document.getElementById("adminBuildCatName").value.trim();
+        if (!name) return alert("Kategoriename erforderlich!");
+        try {
+          const btn = e.target;
+          if(btn.dataset.editId) {
+            await updateDoc(doc(db, "building_categories", btn.dataset.editId), { name });
+            delete btn.dataset.editId;
+            btn.innerText = "Kategorie Hinzufügen";
+          } else {
+            await addDoc(collection(db, "building_categories"), { name });
+          }
+          document.getElementById("adminBuildCatName").value = "";
           renderAdminLists();
         } catch(err) { alert("Fehler: " + err.message); }
       });
 
       document.getElementById("btnAdminAddMission").addEventListener("click", async (e) => {
+        if (!checkPermission('add', 'Einsätze')) return alert("Keine Berechtigung zum Hinzufügen in dieser Kategorie!");
         const title = document.getElementById("adminMisTitle").value;
         const reward = Number(document.getElementById("adminMisReward").value);
         const xp = Number(document.getElementById("adminMisXp").value);
@@ -1618,9 +2564,19 @@
         });
 
         let reqVehicles = {};
-        document.querySelectorAll(".admin-mis-veh-input").forEach(input => {
-          const count = Number(input.value);
-          if (count > 0) reqVehicles[input.dataset.vehName] = count;
+        document.querySelectorAll(".admin-mis-veh-row").forEach(row => {
+          const vName = row.dataset.vehName;
+          const count = Number(row.querySelector(".admin-mis-veh-count").value) || 0;
+          if (count > 0) {
+            let alternatives = {};
+            row.querySelectorAll(".admin-mis-alt-input").forEach(altInput => {
+              const altCnt = Number(altInput.value) || 0;
+              if (altCnt > 0) {
+                alternatives[altInput.dataset.altName] = altCnt;
+              }
+            });
+            reqVehicles[vName] = { count: count, alternatives: alternatives };
+          }
         });
 
         if (!title) return alert("Titel erforderlich!");
@@ -1639,36 +2595,48 @@
           document.getElementById("adminMisReqExtension").value = "";
           document.getElementById("adminMisIcon").value = "";
           document.querySelectorAll(".admin-mis-station-input").forEach(i => i.value = 0);
-          document.querySelectorAll(".admin-mis-veh-input").forEach(i => i.value = 0);
+          document.querySelectorAll(".admin-mis-veh-count").forEach(i => i.value = 0);
+          document.querySelectorAll(".admin-mis-alt-input").forEach(i => i.value = 0);
           renderAdminLists();
         } catch(err) { alert("Fehler: " + err.message); }
       });
 
       document.getElementById("btnAdminAddVehicle").addEventListener("click", async (e) => {
+        if (!checkPermission('add', 'Fahrzeuge')) return alert("Keine Berechtigung zum Hinzufügen in dieser Kategorie!");
         const name = document.getElementById("adminVehName").value;
+        const buildCategory = document.getElementById("adminVehBuildCategorySelect").value;
         const category = document.getElementById("adminVehCategory").value;
         const price = Number(document.getElementById("adminVehPrice").value) || 5000;
         const level = Number(document.getElementById("adminVehLevel").value) || 0;
+        const seats = Number(document.getElementById("adminVehSeats").value) || 6;
+        const minStaff = Number(document.getElementById("adminVehMinStaff").value) || 1;
+        const description = document.getElementById("adminVehDesc").value.trim();
+
         if (!name) return alert("Fahrzeugname erforderlich!");
         
         try {
           const btn = e.target;
+          const vehData = { name, buildCategory, category, price, level, seats, minStaff, description };
           if(btn.dataset.editId) {
-            await updateDoc(doc(db, "vehicle_templates", btn.dataset.editId), { name, category, price, level });
+            await updateDoc(doc(db, "vehicle_templates", btn.dataset.editId), vehData);
             delete btn.dataset.editId;
-            btn.innerText = "Hinzufügen";
+            btn.innerText = "Fahrzeug-Template speichern";
           } else {
-            await addDoc(collection(db, "vehicle_templates"), { name, category, price, level });
+            await addDoc(collection(db, "vehicle_templates"), vehData);
           }
           document.getElementById("adminVehName").value = "";
           document.getElementById("adminVehCategory").value = "";
-          document.getElementById("adminVehPrice").value = "5000";
-          document.getElementById("adminVehLevel").value = "0";
+          document.getElementById("adminVehPrice").value = "";
+          document.getElementById("adminVehLevel").value = "";
+          document.getElementById("adminVehSeats").value = "";
+          document.getElementById("adminVehMinStaff").value = "";
+          document.getElementById("adminVehDesc").value = "";
           renderAdminLists();
         } catch(err) { alert("Fehler: " + err.message); }
       });
 
       document.getElementById("btnAdminAddCategory").addEventListener("click", async (e) => {
+        if (!checkPermission('add', 'Fahrzeug-Kategorien')) return alert("Keine Berechtigung zum Hinzufügen in dieser Kategorie!");
         const name = document.getElementById("adminCatName").value;
         const speed = Number(document.getElementById("adminCatSpeed").value);
         if (!name) return alert("Kategoriename erforderlich!");
@@ -1682,28 +2650,73 @@
             await addDoc(collection(db, "vehicle_categories"), { name, speed });
           }
           document.getElementById("adminCatName").value = "";
+          document.getElementById("adminCatSpeed").value = "";
           renderAdminLists();
         } catch(err) { alert("Fehler: " + err.message); }
       });
 
       document.getElementById("btnAdminAddRank").addEventListener("click", async (e) => {
+        if (!checkPermission('add', 'Ränge')) return alert("Keine Berechtigung zum Hinzufügen in dieser Kategorie!");
         const name = document.getElementById("adminRankName").value;
         const xp = Number(document.getElementById("adminRankXp").value);
+        const rewardCredits = Number(document.getElementById("adminRankRewardCred").value) || 0;
+        const rewardCoins = Number(document.getElementById("adminRankRewardCoins").value) || 0;
+
         if (!name) return alert("Rang-Name erforderlich!");
         try {
           const btn = e.target;
+          const rankData = { name, xp, rewardCredits, rewardCoins };
           if(btn.dataset.editId) {
-            await updateDoc(doc(db, "ranks", btn.dataset.editId), { name, xp });
+            await updateDoc(doc(db, "ranks", btn.dataset.editId), rankData);
             delete btn.dataset.editId;
             btn.innerText = "Hinzufügen";
           } else {
-            await addDoc(collection(db, "ranks"), { name, xp });
+            await addDoc(collection(db, "ranks"), rankData);
           }
           document.getElementById("adminRankName").value = "";
-          document.getElementById("adminRankXp").value = "1000";
+          document.getElementById("adminRankXp").value = "";
+          document.getElementById("adminRankRewardCred").value = "";
+          document.getElementById("adminRankRewardCoins").value = "";
           updatePlayerRank();
           renderAdminLists();
         } catch(err) { alert("Fehler: " + err.message); }
+      });
+
+      document.getElementById("btnAdminAddLevel").addEventListener("click", async (e) => {
+        const levelNum = Number(document.getElementById("adminLevelNum").value) || 1;
+        const xp = Number(document.getElementById("adminLevelXp").value) || 0;
+        const rewardCredits = Number(document.getElementById("adminLevelRewardCred").value) || 0;
+        const rewardCoins = Number(document.getElementById("adminLevelRewardCoins").value) || 0;
+
+        try {
+          const btn = e.target;
+          const levelData = { level: levelNum, xp, rewardCredits, rewardCoins };
+          if (btn.dataset.editId) {
+            await updateDoc(doc(db, "level_configs", btn.dataset.editId), levelData);
+            delete btn.dataset.editId;
+            btn.innerText = "Level Hinzufügen";
+          } else {
+            await addDoc(collection(db, "level_configs"), levelData);
+          }
+          document.getElementById("adminLevelNum").value = "";
+          document.getElementById("adminLevelXp").value = "";
+          document.getElementById("adminLevelRewardCred").value = "";
+          document.getElementById("adminLevelRewardCoins").value = "";
+          updatePlayerRank();
+          renderAdminLists();
+          logRadio("Level-Konfiguration gespeichert.");
+        } catch(err) { alert("Fehler: " + err.message); }
+      });
+
+      document.getElementById("btnSaveGlobalLogoUrl").addEventListener("click", async () => {
+        const logoUrl = document.getElementById("adminGlobalLogoUrlInput").value.trim();
+        if (!logoUrl) return alert("Bitte eine gültige Bildadresse eingeben!");
+
+        window.gameState.headerLogoUrl = logoUrl;
+        document.getElementById("headerLogoImg").src = logoUrl;
+        await saveUserData();
+        logRadio("Seiten-Logo erfolgreich aktualisiert.");
+        alert("Logo wurde aktualisiert und gespeichert!");
       });
     }
 
@@ -1731,31 +2744,53 @@
     }
 
     function updatePlayerRank() {
-      if(!globalRanksTemplates || globalRanksTemplates.length === 0) return;
-      const sortedRanks = [...globalRanksTemplates].sort((a, b) => b.xp - a.xp);
       const userXp = window.gameState.xp || 0;
       
-      window.gameState.level = Math.floor(userXp / 1000);
+      let computedLevel = 0;
+      let currentLvBaseXp = 0;
+      let nextLvXp = 1000;
 
-      let currentRankObj = sortedRanks[sortedRanks.length - 1];
-      let nextRankObj = null;
+      if (globalLevelConfigTemplates && globalLevelConfigTemplates.length > 0) {
+        let sortedLevels = [...globalLevelConfigTemplates].sort((a, b) => a.xp - b.xp);
+        
+        let activeLevelObj = sortedLevels[0];
+        let nextLevelObj = sortedLevels[1] || null;
 
-      for (let i = 0; i < sortedRanks.length; i++) {
-        if (userXp >= sortedRanks[i].xp) {
-          currentRankObj = sortedRanks[i];
-          nextRankObj = sortedRanks[i - 1] || null;
-          break;
+        for (let i = 0; i < sortedLevels.length; i++) {
+          if (userXp >= sortedLevels[i].xp) {
+            activeLevelObj = sortedLevels[i];
+            nextLevelObj = sortedLevels[i + 1] || null;
+          }
         }
+
+        computedLevel = activeLevelObj.level;
+        currentLvBaseXp = activeLevelObj.xp;
+        nextLvXp = nextLevelObj ? nextLevelObj.xp : currentLvBaseXp + 1000;
+      } else {
+        computedLevel = Math.floor(userXp / 1000);
+        currentLvBaseXp = computedLevel * 1000;
+        nextLvXp = currentLvBaseXp + 1000;
       }
 
-      window.gameState.rank = currentRankObj.name;
-      
-      let percent = 100;
-      if (nextRankObj) {
-        let span = nextRankObj.xp - currentRankObj.xp;
-        let currentProgress = userXp - currentRankObj.xp;
-        percent = Math.min(100, Math.max(0, Math.floor((currentProgress / span) * 100)));
+      window.gameState.level = computedLevel;
+
+      if(globalRanksTemplates && globalRanksTemplates.length > 0) {
+        const sortedRanks = [...globalRanksTemplates].sort((a, b) => b.xp - a.xp);
+        let currentRankObj = sortedRanks[sortedRanks.length - 1];
+        for (let i = 0; i < sortedRanks.length; i++) {
+          if (userXp >= sortedRanks[i].xp) {
+            currentRankObj = sortedRanks[i];
+            break;
+          }
+        }
+        window.gameState.rank = currentRankObj.name;
+      } else {
+        window.gameState.rank = "Anfänger";
       }
+      
+      let span = nextLvXp - currentLvBaseXp;
+      let currentProgress = userXp - currentLvBaseXp;
+      let percent = span > 0 ? Math.min(100, Math.max(0, Math.floor((currentProgress / span) * 100))) : 100;
 
       document.getElementById("rankDisplay").innerText = window.gameState.rank;
       document.getElementById("xpProgressCurrent").innerText = `${userXp} XP`;
@@ -1764,7 +2799,54 @@
       document.getElementById("levelBadge").innerText = `Lv. ${window.gameState.level}`;
     }
 
+    window.renderAdminUserList = function() {
+      const uContainer = document.getElementById("adminUserListContainer");
+      const searchInput = document.getElementById("adminUserSearchInput");
+      const searchTerm = searchInput ? searchInput.value.toLowerCase().trim() : "";
+
+      if (!uContainer) return;
+
+      const filteredUsers = globalUsersList.filter(u => {
+        const uName = (u.username || "").toLowerCase();
+        const uEmail = (u.email || "").toLowerCase();
+        return uName.includes(searchTerm) || uEmail.includes(searchTerm);
+      });
+
+      if (filteredUsers.length === 0) {
+        uContainer.innerHTML = `<p style="text-align:center; color:var(--text-muted); padding:20px;">Keine Spieler gefunden.</p>`;
+        return;
+      }
+
+      uContainer.innerHTML = `<table class="nui-table"><tr><th>Spieler</th><th>Gruppe</th><th>Credits</th><th>Coins</th><th>Lv.</th><th>Aktionen</th></tr>` +
+        filteredUsers.map(u => `<tr>
+          <td>
+            <strong style="cursor:pointer; color:var(--accent-blue);" onclick="window.openSpecificPlayerProfileModal('${u.id}')">${u.username||'Spieler'}</strong><br>
+            <span style="font-size:0.65rem; color:var(--text-muted);">${u.email||''}</span>
+          </td>
+          <td><span style="color:var(--accent-amber); font-weight:700;">${u.role||'Spieler'}</span></td>
+          <td>${(u.credits||0).toLocaleString()} C</td>
+          <td>${u.coins||0} 💎</td>
+          <td>${u.level||0}</td>
+          <td>
+            <button class="admin-action-btn btn-edit" onclick="window.adminEditUser('${u.id}', ${u.credits||0}, ${u.coins||0}, ${u.level||0}, '${u.role||'Spieler'}')" title="Daten & Rolle bearbeiten"><i class="fa-solid fa-pen"></i></button>
+            <button class="admin-action-btn btn-warning" onclick="window.adminResetUser('${u.id}')" title="Spieler zurücksetzen"><i class="fa-solid fa-rotate-left"></i></button>
+            ${u.isBanned ? `<button class="admin-action-btn btn-success" onclick="window.adminUnbanUser('${u.id}')" title="Entbannen"><i class="fa-solid fa-unlock"></i></button>` : `<button class="admin-action-btn btn-danger" onclick="window.adminBanUser('${u.id}', false)" title="Bannen"><i class="fa-solid fa-ban"></i></button>`}
+            <button class="admin-action-btn btn-del" onclick="window.deleteAdminDoc('users', '${u.id}')" title="Account löschen"><i class="fa-solid fa-trash"></i></button>
+          </td>
+        </tr>`).join("") + `</table>`;
+    };
+
     function renderAdminLists() {
+      const bCatSelect = document.getElementById("adminBuildCategorySelect");
+      if (bCatSelect) {
+        bCatSelect.innerHTML = globalBuildingCategories.map(c => `<option value="${c.name}">${c.name}</option>`).join('') || '<option value="Standard">Standard</option>';
+      }
+
+      const vBuildCatSelect = document.getElementById("adminVehBuildCategorySelect");
+      if (vBuildCatSelect) {
+        vBuildCatSelect.innerHTML = `<option value="">Keine Gebäude-Kategorie</option>` + globalBuildingCategories.map(c => `<option value="${c.name}">${c.name}</option>`).join('');
+      }
+
       const bVehChecklist = document.getElementById("adminBuildingStartVehiclesChecklist");
       if (bVehChecklist) {
         bVehChecklist.innerHTML = globalVehicleTemplates.map(v => `
@@ -1785,24 +2867,93 @@
         `).join("") || '<span style="font-size:0.75rem; color:var(--text-muted);">Keine Gebäude-Templates vorhanden</span>';
       }
 
-      const vehChecklist = document.getElementById("adminMissionVehiclesChecklist");
-      if (vehChecklist) {
-        vehChecklist.innerHTML = globalVehicleTemplates.map(v => `
-          <div style="display:flex; justify-content:space-between; align-items:center; background:var(--bg-input); padding:6px 10px; border-radius:6px; border:1px solid var(--border);">
-            <span style="font-size:0.75rem; font-weight:600;">${v.name}</span>
-            <input type="number" min="0" value="0" data-veh-name="${v.name}" class="form-control admin-mis-veh-input" style="width:60px; padding:2px 4px; text-align:center; height:28px;">
-          </div>
-        `).join("") || '<span style="font-size:0.75rem; color:var(--text-muted);">Keine Fahrzeug-Templates vorhanden</span>';
+      const vehConfigContainer = document.getElementById("adminMissionVehiclesConfigContainer");
+      if (vehConfigContainer) {
+        if (globalVehicleTemplates.length === 0) {
+          vehConfigContainer.innerHTML = `<span style="font-size:0.75rem; color:var(--text-muted);">Keine Fahrzeug-Templates vorhanden</span>`;
+        } else {
+          vehConfigContainer.innerHTML = globalVehicleTemplates.map(v => {
+            let altCheckboxesHtml = globalVehicleTemplates.map(altV => `
+              <div style="display:flex; justify-content:space-between; align-items:center; background:var(--bg-card); padding:4px 8px; border-radius:4px; font-size:0.7rem; border:1px solid var(--border);">
+                <span>${altV.name}</span>
+                <input type="number" min="0" value="0" data-alt-name="${altV.name}" class="form-control admin-mis-alt-input" style="width:50px; padding:2px; height:24px; text-align:center;" title="Anzahl für dieses Alternativfahrzeug">
+              </div>
+            `).join('');
+
+            return `
+              <div class="admin-mis-veh-row" data-veh-name="${v.name}" style="background:var(--bg-input); border:1px solid var(--border); border-radius:8px; padding:10px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                  <strong style="font-size:0.8rem; color:var(--text-main);"><i class="fa-solid fa-truck"></i> ${v.name} (Hauptbedarf)</strong>
+                  <div style="display:flex; align-items:center; gap:6px;">
+                    <span style="font-size:0.75rem; color:var(--text-muted);">Anzahl:</span>
+                    <input type="number" min="0" value="0" class="form-control admin-mis-veh-count" style="width:70px; padding:4px; height:28px; text-align:center;">
+                  </div>
+                </div>
+                <div style="font-size:0.72rem; color:var(--text-muted); margin-bottom:4px;">Alternativfahrzeuge & Anzahl (optional):</div>
+                <div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:6px; max-height:100px; overflow-y:auto; padding:4px;">
+                  ${altCheckboxesHtml}
+                </div>
+              </div>
+            `;
+          }).join('');
+        }
+      }
+
+      const grpContainer = document.getElementById("adminGroupListContainer");
+      if (grpContainer) {
+        const categories = ['Gebäude', 'Gebäude-Kategorien', 'Einsätze', 'Fahrzeuge', 'Fahrzeug-Kategorien', 'Ränge'];
+        grpContainer.innerHTML = globalGroupsList.map(g => {
+          let perms = g.permissions || { add: {}, change: {}, delete: {} };
+          let rowsHtml = categories.map(cat => {
+            let addChecked = perms.add && perms.add[cat] ? 'checked' : '';
+            let changeChecked = perms.change && perms.change[cat] ? 'checked' : '';
+            let delChecked = perms.delete && perms.delete[cat] ? 'checked' : '';
+            return `<tr>
+              <td>${cat}</td>
+              <td style="text-align:center;"><input type="checkbox" id="permAdd_${g.id}_${cat}" ${addChecked}></td>
+              <td style="text-align:center;"><input type="checkbox" id="permChange_${g.id}_${cat}" ${changeChecked}></td>
+              <td style="text-align:center;"><input type="checkbox" id="permDel_${g.id}_${cat}" ${delChecked}></td>
+            </tr>`;
+          }).join('');
+
+          return `
+            <div style="background:var(--bg-card); border:1px solid var(--border); border-radius:10px; padding:14px; margin-bottom:14px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                <h5 style="color:var(--accent-pink); font-size:1rem;">Gruppe: ${g.name}</h5>
+                <div style="display:flex; gap:10px; align-items:center;">
+                  <label style="font-size:0.8rem; display:flex; align-items:center; gap:6px; cursor:pointer;"><input type="checkbox" id="grpSee_${g.id}" ${g.canSeeAdminPanel ? 'checked' : ''}> Admin-Panel sichtbar</label>
+                  <button class="btn btn-success" style="padding:4px 10px; font-size:0.75rem;" onclick="window.saveGroupPermissions('${g.id}')">Speichern</button>
+                  ${g.name !== 'Spieler' && g.name !== 'Admin' ? `<button class="admin-action-btn btn-del" onclick="window.deleteAdminDoc('groups', '${g.id}')"><i class="fa-solid fa-trash"></i></button>` : ''}
+                </div>
+              </div>
+              <table class="nui-table" style="margin-top:0;">
+                <tr><th>Kategorie</th><th style="text-align:center; width:80px;">Hinzufügen</th><th style="text-align:center; width:80px;">Ändern</th><th style="text-align:center; width:80px;">Löschen</th></tr>
+                ${rowsHtml}
+              </table>
+            </div>
+          `;
+        }).join('');
+      }
+
+      const bcContainer = document.getElementById("adminBuildingCategoryListContainer");
+      if (bcContainer) {
+        bcContainer.innerHTML = `<table class="nui-table"><tr><th>Kategoriename</th><th>Aktionen</th></tr>` +
+          globalBuildingCategories.map(c => `<tr><td><strong>${c.name}</strong></td><td>
+            <button class="admin-action-btn btn-edit" onclick="window.editAdminBuildingCategory('${c.id}', '${c.name}')"><i class="fa-solid fa-pen"></i></button>
+            <button class="admin-action-btn btn-del" onclick="window.deleteAdminDoc('building_categories', '${c.id}')"><i class="fa-solid fa-trash"></i></button>
+          </td></tr>`).join("") + `</table>`;
       }
 
       const bContainer = document.getElementById("adminBuildingListContainer");
       if (bContainer) {
-        bContainer.innerHTML = `<table class="nui-table"><tr><th>Name</th><th>Preis</th><th>Stellplatz</th><th>Max.</th><th>Aktionen</th></tr>` +
+        bContainer.innerHTML = `<table class="nui-table"><tr><th>Name</th><th>Kategorie</th><th>Preis</th><th>Start-Personal</th><th>Max.</th><th>Aktionen</th></tr>` +
           globalBuildingTemplates.map(b => {
             let startVehObj = b.startVehicles || {};
             let startVehStr = JSON.stringify(startVehObj).replace(/"/g, '&quot;');
-            return `<tr><td><strong>${b.name}</strong></td><td>${b.price.toLocaleString()} C</td><td>${b.slotPrice||50000} C</td><td>${b.maxSlots||10}</td><td>
-            <button class="admin-action-btn btn-edit" onclick="window.editAdminBuilding('${b.id}', '${b.name}', ${b.price}, ${b.slotPrice||50000}, ${b.maxSlots||10}, '${b.iconUrl||''}', JSON.parse('${startVehStr}'))"><i class="fa-solid fa-pen"></i></button>
+            let startStaffVal = b.startStaff !== undefined ? b.startStaff : 3;
+            let descEscaped = (b.description || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+            return `<tr><td><strong>${b.name}</strong></td><td><span style="color:var(--accent-blue);">${b.category || 'Standard'}</span></td><td>${b.price.toLocaleString()} C</td><td>${startStaffVal} Pers.</td><td>${b.maxSlots||10}</td><td>
+            <button class="admin-action-btn btn-edit" onclick="window.editAdminBuilding('${b.id}', '${b.name}', '${b.category||''}', ${b.price}, ${b.slotPrice||50000}, ${b.maxSlots||10}, ${startStaffVal}, '${b.iconUrl||''}', '${descEscaped}', JSON.parse('${startVehStr}'))"><i class="fa-solid fa-pen"></i></button>
             <button class="admin-action-btn btn-del" onclick="window.deleteAdminDoc('building_templates', '${b.id}')"><i class="fa-solid fa-trash"></i></button>
           </td></tr>`;
           }).join("") + `</table>`;
@@ -1825,11 +2976,21 @@
 
       const vContainer = document.getElementById("adminVehicleListContainer");
       if (vContainer) {
-        vContainer.innerHTML = `<table class="nui-table"><tr><th>Name</th><th>Kategorie</th><th>Preis</th><th>Level</th><th>Aktionen</th></tr>` +
-          globalVehicleTemplates.map(v => `<tr><td><strong>${v.name}</strong></td><td>${v.category}</td><td>${(v.price||5000).toLocaleString()} C</td><td>Lv. ${v.level||0}</td><td>
-            <button class="admin-action-btn btn-edit" onclick="window.editAdminVehicle('${v.id}', '${v.name}', '${v.category}', ${v.price||5000}, ${v.level||0})"><i class="fa-solid fa-pen"></i></button>
-            <button class="admin-action-btn btn-del" onclick="window.deleteAdminDoc('vehicle_templates', '${v.id}')"><i class="fa-solid fa-trash"></i></button>
-          </td></tr>`).join("") + `</table>`;
+        vContainer.innerHTML = `<table class="nui-table"><tr><th>Name</th><th>Gebäude-Kat.</th><th>Preis</th><th>Level</th><th>Sitze</th><th>Aktionen</th></tr>` +
+          globalVehicleTemplates.map(v => {
+            let descEscaped = (v.description || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+            return `<tr>
+              <td><strong>${v.name}</strong></td>
+              <td><span style="color:var(--accent-blue);">${v.buildCategory || 'Standard'}</span></td>
+              <td>${(v.price||5000).toLocaleString()} C</td>
+              <td><span style="color:var(--accent-purple); font-weight:700;">Lv. ${v.level || 0}</span></td>
+              <td>${v.seats||6} Sitze</td>
+              <td>
+                <button class="admin-action-btn btn-edit" onclick="window.editAdminVehicle('${v.id}', '${v.name}', '${v.buildCategory||''}', '${v.category||''}', ${v.price||5000}, ${v.level||0}, ${v.seats||6}, ${v.minStaff||1}, '${descEscaped}')"><i class="fa-solid fa-pen"></i></button>
+                <button class="admin-action-btn btn-del" onclick="window.deleteAdminDoc('vehicle_templates', '${v.id}')"><i class="fa-solid fa-trash"></i></button>
+              </td>
+            </tr>`;
+          }).join("") + `</table>`;
       }
 
       const cContainer = document.getElementById("adminCategoryListContainer");
@@ -1843,259 +3004,33 @@
 
       const rContainer = document.getElementById("adminRankListContainer");
       if (rContainer) {
-        rContainer.innerHTML = `<table class="nui-table"><tr><th>Rang-Name</th><th>Benötigte XP</th><th>Aktionen</th></tr>` +
-          globalRanksTemplates.map(r => `<tr><td><strong>${r.name}</strong></td><td>${r.xp.toLocaleString()} XP</td><td>
-            <button class="admin-action-btn btn-edit" onclick="window.editAdminRank('${r.id}', '${r.name}', ${r.xp})"><i class="fa-solid fa-pen"></i></button>
+        rContainer.innerHTML = `<table class="nui-table"><tr><th>Rang-Name</th><th>Benötigte XP</th><th>Belohnung</th><th>Aktionen</th></tr>` +
+          globalRanksTemplates.map(r => `<tr><td><strong>${r.name}</strong></td><td>${r.xp.toLocaleString()} XP</td><td>${(r.rewardCredits||10000).toLocaleString()} C &bull; ${r.rewardCoins||5} Coins</td><td>
+            <button class="admin-action-btn btn-edit" onclick="window.editAdminRank('${r.id}', '${r.name}', ${r.xp}, ${r.rewardCredits||10000}, ${r.rewardCoins||5})"><i class="fa-solid fa-pen"></i></button>
             <button class="admin-action-btn btn-del" onclick="window.deleteAdminDoc('ranks', '${r.id}')"><i class="fa-solid fa-trash"></i></button>
           </td></tr>`).join("") + `</table>`;
       }
 
-      const uContainer = document.getElementById("adminUserListContainer");
-      if(uContainer) {
-        uContainer.innerHTML = `<table class="nui-table"><tr><th>Spieler</th><th>Credits</th><th>Coins</th><th>Lv.</th><th>Aktionen</th></tr>` +
-          globalUsersList.map(u => `<tr>
-            <td><strong>${u.username||'Spieler'}</strong><br><span style="font-size:0.65rem; color:var(--text-muted);">${u.email||''}</span></td>
-            <td>${(u.credits||0).toLocaleString()} C</td>
-            <td>${u.coins||0} 💎</td>
-            <td>${u.level||0}</td>
+      const levelContainer = document.getElementById("adminLevelListContainer");
+      if (levelContainer) {
+        const sortedLevels = [...globalLevelConfigTemplates].sort((a, b) => a.level - b.level);
+        levelContainer.innerHTML = `<table class="nui-table"><tr><th>Level</th><th>Benötigte XP</th><th>Belohnung</th><th>Aktionen</th></tr>` +
+          sortedLevels.map(l => `<tr>
+            <td><strong>Level ${l.level}</strong></td>
+            <td><span style="color:var(--accent-purple);">${l.xp.toLocaleString('de-DE')} XP</span></td>
+            <td><span style="color:var(--accent-green);">${(l.rewardCredits || 0).toLocaleString('de-DE')} C</span> &bull; <span style="color:var(--accent-pink);">${l.rewardCoins || 0} Coins</span></td>
             <td>
-              <button class="admin-action-btn btn-edit" onclick="window.adminEditUser('${u.id}', ${u.credits||0}, ${u.coins||0}, ${u.level||0})" title="Geld / Level bearbeiten"><i class="fa-solid fa-pen"></i></button>
-              <button class="admin-action-btn btn-warning" onclick="window.adminResetUser('${u.id}')" title="Spieler zurücksetzen"><i class="fa-solid fa-rotate-left"></i></button>
-              ${u.isBanned ? `<button class="admin-action-btn btn-success" onclick="window.adminUnbanUser('${u.id}')" title="Entbannen"><i class="fa-solid fa-unlock"></i></button>` : `<button class="admin-action-btn btn-danger" onclick="window.adminBanUser('${u.id}', false)" title="Bannen"><i class="fa-solid fa-ban"></i></button>`}
-              <button class="admin-action-btn btn-del" onclick="window.deleteAdminDoc('users', '${u.id}')" title="Account löschen"><i class="fa-solid fa-trash"></i></button>
+              <button class="admin-action-btn btn-edit" onclick="window.editAdminLevel('${l.id}', ${l.level}, ${l.xp}, ${l.rewardCredits || 0}, ${l.rewardCoins || 0})"><i class="fa-solid fa-pen"></i></button>
+              <button class="admin-action-btn btn-del" onclick="window.deleteAdminDoc('level_configs', '${l.id}')"><i class="fa-solid fa-trash"></i></button>
             </td>
           </tr>`).join("") + `</table>`;
       }
-    }
 
-    let missionMarkersMap = {};
-    function renderMapStations() {
-      Object.values(stationMarkersMap).forEach(m => map.removeLayer(m));
-      stationMarkersMap = {};
-      (window.gameState.stations || []).forEach(s => {
-        const bTemp = globalBuildingTemplates.find(b => b.name === s.type);
-        const iconUrl = bTemp?.iconUrl || s.iconUrl || "https://cdn-icons-png.flaticon.com/512/3448/3448609.png";
-        
-        const m = L.marker([s.lat, s.lng], { icon: L.icon({ iconUrl: iconUrl, iconSize: [32, 32], iconAnchor: [16, 16] }) }).addTo(map).bindPopup(`<b>${s.name}</b>`);
-        stationMarkersMap[s.id] = m;
-      });
-      document.getElementById("stationCount").innerText = (window.gameState.stations || []).length;
-    }
+      window.renderAdminUserList();
 
-    function renderMapVehicles() {
-      Object.values(vehicleMarkersMap).forEach(m => map.removeLayer(m));
-      vehicleMarkersMap = {};
-      (window.gameState.missions || []).forEach(m => {
-        if (m.assignedVehicles) {
-          m.assignedVehicles.forEach((av, idx) => {
-            if (typeof av.routeCoordinates === 'string') {
-              try { av.routeCoordinates = JSON.parse(av.routeCoordinates); } catch(e){}
-            }
-
-            if (av.status === "enroute" && av.currentLat && av.currentLng) {
-              const vm = L.marker([av.currentLat, av.currentLng], { icon: L.icon({ iconUrl: "https://cdn-icons-png.flaticon.com/512/1995/1995470.png", iconSize: [28, 28], iconAnchor: [14, 14] }) }).addTo(map);
-              vehicleMarkersMap[`${m.id}_${idx}`] = vm;
-            }
-          });
-        }
-      });
-    }
-
-    function renderMapRoutes() {
-      Object.values(routePolylinesMap).forEach(l => map.removeLayer(l));
-      routePolylinesMap = {};
-      (window.gameState.missions || []).forEach(m => {
-        if (m.assignedVehicles) {
-          m.assignedVehicles.forEach((av, idx) => {
-            if (typeof av.routeCoordinates === 'string') {
-              try { av.routeCoordinates = JSON.parse(av.routeCoordinates); } catch(e){}
-            }
-
-            if (av.status === "enroute" && av.routeCoordinates) {
-              routePolylinesMap[`${m.id}_${idx}`] = L.polyline(av.routeCoordinates, { color: '#3b82f6', weight: 4, opacity: 0.7, dashArray: '5, 10' }).addTo(map);
-            }
-          });
-        }
-      });
-    }
-
-    function renderMapMissions() {
-      Object.values(missionMarkersMap).forEach(m => map.removeLayer(m));
-      missionMarkersMap = {};
-      (window.gameState.missions || []).forEach(m => {
-        const mTemp = globalMissionTemplates.find(mt => mt.title === m.title);
-        const iconUrl = mTemp?.iconUrl || m.iconUrl || "https://cdn-icons-png.flaticon.com/512/2966/2966327.png";
-
-        const mm = L.marker([m.lat, m.lng], { icon: L.icon({ iconUrl: iconUrl, iconSize: [26, 26], iconAnchor: [13, 13] }) }).addTo(map).bindPopup(`<b>${m.title}</b>`);
-        missionMarkersMap[m.id] = mm;
-      });
-    }
-
-    function generateSingleMission() {
-      const autoGenToggle = document.getElementById("autoGenToggle").value;
-      if (autoGenToggle !== "on") return;
-      if (!window.gameState.stations || window.gameState.stations.length === 0 || globalMissionTemplates.length === 0) return;
-      if (!window.gameState.missions) window.gameState.missions = [];
-      
-      const maxAllowedMissions = window.gameState.stations.length + 1;
-      if (window.gameState.missions.length >= maxAllowedMissions) return;
-
-      const t = globalMissionTemplates[Math.floor(Math.random() * globalMissionTemplates.length)];
-      const st = window.gameState.stations[Math.floor(Math.random() * window.gameState.stations.length)];
-      
-      window.gameState.missions.push({
-        id: Date.now(), title: t.title, reward: Number(t.reward)||500, xp: Number(t.xp)||100, duration: Number(t.duration) || 60,
-        reqStations: t.reqStations || {}, reqExtension: t.reqExtension || "",
-        iconUrl: t.iconUrl, reqVehicles: t.reqVehicles || {"Einsatzfahrzeug 1": 1}, lat: st.lat + (Math.random() * 0.04 - 0.02), lng: st.lng + (Math.random() * 0.04 - 0.02),
-        status: "open", assignedVehicles: []
-      });
-      renderMissions();
-      renderMapMissions();
-      saveUserData();
-    }
-
-    function renderMissions() {
-      const list = document.getElementById("missionList");
-      if (!window.gameState.missions || window.gameState.missions.length === 0) {
-        list.innerHTML = `<p style="text-align:center; color:var(--text-muted); margin-top:20px;">Warte auf Einsätze...</p>`;
-        return;
-      }
-      
-      const now = Date.now();
-      list.innerHTML = window.gameState.missions.map(m => {
-        let reqVehText = Object.entries(m.reqVehicles || {}).map(([v, c]) => `${c}x ${v}`).join(', ') || '1x Einsatzfahrzeug';
-        
-        let statusText = "Offen";
-        let timeText = "";
-        
-        if (m.status === "processing" && m.processingEndTime) {
-          statusText = "In Bearbeitung";
-          let remain = Math.max(0, Math.floor((m.processingEndTime - now) / 1000));
-          timeText = ` | ⏳ ${remain}s`;
-        } else if (m.status === "enroute") {
-          statusText = "Auf Anfahrt";
-          let maxArrival = Math.max(...(m.assignedVehicles||[]).map(v => v.arrivalEndTime || 0));
-          let remain = Math.max(0, Math.floor((maxArrival - now) / 1000));
-          timeText = ` | 🚨 Anfahrt: ${remain}s`;
-        }
-
-        return `
-        <div class="mission-card" data-id="${m.id}" onclick="window.openMissionModal(${m.id})">
-          <div class="mission-card-title">
-            <span>${m.title}</span>
-            <div style="display:flex; align-items:center; gap:8px;">
-              <span style="color:var(--accent-green); font-size:0.75rem;">+${m.reward||0}C / +${m.xp||100}XP</span>
-              <button class="admin-action-btn btn-del" onclick="window.deletePlayerMission(${m.id}, event)" title="Einsatz löschen"><i class="fa-solid fa-trash"></i></button>
-            </div>
-          </div>
-          <div style="font-size:0.75rem; color:var(--text-muted); line-height:1.4;">
-            <div style="margin-bottom:2px;"><strong>Status:</strong> ${statusText}${timeText}</div>
-            <div><strong>Fahrzeuge:</strong> <span style="color:var(--accent-blue);">${reqVehText}</span></div>
-          </div>
-        </div>
-      `}).join("");
-    }
-
-    window.openMissionModal = function(id) {
-      currentOpenMissionId = id;
-      const m = window.gameState.missions.find(mi => mi.id === id);
-      if (!m) return;
-      
-      let stSelect = window.gameState.stations.map(st => `<option value="${st.id}">${st.name} (${st.type})</option>`).join('');
-      
-      const modal = document.getElementById("missionDetailModal");
-      modal.innerHTML = `
-        <div class="nui-header">
-          <div class="nui-title"><i class="fa-solid fa-bullhorn" style="color:var(--accent-red);"></i> ${m.title}</div>
-          <button class="nui-close-btn" onclick="document.getElementById('missionDetailModal').style.display='none'"><i class="fa-solid fa-xmark"></i></button>
-        </div>
-        <div style="margin-bottom:16px; font-size:0.85rem; color:var(--text-muted);">
-          Belohnung: <strong style="color:var(--accent-green);">+${m.reward||0} Credits</strong> | XP: <strong style="color:var(--accent-purple);">+${m.xp||100} XP</strong> | Dauer: <strong>${m.duration||60}s</strong>
-        </div>
-        <div style="display:flex; gap:10px; align-items:center; background:var(--bg-card); padding:12px; border-radius:10px; border:1px solid var(--border);">
-          <select id="modStSelect" class="form-control" onchange="window.updateMissionVehicleDropdown()">${stSelect}</select>
-          <select id="modVehSelect" class="form-control"></select>
-          <button class="btn btn-success" onclick="window.alarmFromModal(${m.id})" style="white-space:nowrap;"><i class="fa-solid fa-bell"></i> Alarmieren</button>
-        </div>
-      `;
-      modal.style.display = "block";
-      window.updateMissionVehicleDropdown();
-    };
-
-    window.updateMissionVehicleDropdown = function() {
-      const stSelectEl = document.getElementById("modStSelect");
-      const vehSelectEl = document.getElementById("modVehSelect");
-      if (!stSelectEl || !vehSelectEl) return;
-
-      const stId = Number(stSelectEl.value);
-      const st = window.gameState.stations.find(s => s.id === stId);
-      if (!st || !st.vehicles || st.vehicles.length === 0) {
-        vehSelectEl.innerHTML = '<option value="">Keine Fahrzeuge in dieser Wache</option>';
-        return;
-      }
-
-      vehSelectEl.innerHTML = st.vehicles.map((v, idx) => {
-        const vName = typeof v === 'object' ? v.name : v;
-        return `<option value="${idx}">${vName}</option>`;
-      }).join('');
-    };
-
-    window.alarmFromModal = async function(missionId) {
-      const m = window.gameState.missions.find(mi => mi.id === missionId);
-      const stId = Number(document.getElementById("modStSelect").value);
-      const vIdx = Number(document.getElementById("modVehSelect").value);
-      const st = window.gameState.stations.find(s => s.id === stId);
-      if (!st || !st.vehicles || st.vehicles[vIdx] === undefined) return alert("Bitte ein gültiges Fahrzeug auswählen!");
-      
-      const vObj = st.vehicles[vIdx];
-      const vCustomName = typeof vObj === 'object' ? vObj.name : vObj;
-      const vTypeName = typeof vObj === 'object' ? vObj.type : vObj;
-
-      logRadio(`Alarm für ${vCustomName} (${st.name}) zu "${m.title}"`);
-      const routeData = await fetchStreetRoute(st.lat, st.lng, m.lat, m.lng, vTypeName);
-      const now = Date.now();
-
-      if (!m.assignedVehicles) m.assignedVehicles = [];
-      m.assignedVehicles.push({
-        stationId: st.id, stationName: st.name, stationLat: st.lat, stationLng: st.lng,
-        currentLat: st.lat, currentLng: st.lng, vehicleIndex: vIdx, vehicleType: vTypeName, vehicleCustomName: vCustomName,
-        status: "enroute", startTime: now, arrivalEndTime: now + (routeData.duration * 1000),
-        routeCoordinates: routeData.coordinates
-      });
-
-      if (m.status === "open") m.status = "enroute";
-      renderMissions();
-      renderMapVehicles();
-      renderMapRoutes();
-      document.getElementById("missionDetailModal").style.display = "none";
-      await saveUserData();
-    };
-
-    function completeMission(id) {
-      const idx = window.gameState.missions.findIndex(m => m.id === id);
-      if (idx > -1) {
-        const m = window.gameState.missions[idx];
-        const earned = Number(m.reward) || 500;
-        
-        window.gameState.credits = (Number(window.gameState.credits) || 0) + earned;
-        window.gameState.totalEarnedCredits = (Number(window.gameState.totalEarnedCredits) || 0) + earned;
-        window.gameState.xp = (Number(window.gameState.xp) || 0) + (Number(m.xp) || 100);
-        window.gameState.completedMissions = (Number(window.gameState.completedMissions) || 0) + 1;
-        
-        window.gameState.missions.splice(idx, 1);
-        
-        updateUI();
-        updatePlayerRank();
-        renderMissions();
-        renderMapMissions();
-        renderMapRoutes();
-        saveUserData();
-        logRadio(`Einsatz "${m.title}" erfolgreich beendet. +${earned} C`);
-        
-        const autoGenToggle = document.getElementById("autoGenToggle").value;
-        if (autoGenToggle === "on") {
-          generateSingleMission();
-        }
+      const logoInput = document.getElementById("adminGlobalLogoUrlInput");
+      if (logoInput) {
+        logoInput.value = window.gameState.headerLogoUrl || "";
       }
     }
 
@@ -2104,6 +3039,12 @@
         globalBuildingTemplates = snap.docs.map(d => ({ id: d.id, ...d.data() })); 
         renderAdminLists();
         renderMapStations();
+        if (currentOpenMissionId !== null) updateMissionModalTimers(currentOpenMissionId);
+      });
+      onSnapshot(collection(db, "building_categories"), (snap) => { 
+        globalBuildingCategories = snap.docs.map(d => ({ id: d.id, ...d.data() })); 
+        renderAdminLists();
+        if (currentOpenMissionId !== null) updateMissionModalTimers(currentOpenMissionId);
       });
       onSnapshot(collection(db, "mission_templates"), (snap) => { 
         globalMissionTemplates = snap.docs.map(d => ({ id: d.id, ...d.data() })); 
@@ -2119,6 +3060,7 @@
       onSnapshot(collection(db, "vehicle_templates"), (snap) => { 
         globalVehicleTemplates = snap.docs.map(d => ({ id: d.id, ...d.data() })); 
         renderAdminLists();
+        if (currentOpenMissionId !== null) updateMissionModalTimers(currentOpenMissionId);
       });
       onSnapshot(collection(db, "vehicle_categories"), (snap) => { 
         globalVehicleCategories = snap.docs.map(d => ({ id: d.id, ...d.data() })); 
@@ -2129,53 +3071,138 @@
         renderAdminLists();
         updatePlayerRank();
       });
+      onSnapshot(collection(db, "level_configs"), (snap) => {
+        globalLevelConfigTemplates = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        renderAdminLists();
+        updatePlayerRank();
+      });
+      onSnapshot(collection(db, "groups"), (snap) => {
+        globalGroupsList = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        if (globalGroupsList.length === 0) {
+          addDoc(collection(db, "groups"), { name: "Spieler", canSeeAdminPanel: false, permissions: { add: {}, change: {}, delete: {} } });
+          addDoc(collection(db, "groups"), { name: "Admin", canSeeAdminPanel: true, permissions: { add: {}, change: {}, delete: {} } });
+        }
+        renderAdminLists();
+        updateAdminPanelUI();
+      });
       onSnapshot(collection(db, "users"), (snap) => { 
         globalUsersList = snap.docs.map(d => ({ id: d.id, ...d.data() })); 
         renderAdminLists();
       });
     }
 
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        const uDoc = await getDoc(doc(db, "users", user.uid));
-        if (uDoc.exists()) {
-          const data = uDoc.data();
-          if (data.isBanned) {
-            alert(`Dein Account wurde gesperrt!\nGrund: ${data.banReason || 'Kein Grund angegeben'}`);
-            signOut(auth);
+    function listenToGlobalChat() {
+      const q = query(collection(db, "global_chat"), orderBy("timestamp", "asc"));
+      onSnapshot(q, (snapshot) => {
+        const chatBox = document.getElementById("globalChatContainer");
+        if (!chatBox) return;
+
+        if (snapshot.empty) {
+          chatBox.innerHTML = `<div style="color:var(--text-muted); text-align:center; margin-top:20px;">Noch keine Nachrichten im globalen Chat.</div>`;
+          return;
+        }
+
+        const now = Date.now();
+        const oneDayMs = 24 * 60 * 60 * 1000;
+        let html = "";
+        let count = 0;
+
+        snapshot.forEach(docSnap => {
+          const msg = docSnap.data();
+          if (msg.timestamp && (now - msg.timestamp) > oneDayMs) {
             return;
           }
-          window.gameState = data;
+
+          count++;
+          html += `
+            <div class="chat-msg-row">
+              <span class="chat-msg-time">[${msg.time || '00:00:00'}]</span>
+              <span class="chat-msg-user" onclick="window.openSpecificPlayerProfileModal('${msg.uid || msg.username}')">${msg.username || 'Spieler'}:</span>
+              <span class="chat-msg-text">${msg.text || ''}</span>
+            </div>
+          `;
+        });
+
+        if (count === 0) {
+          chatBox.innerHTML = `<div style="color:var(--text-muted); text-align:center; margin-top:20px;">Keine aktuellen Nachrichten (älter als 24 Std. wurden geleert).</div>`;
         } else {
-          window.gameState = {
-            username: user.displayName || "Fritzer",
-            email: user.email,
-            credits: 200176,
-            coins: 290,
-            completedMissions: 59,
-            xp: 248582,
-            totalEarnedCredits: 0,
-            level: 248,
-            rank: "Hauptbrandmeister",
-            role: "Spieler",
-            association: "Kein Verband",
-            bio: "",
-            vipActive: true,
-            playtimeSeconds: 0,
-            theme: "dark",
-            headerLogoUrl: "https://cdn-icons-png.flaticon.com/512/2966/2966327.png",
-            createdAt: Date.now(),
-            autoGenActive: true,
-            autoGenInterval: 60000,
-            stations: [],
-            missions: []
-          };
-          await saveUserData();
+          chatBox.innerHTML = html;
+          chatBox.scrollTop = chatBox.scrollHeight;
+        }
+      });
+    }
+
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        try {
+          const uDoc = await getDoc(doc(db, "users", user.uid));
+          if (uDoc.exists()) {
+            const data = uDoc.data();
+            if (data.isBanned) {
+              alert(`Dein Account wurde gesperrt!\nGrund: ${data.banReason || 'Kein Grund angegeben'}`);
+              signOut(auth);
+              return;
+            }
+            window.gameState = data;
+            if (!window.gameState.financeLogs) window.gameState.financeLogs = [];
+          } else {
+            window.gameState = {
+              username: user.displayName || "Fritzer",
+              email: user.email,
+              credits: 100000,
+              coins: 0,
+              completedMissions: 0,
+              xp: 0,
+              totalEarnedCredits: 0,
+              level: 0,
+              rank: "Anfänger",
+              role: "Spieler",
+              association: "Kein Verband",
+              bio: "",
+              vipActive: false,
+              playtimeSeconds: 0,
+              chatActive: true,
+              managementBuilding: null,
+              theme: "dark",
+              headerLogoUrl: "",
+              createdAt: Date.now(),
+              autoGenActive: true,
+              autoGenInterval: 60000,
+              stations: [],
+              missions: [],
+              claimedRanks: [],
+              financeLogs: []
+            };
+            await saveUserData();
+          }
+        } catch (e) {
+          console.error("Fehler beim Laden der User-Daten:", e);
+        }
+
+        const chatActiveState = window.gameState.chatActive !== false;
+        const chatCheckbox = document.getElementById("toggleGlobalChatActive");
+        const chatBox = document.getElementById("globalChatContainer");
+        chatCheckbox.checked = chatActiveState;
+        if (chatActiveState) {
+          chatBox.style.opacity = "1";
+          chatBox.style.pointerEvents = "auto";
+        } else {
+          chatBox.style.opacity = "0.3";
+          chatBox.style.pointerEvents = "none";
         }
 
         const userTheme = window.gameState.theme || "dark";
         document.documentElement.setAttribute("data-theme", userTheme);
         document.getElementById("themeIcon").className = userTheme === "dark" ? "fa-solid fa-moon" : "fa-solid fa-sun";
+
+        const autoGenToggleEl = document.getElementById("autoGenToggle");
+        const autoGenIntervalEl = document.getElementById("autoGenIntervalSelect");
+        if (window.gameState.autoGenActive !== undefined) {
+          autoGenToggleEl.value = window.gameState.autoGenActive ? "on" : "off";
+        }
+        if (window.gameState.autoGenInterval !== undefined) {
+          autoGenIntervalEl.value = String(window.gameState.autoGenInterval);
+        }
 
         await restoreActiveMissionsRoutes();
 
@@ -2183,6 +3210,7 @@
         document.getElementById("authModal").style.display = "none";
         updateUI();
         updatePlayerRank();
+        updateAdminPanelUI();
         renderMapStations();
         renderMapMissions();
         renderMapVehicles();
@@ -2218,13 +3246,10 @@
     function updateUI() {
       document.getElementById("creditsDisplay").innerText = (Number(window.gameState.credits) || 0).toLocaleString('de-DE');
       document.getElementById("coinsDisplay").innerText = (Number(window.gameState.coins) || 0).toLocaleString('de-DE');
-      document.getElementById("xpDisplay").innerText = (Number(window.gameState.xp) || 0).toLocaleString('de-DE');
-      document.getElementById("userDisplay").innerText = window.gameState.username || "Spieler";
-      updatePlayerRank();
       
-      if (document.getElementById("profileModal").style.display === "block") {
-        renderPlayerProfileModal();
-      }
+      renderMapStations();
+      updatePlayerRank();
+      updateAdminPanelUI();
     }
 
     async function handleLogin() {
@@ -2248,25 +3273,29 @@
         window.gameState = {
           username: username,
           email: email,
-          credits: 200176,
-          coins: 290,
-          completedMissions: 59,
-          xp: 248582,
+          credits: 100000,
+          coins: 0,
+          completedMissions: 0,
+          xp: 0,
           totalEarnedCredits: 0,
-          level: 248,
-          rank: "Hauptbrandmeister",
+          level: 0,
+          rank: "Anfänger",
           role: "Spieler",
           association: "Kein Verband",
           bio: "",
-          vipActive: true,
+          vipActive: false,
           playtimeSeconds: 0,
+          chatActive: true,
+          managementBuilding: null,
           theme: "dark",
-          headerLogoUrl: "https://cdn-icons-png.flaticon.com/512/2966/2966327.png",
+          headerLogoUrl: "",
           createdAt: Date.now(),
           autoGenActive: true,
           autoGenInterval: 60000,
           stations: [],
-          missions: []
+          missions: [],
+          claimedRanks: [],
+          financeLogs: []
         };
         await saveUserData();
       } catch (e) {
